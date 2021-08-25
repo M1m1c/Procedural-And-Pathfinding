@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class HexGrid : MonoBehaviour
 {
     public HexTile tilePrefab;
+
+    public Text tileLabel;
+
+    private Canvas gridCanvas;
 
     private int height = 6;
     private int width = 6;
@@ -15,6 +20,8 @@ public class HexGrid : MonoBehaviour
 
     void Awake()
     {
+        gridCanvas = GetComponentInChildren<Canvas>();
+
         cells = new HexTile[height * width];
 
         for (int y = 0, i = 0; y < height; y++)
@@ -36,5 +43,11 @@ public class HexGrid : MonoBehaviour
         HexTile cell = cells[i] = Instantiate(tilePrefab);
         cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;
+
+        Text label = Instantiate(tileLabel);
+        label.rectTransform.SetParent(gridCanvas.transform, false);
+        label.rectTransform.anchoredPosition =
+            new Vector2(position.x, position.y);
+        label.text = x.ToString() + "\n" + y.ToString();
     }
 }
