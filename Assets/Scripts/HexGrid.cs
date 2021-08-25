@@ -11,10 +11,8 @@ public class HexGrid : MonoBehaviour
 
     private Canvas gridCanvas;
 
-    private int height = 6;
-    private int width = 6;
-
-    private float tileSize = HexSettings.circumRadius;
+    private int height = 8;
+    private int width = 16;
 
     HexTile[] cells;
 
@@ -36,8 +34,8 @@ public class HexGrid : MonoBehaviour
     void CreateTile(int x, int y, int i)
     {
         Vector3 position;
-        position.x = x * tileSize;
-        position.y = y * tileSize;
+        position.x = x * (HexSettings.circumRadius * 1.5f);//(x + y * 0.5f - y / 2) * (HexSettings.inRadius * 2.0f);
+        position.y = (y + x * 0.5f - x / 2) * (HexSettings.inRadius * 2.0f);//y *(HexSettings.circumRadius * 1.5f);
         position.z = 0f;
 
         HexTile cell = cells[i] = Instantiate(tilePrefab);
