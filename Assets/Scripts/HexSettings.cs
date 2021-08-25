@@ -5,7 +5,7 @@ public static class HexSettings
     //This is the radius of the outer circle that crosses all corenrs,
     //determined by drawing a line form the center of the hex to any corner.
     //It is used to determine the size of each side of the hex.
-    public const float circumRadius = 1f; 
+    public const float circumRadius = 10f; 
 
     //This describes the radius of thee inner cricle located in a hexagon
     public const float inRadius = circumRadius * equationValue;
