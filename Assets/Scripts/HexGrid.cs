@@ -14,13 +14,13 @@ public class HexGrid : MonoBehaviour
     private int height = 8;
     private int width = 16;
 
-    HexTile[] cells;
+    HexTile[] tiles;
 
     void Awake()
     {
         gridCanvas = GetComponentInChildren<Canvas>();
 
-        cells = new HexTile[height * width];
+        tiles = new HexTile[height * width];
 
         for (int y = 0, i = 0; y < height; y++)
         {
@@ -38,14 +38,15 @@ public class HexGrid : MonoBehaviour
         position.y = (y + x * 0.5f - x / 2) * (HexSettings.inRadius * 2.0f);//y *(HexSettings.circumRadius * 1.5f);
         position.z = 0f;
 
-        HexTile cell = cells[i] = Instantiate(tilePrefab);
-        cell.transform.SetParent(transform, false);
-        cell.transform.localPosition = position;
+        HexTile tile = tiles[i] = Instantiate(tilePrefab);
+        tile.transform.SetParent(transform, false);
+        tile.transform.localPosition = position;
+        tile.coordinates = HexCoordinates.FromOffsetCoordinates(x, y);
 
         Text label = Instantiate(tileLabel);
         label.rectTransform.SetParent(gridCanvas.transform, false);
         label.rectTransform.anchoredPosition =
             new Vector2(position.x, position.y);
-        label.text = x.ToString() + "\n" + y.ToString();
+        label.text = tile.coordinates.ToStringOnSeparateLines();
     }
 }
