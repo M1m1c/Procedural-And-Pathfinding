@@ -6,16 +6,26 @@ public struct HexCoordinates
 
     public int X { get; private set; }
 
-    public int Z { get; private set; }
+    public int Y { get; private set; }
 
-    public HexCoordinates(int x, int z)
+    public HexCoordinates(int x, int y)
     {
         X = x;
-        Z = z;
+        Y = y;
     }
 
-    public static HexCoordinates FromOffsetCoordinates(int x, int z)
+    public static HexCoordinates FromOffsetCoordinates(int x, int y)
     {
-        return new HexCoordinates(x, z);
+        return new HexCoordinates(x, y);
+    }
+
+    public override string ToString()
+    {
+        return $"({X.ToString()},{Y.ToString()})";
+    }
+
+    public string ToStringOnSeparateLines()
+    {
+        return $"{X.ToString()}\n{Y.ToString()}";
     }
 }
