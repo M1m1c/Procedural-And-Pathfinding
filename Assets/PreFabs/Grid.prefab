@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb0f337deb089b74791ff6f44af1b53f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
+  lightTilePrefab: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
+  darkTilePrefab: {fileID: 5371815236759532749, guid: b512343acc66c2e4ebb3116a59925339, type: 3}
   tileLabel: {fileID: 6655874574666960675, guid: f7b1e1d7f2974394990dd921370bb6db, type: 3}
   height: 8
   width: 16

@@ -5,9 +5,14 @@ using UnityEngine;
 
 public class HexGrid : MonoBehaviour
 {
-    public HexTile tilePrefab;
+
+   
+    public HexTile lightTilePrefab;
+    public HexTile darkTilePrefab;
 
     public Text tileLabel;
+
+    private Dictionary<int, HexTile> tileSet = new Dictionary<int, HexTile>();
 
     private Canvas gridCanvas;
 
@@ -23,6 +28,9 @@ public class HexGrid : MonoBehaviour
     void Awake()
     {
         gridCanvas = GetComponentInChildren<Canvas>();
+
+        tileSet.Add(0, lightTilePrefab);
+        tileSet.Add(1, darkTilePrefab);
 
         tiles = new List<HexTile>();
 
@@ -63,11 +71,18 @@ public class HexGrid : MonoBehaviour
                 float rawPerlin = Mathf.PerlinNoise(
                     (float)x / width * scale + offsetX,
                     (float)y / height * scale + offsetY);
-                float clampedPerlin = Mathf.Clamp(rawPerlin, 0.0f, 1.0f);
+                var clampedPerlin = Mathf.Clamp(rawPerlin, 0.0f, 1.0f);
 
-                if (clampedPerlin > 0.3f)
+              
+                if(clampedPerlin > 0.3f && clampedPerlin < 0.4f)
                 {
-                    tiles.Add(CreateTile(x, y));
+                    tiles.Add(CreateTile(x, y, tileSet[1]));
+                }
+                else if (clampedPerlin > 0.3f)
+                {
+                    //var flooredPerlin = Mathf.FloorToInt(clampedPerlin * tileSet.Count);
+                    //tiles.Add(CreateTile(x, y,tileSet[flooredPerlin]));
+                    tiles.Add(CreateTile(x, y, tileSet[0]));
                 }
 
 
@@ -75,7 +90,7 @@ public class HexGrid : MonoBehaviour
         }
     }
 
-    HexTile CreateTile(int x, int y)
+    HexTile CreateTile(int x, int y, HexTile tilePrefab)
     {
         Vector3 position;
         position.x = x * (HexSettings.circumRadius * 1.5f);//(x + y * 0.5f - y / 2) * (HexSettings.inRadius * 2.0f);
