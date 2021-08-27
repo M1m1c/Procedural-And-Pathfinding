@@ -14,21 +14,22 @@ public class HexGrid : MonoBehaviour
     private int height = 8;
     private int width = 16;
 
-    HexTile[] tiles;
+    List<HexTile> tiles;
 
     void Awake()
     {
         gridCanvas = GetComponentInChildren<Canvas>();
 
-        tiles = new HexTile[height * width];
-        int i = 0;
+        tiles = new List<HexTile>();
+
 
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                tiles[i]=CreateTile(x, y);
-                i++;
+
+                tiles.Add(CreateTile(x, y));
+
             }
         }
     }
