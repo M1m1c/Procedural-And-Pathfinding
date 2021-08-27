@@ -11,8 +11,12 @@ public class HexGrid : MonoBehaviour
 
     private Canvas gridCanvas;
 
-    private int height = 8;
-    private int width = 16;
+    [SerializeField] private int height = 8;
+    [SerializeField] private int width = 16;
+
+    [SerializeField] private float scale = 10.0f;
+    [SerializeField] private float offsetX = 10.0f;
+    [SerializeField] private float offsetY = 10.0f;
 
     List<HexTile> tiles;
 
@@ -22,13 +26,29 @@ public class HexGrid : MonoBehaviour
 
         tiles = new List<HexTile>();
 
+        GenerateGrid();
+    }
+
+    private void GenerateGrid()
+    {
+        offsetX=Random.Range(0.0f, 99999.0f);
+        offsetY=Random.Range(0.0f, 99999.0f);
 
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
+                float rawPerlin = Mathf.PerlinNoise(
+                    (float)x / width * scale + offsetX,
+                    (float)y / height * scale + offsetY);
+                float clampedPerlin = Mathf.Clamp(rawPerlin, 0.0f, 1.0f);
+                Debug.Log("" + clampedPerlin);
 
-                tiles.Add(CreateTile(x, y));
+                if (clampedPerlin > 0.3f)
+                {
+                    tiles.Add(CreateTile(x, y));
+                }
+
 
             }
         }
