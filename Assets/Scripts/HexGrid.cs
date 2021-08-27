@@ -42,7 +42,6 @@ public class HexGrid : MonoBehaviour
                     (float)x / width * scale + offsetX,
                     (float)y / height * scale + offsetY);
                 float clampedPerlin = Mathf.Clamp(rawPerlin, 0.0f, 1.0f);
-                Debug.Log("" + clampedPerlin);
 
                 if (clampedPerlin > 0.3f)
                 {
