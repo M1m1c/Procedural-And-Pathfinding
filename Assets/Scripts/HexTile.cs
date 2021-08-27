@@ -6,8 +6,6 @@ public class HexTile : MonoBehaviour
 {
     public HexCoordinates coordinates;
 
-    private Vector3 worldPos;
-
-    public Vector3 worldPosition { get { return worldPos; } set { worldPos = value; } }
-
+    [EnumFlags]
+    public TileTags tileProperties;
 }
