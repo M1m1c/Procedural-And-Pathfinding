@@ -27,6 +27,21 @@ public class HexGrid : MonoBehaviour
         tiles = new List<HexTile>();
 
         GenerateGrid();
+
+        //TODO create clear grid function
+        //TODO create button for clearing and generating a new grid
+        //TODO Add new different colored tiles
+
+        //ClearGrid();
+    }
+
+    private void ClearGrid()
+    {
+        for (int i = tiles.Count - 1; i >= 0; i--)
+        {
+            Destroy(tiles[i].gameObject);
+            tiles.RemoveAt(i);
+        }
     }
 
     private void GenerateGrid()
