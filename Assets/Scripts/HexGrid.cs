@@ -42,6 +42,13 @@ public class HexGrid : MonoBehaviour
             Destroy(tiles[i].gameObject);
             tiles.RemoveAt(i);
         }
+
+        var labels = gridCanvas.GetComponentsInChildren<Text>();
+
+        for (int i = labels.Length - 1; i >= 0; i--)
+        {
+            Destroy(labels[i].gameObject);
+        }
     }
 
     private void GenerateGrid()
