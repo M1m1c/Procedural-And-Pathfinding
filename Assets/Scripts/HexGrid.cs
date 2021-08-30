@@ -35,6 +35,38 @@ public class HexGrid : MonoBehaviour
         return tiles[coord.x, coord.y];
     }
 
+    public List<HexTile> GetAdjacentTiles(HexTile currentTile)
+    {
+        var retval = new List<HexTile>();
+
+        var currentX = currentTile.coordinates.X;
+        var currentY = currentTile.coordinates.Y;
+        var tempGridPos = new Vector2Int();
+
+        for (int i = -1; i <= 1; i++)
+        {
+            tempGridPos.x = currentX + i;
+
+            for (int q = -1; q <= 1; q++)
+            {
+                tempGridPos.y = currentY + q;
+               
+                if (!(tempGridPos.x < tiles.GetLength(0) && tempGridPos.y < tiles.GetLength(1))) { continue; }
+
+                var foundTile = tiles[tempGridPos.x, tempGridPos.y];
+                if (!foundTile) { continue; }
+
+                var currentPos = currentTile.transform.position;
+                var foundPos = foundTile.transform.position;
+                if (!Mathf.Approximately(Vector3.Distance(currentPos, foundPos), adjacentDist)) { continue; }
+
+                retval.Add(foundTile);
+
+            }
+        }
+        return retval;
+    }
+
     void Awake()
     {
         gridCanvas = GetComponentInChildren<Canvas>();
