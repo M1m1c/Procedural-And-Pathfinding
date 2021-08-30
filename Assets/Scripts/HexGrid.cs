@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using System;
 
 public class HexGrid : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class HexGrid : MonoBehaviour
     [SerializeField] private float offsetX = 10.0f;
     [SerializeField] private float offsetY = 10.0f;
 
+    private float adjacentDist = 0.0f;
+
     HexTile[,] tiles;
 
     public HexTile GetTileFromGridCoord(Vector2Int coord)
@@ -41,6 +44,8 @@ public class HexGrid : MonoBehaviour
 
         tiles = new HexTile[width, height];
 
+        adjacentDist = CalucluateAdjacentDistance();
+
         GenerateGrid();
 
         //TODO create clear grid function
@@ -51,17 +56,35 @@ public class HexGrid : MonoBehaviour
         SpawnPlayer();
     }
 
+    private float CalucluateAdjacentDistance()
+    {
+        Vector2Int tile0 = Vector2Int.zero;
+        Vector2Int tile1 = new Vector2Int(1, 0);
+
+        Vector3 pos1, pos2;
+
+        pos1 = GetPlacementPositionFromIndex(tile0);
+        pos2 = GetPlacementPositionFromIndex(tile1);
+
+        return Vector3.Distance(pos1, pos2);
+    }
+
+    private Vector3 GetPlacementPositionFromIndex(Vector2Int index)
+    {
+        return new Vector3(index.x * (HexSettings.circumRadius * 1.5f), (index.y + index.x * 0.5f - index.x / 2) * (HexSettings.inRadius * 2.0f), 0.0f);
+    }
+
     private void SpawnPlayer()
     {
         if (!playerPrefab) { return; }
         while (true)
         {
-            var x = Random.Range(0, width);
-            var y = Random.Range(0, height);
+            var x = UnityEngine.Random.Range(0, width);
+            var y = UnityEngine.Random.Range(0, height);
 
             var tile = tiles[x, y];
             if (!tile) { continue; }
-
+           
             int properties = (int)tile.tileProperties;
             if ((properties & 1 << (int)TileTags.Impassable) != 0) { continue; }
 
@@ -93,8 +116,8 @@ public class HexGrid : MonoBehaviour
 
     private void GenerateGrid()
     {
-        offsetX=Random.Range(0.0f, 99999.0f);
-        offsetY=Random.Range(0.0f, 99999.0f);
+        offsetX= UnityEngine.Random.Range(0.0f, 99999.0f);
+        offsetY= UnityEngine.Random.Range(0.0f, 99999.0f);
 
         for (int y = 0; y < height; y++)
         {
@@ -124,10 +147,7 @@ public class HexGrid : MonoBehaviour
 
     private HexTile CreateTile(int x, int y, HexTile tilePrefab)
     {
-        Vector3 position;
-        position.x = x * (HexSettings.circumRadius * 1.5f);//(x + y * 0.5f - y / 2) * (HexSettings.inRadius * 2.0f);
-        position.y = (y + x * 0.5f - x / 2) * (HexSettings.inRadius * 2.0f);//y *(HexSettings.circumRadius * 1.5f);
-        position.z = 0f;
+        Vector3 position = GetPlacementPositionFromIndex(new Vector2Int(x, y));
 
         HexTile tile = Instantiate(tilePrefab);
         tile.transform.SetParent(transform, false);
