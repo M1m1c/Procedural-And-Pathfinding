@@ -20,6 +20,7 @@ public class HexTile : MonoBehaviour
             if (!occupant)
             {
                 occupant = potentialOccupier;
+                retval = true;
             }
         }
 
