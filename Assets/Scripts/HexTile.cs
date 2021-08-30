@@ -9,7 +9,7 @@ public class HexTile : MonoBehaviour
     [EnumFlags]
     public TileTags tileProperties;
 
-    public GameObject Occupier { get; private set; }
+    public GameObject occupant { get; private set; }
 
     //TODO add special circumstance where player can walk onto tiles with pickups
     public bool OccupyTile(GameObject potentialOccupier)
@@ -17,9 +17,9 @@ public class HexTile : MonoBehaviour
         var retval = false;
         if (potentialOccupier)
         {
-            if (!Occupier)
+            if (!occupant)
             {
-                Occupier = potentialOccupier;
+                occupant = potentialOccupier;
             }
         }
 
