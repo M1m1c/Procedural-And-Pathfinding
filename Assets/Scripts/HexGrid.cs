@@ -23,7 +23,7 @@ public class HexGrid : MonoBehaviour
     [SerializeField] private float offsetX = 10.0f;
     [SerializeField] private float offsetY = 10.0f;
 
-    List<HexTile> tiles;
+    HexTile[,] tiles;
 
     void Awake()
     {
@@ -32,7 +32,7 @@ public class HexGrid : MonoBehaviour
         tileSet.Add(0, lightTilePrefab);
         tileSet.Add(1, darkTilePrefab);
 
-        tiles = new List<HexTile>();
+        tiles = new HexTile[width,height];
 
         GenerateGrid();
 
@@ -43,21 +43,21 @@ public class HexGrid : MonoBehaviour
         //ClearGrid();
     }
 
-    private void ClearGrid()
-    {
-        for (int i = tiles.Count - 1; i >= 0; i--)
-        {
-            Destroy(tiles[i].gameObject);
-            tiles.RemoveAt(i);
-        }
+    //private void ClearGrid()
+    //{
+    //    for (int i = tiles.Length - 1; i >= 0; i--)
+    //    {
+    //        Destroy(tiles[i].gameObject);
+    //        tiles.RemoveAt(i);
+    //    }
 
-        var labels = gridCanvas.GetComponentsInChildren<Text>();
+    //    var labels = gridCanvas.GetComponentsInChildren<Text>();
 
-        for (int i = labels.Length - 1; i >= 0; i--)
-        {
-            Destroy(labels[i].gameObject);
-        }
-    }
+    //    for (int i = labels.Length - 1; i >= 0; i--)
+    //    {
+    //        Destroy(labels[i].gameObject);
+    //    }
+    //}
 
     private void GenerateGrid()
     {
@@ -76,13 +76,13 @@ public class HexGrid : MonoBehaviour
               
                 if(clampedPerlin > 0.3f && clampedPerlin < 0.4f)
                 {
-                    tiles.Add(CreateTile(x, y, tileSet[1]));
+                    tiles[x, y] = CreateTile(x, y, tileSet[1]);
                 }
                 else if (clampedPerlin > 0.3f)
                 {
                     //var flooredPerlin = Mathf.FloorToInt(clampedPerlin * tileSet.Count);
                     //tiles.Add(CreateTile(x, y,tileSet[flooredPerlin]));
-                    tiles.Add(CreateTile(x, y, tileSet[0]));
+                    tiles[x, y] = CreateTile(x, y, tileSet[0]);
                 }
 
 
@@ -115,17 +115,12 @@ public class HexGrid : MonoBehaviour
         Vector3 retval = Vector3.zero;
         didFindTile = false;
 
-        for (int i = 0; i < tiles.Count; i++)
+        var foundTile = tiles[tileCoordinate.x, tileCoordinate.y];
+        if (foundTile)
         {
-            var indexCoordinate = tiles[i].coordinates.GetGridCoordinate();
-            if (indexCoordinate == tileCoordinate)
-            {
-                didFindTile = true;
-                retval = tiles[i].transform.position;
-                break;
-            }
+            didFindTile = true;
+            retval = foundTile.transform.position;
         }
-
 
         return retval;
     }
