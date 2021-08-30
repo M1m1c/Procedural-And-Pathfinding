@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class AStarPathFinder : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    HexGrid hexGridComp;
+
+    void Awake()
     {
-        
+        hexGridComp = GetComponent<HexGrid>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FindPath(Vector2Int startPos, Vector2Int goalPos)
     {
-        
+        var startTile = hexGridComp.GetTileFromGridCoord(startPos);
+        var goalTile = hexGridComp.GetTileFromGridCoord(goalPos);
+
+        List<HexTile> availableTiles = new List<HexTile>();
+        HashSet<HexTile> closedTiles = new HashSet<HexTile>();
+        availableTiles.Add(startTile);
+
+        //TODO continue working here
     }
 }
