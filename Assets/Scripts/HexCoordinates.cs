@@ -3,7 +3,7 @@ using UnityEngine;
 [System.Serializable]
 public struct HexCoordinates
 {
-
+    //TODO probably should refactor project to use vector2 int instead of thsi class for the tiles
     public int X { get; private set; }
 
     public int Y { get; private set; }
