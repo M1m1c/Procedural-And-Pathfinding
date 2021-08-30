@@ -28,4 +28,9 @@ public struct HexCoordinates
     {
         return $"{X.ToString()}\n{Y.ToString()}";
     }
+
+    public Vector2Int GetGridCoordinate()
+    {
+        return new Vector2Int(X,Y);
+    }
 }
