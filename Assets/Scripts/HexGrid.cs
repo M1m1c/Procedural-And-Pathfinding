@@ -10,6 +10,8 @@ public class HexGrid : MonoBehaviour
     public HexTile lightTilePrefab;
     public HexTile darkTilePrefab;
 
+    public PlayerMovement playerPrefab;
+
     public Text tileLabel;
 
     private Dictionary<int, HexTile> tileSet = new Dictionary<int, HexTile>();
@@ -32,7 +34,7 @@ public class HexGrid : MonoBehaviour
         tileSet.Add(0, lightTilePrefab);
         tileSet.Add(1, darkTilePrefab);
 
-        tiles = new HexTile[width,height];
+        tiles = new HexTile[width, height];
 
         GenerateGrid();
 
@@ -41,6 +43,30 @@ public class HexGrid : MonoBehaviour
         //TODO Add new different colored tiles
 
         //ClearGrid();
+        SpawnPlayer();
+    }
+
+    private void SpawnPlayer()
+    {
+        if (!playerPrefab) { return; }
+        while (true)
+        {
+            var x = Random.Range(0, width);
+            var y = Random.Range(0, height);
+
+            var tile = tiles[x, y];
+            if (!tile) { continue; }
+
+            int properties = (int)tile.tileProperties;
+            if ((properties & 1 << (int)TileTags.Impassable) != 0) { continue; }
+
+            var playerInstance = Instantiate(playerPrefab);
+
+            playerInstance.transform.position = tile.transform.position;
+            playerInstance.MyGridPos = tile.coordinates;
+            tile.OccupyTile(playerInstance.gameObject);
+            break;
+        }
     }
 
     private void ClearGrid()
