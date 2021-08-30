@@ -40,7 +40,7 @@ public class HexGrid : MonoBehaviour
         //TODO create button for clearing and generating a new grid
         //TODO Add new different colored tiles
 
-        ClearGrid();
+        //ClearGrid();
     }
 
     private void ClearGrid()
