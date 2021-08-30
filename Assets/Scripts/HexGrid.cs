@@ -40,24 +40,25 @@ public class HexGrid : MonoBehaviour
         //TODO create button for clearing and generating a new grid
         //TODO Add new different colored tiles
 
-        //ClearGrid();
+        ClearGrid();
     }
 
-    //private void ClearGrid()
-    //{
-    //    for (int i = tiles.Length - 1; i >= 0; i--)
-    //    {
-    //        Destroy(tiles[i].gameObject);
-    //        tiles.RemoveAt(i);
-    //    }
+    private void ClearGrid()
+    {
 
-    //    var labels = gridCanvas.GetComponentsInChildren<Text>();
+        foreach (var item in tiles)
+        {
+            if(item)
+            Destroy(item.gameObject);
+        }
 
-    //    for (int i = labels.Length - 1; i >= 0; i--)
-    //    {
-    //        Destroy(labels[i].gameObject);
-    //    }
-    //}
+        var labels = gridCanvas.GetComponentsInChildren<Text>();
+
+        for (int i = labels.Length - 1; i >= 0; i--)
+        {
+            Destroy(labels[i].gameObject);
+        }
+    }
 
     private void GenerateGrid()
     {
