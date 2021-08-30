@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+
+    public HexCoordinates MyGridPos { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
