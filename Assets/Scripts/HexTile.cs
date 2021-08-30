@@ -9,6 +9,10 @@ public class HexTile : MonoBehaviour
     [EnumFlags]
     public TileTags tileProperties;
 
+    public int gCost;
+    public int fCost;
+    public int hCost { get { return gCost + fCost; } }
+
     public GameObject occupant { get; private set; }
 
     //TODO add special circumstance where player can walk onto tiles with pickups
