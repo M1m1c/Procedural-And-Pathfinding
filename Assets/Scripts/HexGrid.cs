@@ -27,6 +27,11 @@ public class HexGrid : MonoBehaviour
 
     HexTile[,] tiles;
 
+    public HexTile GetTileFromGridCoord(Vector2Int coord)
+    {
+        return tiles[coord.x, coord.y];
+    }
+
     void Awake()
     {
         gridCanvas = GetComponentInChildren<Canvas>();
@@ -117,7 +122,7 @@ public class HexGrid : MonoBehaviour
         }
     }
 
-    HexTile CreateTile(int x, int y, HexTile tilePrefab)
+    private HexTile CreateTile(int x, int y, HexTile tilePrefab)
     {
         Vector3 position;
         position.x = x * (HexSettings.circumRadius * 1.5f);//(x + y * 0.5f - y / 2) * (HexSettings.inRadius * 2.0f);
