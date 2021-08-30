@@ -109,4 +109,24 @@ public class HexGrid : MonoBehaviour
 
         return tile;
     }
+
+    private Vector3 GetTileWorldPos(Vector2Int tileCoordinate, ref bool didFindTile)
+    {
+        Vector3 retval = Vector3.zero;
+        didFindTile = false;
+
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            var indexCoordinate = tiles[i].coordinates.GetGridCoordinate();
+            if (indexCoordinate == tileCoordinate)
+            {
+                didFindTile = true;
+                retval = tiles[i].transform.position;
+                break;
+            }
+        }
+
+
+        return retval;
+    }
 }
