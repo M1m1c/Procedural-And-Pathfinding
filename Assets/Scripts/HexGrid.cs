@@ -43,15 +43,19 @@ public class HexGrid : MonoBehaviour
         var currentY = currentTile.coordinates.Y;
         var tempGridPos = new Vector2Int();
 
+
         for (int i = -1; i <= 1; i++)
-        {
+        {  
             tempGridPos.x = currentX + i;
 
             for (int q = -1; q <= 1; q++)
             {
                 tempGridPos.y = currentY + q;
                
-                if (!(tempGridPos.x < tiles.GetLength(0) && tempGridPos.y < tiles.GetLength(1))) { continue; }
+                if(currentX==tempGridPos.x && currentY == tempGridPos.y) { continue; }
+
+                if (tempGridPos.x >= tiles.GetLength(0) || tempGridPos.y >= tiles.GetLength(1)) { continue; }
+                if (tempGridPos.x < 0 || tempGridPos.y < 0) { continue; }
 
                 var foundTile = tiles[tempGridPos.x, tempGridPos.y];
                 if (!foundTile) { continue; }
@@ -79,10 +83,6 @@ public class HexGrid : MonoBehaviour
         adjacentDist = CalucluateAdjacentDistance();
 
         GenerateGrid();
-
-        //TODO create clear grid function
-        //TODO create button for clearing and generating a new grid
-        //TODO Add new different colored tiles
 
         //ClearGrid();
         SpawnPlayer();
@@ -124,6 +124,7 @@ public class HexGrid : MonoBehaviour
 
             playerInstance.transform.position = tile.transform.position;
             playerInstance.MyGridPos = tile.coordinates;
+            playerInstance.pathFinder = this.GetComponent<AStarPathFinder>();
             tile.OccupyTile(playerInstance.gameObject);
             break;
         }
