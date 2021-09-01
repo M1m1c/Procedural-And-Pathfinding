@@ -8,11 +8,7 @@ public class PlayerMovement : MonoBehaviour
 
     public HexCoordinates MyGridPos { get; set; }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public AStarPathFinder pathFinder { get; set; }
 
     // Update is called once per frame
     void Update()
@@ -26,9 +22,9 @@ public class PlayerMovement : MonoBehaviour
     private void SelectionInput()
     {
         var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        var camPos = Camera.main.transform.position;
+        var mousePos2D = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
 
-        RaycastHit2D hit = Physics2D.Raycast(camPos, mousePosition - camPos);
+        RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero, 0f);
         if (!hit){ return; }
 
         var hitTile = hit.transform.gameObject.GetComponent<HexTile>();
@@ -38,6 +34,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void ClickTile(HexTile hitTile)
     {
+        //TODO call find path and change color of path tiles
+        var currentGridPos = new Vector2Int(MyGridPos.X, MyGridPos.Y);
+        var targetgridPos = new Vector2Int(hitTile.coordinates.X, hitTile.coordinates.Y);
 
+        Debug.Log($"currentgridpos ={currentGridPos.x},{currentGridPos.y}");
+        Debug.Log($"targetgridpos ={targetgridPos.x},{targetgridPos.y}");
+        var newPath = pathFinder.FindPath(currentGridPos, targetgridPos);
+
+        foreach (var tile in newPath)
+        {
+            tile.ChangeTileColor(Color.magenta);
+        }
     }
 }
