@@ -10,8 +10,10 @@ public class HexTile : MonoBehaviour
     public TileTags tileProperties;
 
     public int gCost;
-    public int fCost;
-    public int hCost { get { return gCost + fCost; } }
+    public int hCost;
+    public int fCost { get { return gCost + hCost; } }
+
+    public HexTile parent;
 
     public GameObject occupant { get; private set; }
 
