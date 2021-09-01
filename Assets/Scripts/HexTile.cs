@@ -17,6 +17,8 @@ public class HexTile : MonoBehaviour
 
     public GameObject occupant { get; private set; }
 
+    private SpriteRenderer spriteRenderer;
+
     //TODO add special circumstance where player can walk onto tiles with pickups
     public bool OccupyTile(GameObject potentialOccupier)
     {
@@ -31,5 +33,15 @@ public class HexTile : MonoBehaviour
         }
 
         return retval;   
+    }
+
+    public void ChangeTileColor(Color newColor)
+    {
+        spriteRenderer.color = newColor;
+    }
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 }
