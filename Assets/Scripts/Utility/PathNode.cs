@@ -3,11 +3,11 @@ public class PathNode
 {
     public HexTile MyTile;
 
-    public HexTile ParentTile;
+    public PathNode ParentNode;
 
-    public PathNode(HexTile myTile, HexTile parentTile)
+    public PathNode(HexTile myTile, PathNode parentNode)
     {
         MyTile = myTile;
-        ParentTile = parentTile;
+        ParentNode = parentNode;
     }
 }
