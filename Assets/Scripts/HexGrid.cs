@@ -8,12 +8,12 @@ public class HexGrid : MonoBehaviour
 {
 
    
-    public HexTile lightTilePrefab;
-    public HexTile darkTilePrefab;
+    public HexTile LightTilePrefab;
+    public HexTile DarkTilePrefab;
 
-    public PlayerMovement playerPrefab;
+    public PlayerMovement PlayerPrefab;
 
-    public Text tileLabel;
+    public Text TileLabel;
 
     private Dictionary<int, HexTile> tileSet = new Dictionary<int, HexTile>();
 
@@ -71,8 +71,8 @@ public class HexGrid : MonoBehaviour
     {
         gridCanvas = GetComponentInChildren<Canvas>();
 
-        tileSet.Add(0, lightTilePrefab);
-        tileSet.Add(1, darkTilePrefab);
+        tileSet.Add(0, LightTilePrefab);
+        tileSet.Add(1, DarkTilePrefab);
 
         tiles = new HexTile[width, height];
 
@@ -108,7 +108,7 @@ public class HexGrid : MonoBehaviour
 
     private void SpawnPlayer()
     {
-        if (!playerPrefab) { return; }
+        if (!PlayerPrefab) { return; }
         while (true)
         {
             var x = UnityEngine.Random.Range(0, width);
@@ -120,7 +120,7 @@ public class HexGrid : MonoBehaviour
             int properties = (int)tile.tileProperties;
             if ((properties & 1 << (int)TileTags.Impassable) != 0) { continue; }
 
-            var playerInstance = Instantiate(playerPrefab);
+            var playerInstance = Instantiate(PlayerPrefab);
 
             playerInstance.transform.position = tile.transform.position;
             playerInstance.MyGridPos = tile.coordinates;
@@ -186,7 +186,7 @@ public class HexGrid : MonoBehaviour
         tile.transform.localPosition = position;
         tile.coordinates = HexCoordinates.FromOffsetCoordinates(x, y);
 
-        Text label = Instantiate(tileLabel);
+        Text label = Instantiate(TileLabel);
         label.rectTransform.SetParent(gridCanvas.transform, false);
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.y);
         label.text = tile.coordinates.ToStringOnSeparateLines();
