@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb0f337deb089b74791ff6f44af1b53f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightTilePrefab: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
-  darkTilePrefab: {fileID: 5371815236759532749, guid: b512343acc66c2e4ebb3116a59925339, type: 3}
-  playerPrefab: {fileID: 1766397991792909541, guid: e82256982d107ce4c9fbdf08bb5e0f0f, type: 3}
-  tileLabel: {fileID: 6655874574666960675, guid: f7b1e1d7f2974394990dd921370bb6db, type: 3}
+  LightTilePrefab: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
+  DarkTilePrefab: {fileID: 5371815236759532749, guid: b512343acc66c2e4ebb3116a59925339, type: 3}
+  PlayerPrefab: {fileID: 1766397991792909541, guid: e82256982d107ce4c9fbdf08bb5e0f0f, type: 3}
+  TileLabel: {fileID: 6655874574666960675, guid: f7b1e1d7f2974394990dd921370bb6db, type: 3}
   height: 8
   width: 16
   scale: 10
@@ -66,6 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84283dd1f2bff8b4f8deeec171394456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridStepCost: 10
 --- !u!1 &6879161611816473759
 GameObject:
   m_ObjectHideFlags: 0
