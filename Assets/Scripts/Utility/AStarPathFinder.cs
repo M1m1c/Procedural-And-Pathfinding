@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AStarPathFinder : MonoBehaviour
@@ -18,13 +19,15 @@ public class AStarPathFinder : MonoBehaviour
         var startTile = hexGridComp.GetTileFromGridCoord(startPos);
         var goalTile = hexGridComp.GetTileFromGridCoord(goalPos);
 
-        List<HexTile> availableTiles = new List<HexTile>();
-        HashSet<HexTile> closedTiles = new HashSet<HexTile>();
+        var pathNodes = new HashSet<PathNode>();
+        var availableTiles = new List<HexTile>();
+        var closedTiles = new HashSet<HexTile>();
         availableTiles.Add(startTile);
+        var currentNode = new PathNode(availableTiles[0], null);
 
         while (availableTiles.Count > 0)
         {
-            HexTile currentTile = availableTiles[0];
+            var currentTile = availableTiles[0];
             for (int i = 0; i < availableTiles.Count; i++)
             {
                 var indexTile = availableTiles[i];
@@ -36,7 +39,7 @@ public class AStarPathFinder : MonoBehaviour
             availableTiles.Remove(currentTile);
             closedTiles.Add(currentTile);
 
-            if (currentTile == goalTile) { return RetracePath(startTile, goalTile); }
+            if (currentTile == goalTile) { return RetracePath(pathNodes, startTile, goalTile); }
 
             var adjacentTiles = hexGridComp.GetAdjacentTiles(currentTile);
             foreach (var adjacent in adjacentTiles)
@@ -50,8 +53,10 @@ public class AStarPathFinder : MonoBehaviour
                     adjacent.gCost = newMoveCostToAdjacent;
                     adjacent.hCost = GetGridDistanceCost(adjacent,goalTile);
 
-                    //TODO Don't have parent be on individual tiles, because only one entity can use the pathfinding system in that case.
-                    adjacent.parent = currentTile;
+                    
+                    var tempnode = new PathNode(currentTile, currentNode);
+                    pathNodes.Add(tempnode);
+                    currentNode = tempnode;
 
                     if (!availableTiles.Contains(adjacent)) { availableTiles.Add(adjacent); }
                 }
@@ -60,15 +65,23 @@ public class AStarPathFinder : MonoBehaviour
         return new List<HexTile>();
     }
 
-    private List<HexTile> RetracePath(HexTile startTile, HexTile endTile)
+    //TODO test To make sure that this works correctly
+    private List<HexTile> RetracePath(HashSet<PathNode> pathNodes, HexTile startTile, HexTile endTile)
     {
         var path = new List<HexTile>();
-        var currentTile = endTile;
+        PathNode currentnode = pathNodes.Single(item => item.MyTile == endTile);
+       
 
-        while (currentTile != startTile) 
+        while (currentnode.MyTile != startTile) 
         {
-            path.Add(currentTile);
-            currentTile = currentTile.parent;
+            if (currentnode.ParentNode == null)
+            {
+                path = new List<HexTile>();
+                break;
+            }
+
+            path.Add(currentnode.MyTile);
+            currentnode = currentnode.ParentNode;
         }
         path.Reverse();
         return path;
