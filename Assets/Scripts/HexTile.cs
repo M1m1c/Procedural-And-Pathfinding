@@ -9,13 +9,15 @@ public class HexTile : MonoBehaviour
     [EnumFlags]
     public TileTags tileProperties;
 
-    public int gCost;
-    public int hCost;
-    public int fCost { get { return gCost + hCost; } }
+    public Dictionary<string, PathNode> TilePathNode =new Dictionary<string, PathNode>();
 
-    public HexTile parent;
+    //public int gCost;
+    //public int hCost;
+    //public int fCost { get { return gCost + hCost; } }
 
-    public GameObject occupant { get; private set; }
+    //public HexTile parent;
+
+    public GameObject Occupant { get; private set; }
 
     private SpriteRenderer spriteRenderer;
 
@@ -25,9 +27,9 @@ public class HexTile : MonoBehaviour
         var retval = false;
         if (potentialOccupier)
         {
-            if (!occupant)
+            if (!Occupant)
             {
-                occupant = potentialOccupier;
+                Occupant = potentialOccupier;
                 retval = true;
             }
         }
