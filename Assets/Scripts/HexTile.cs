@@ -9,13 +9,11 @@ public class HexTile : MonoBehaviour
     [EnumFlags]
     public TileTags tileProperties;
 
-    public Dictionary<string, PathNode> TilePathNode =new Dictionary<string, PathNode>();
+    public int gCost;
+    public int hCost;
+    public int fCost { get { return gCost + hCost; } }
 
-    //public int gCost;
-    //public int hCost;
-    //public int fCost { get { return gCost + hCost; } }
-
-    //public HexTile parent;
+    public HexTile parent;
 
     public GameObject Occupant { get; private set; }
 

@@ -1,4 +1,5 @@
 
+//TODO remove this script
 public class PathNode 
 {
     public int gCost;
