@@ -1,13 +1,9 @@
 
 public class PathNode 
 {
-    public HexTile MyTile;
+    public int gCost;
+    public int hCost;
+    public int fCost { get { return gCost + hCost; } }
 
-    public PathNode ParentNode;
-
-    public PathNode(HexTile myTile, PathNode parentNode)
-    {
-        MyTile = myTile;
-        ParentNode = parentNode;
-    }
+    public HexTile parent;
 }
