@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
 
     public AStarPathFinder pathFinder { get; set; }
 
+    private List<HexTile> oldPath = new List<HexTile>();
+
     // Update is called once per frame
     void Update()
     {
@@ -35,13 +37,21 @@ public class PlayerMovement : MonoBehaviour
     private void ClickTile(HexTile hitTile)
     {
         //TODO call find path and change color of path tiles
+        if (oldPath.Count > 0)
+        {
+            foreach (var tile in oldPath)
+            {
+                tile.ChangeTileColor(Color.white);
+            }
+        }
+
         var currentGridPos = new Vector2Int(MyGridPos.X, MyGridPos.Y);
         var targetgridPos = new Vector2Int(hitTile.coordinates.X, hitTile.coordinates.Y);
 
         Debug.Log($"currentgridpos ={currentGridPos.x},{currentGridPos.y}");
         Debug.Log($"targetgridpos ={targetgridPos.x},{targetgridPos.y}");
         var newPath = pathFinder.FindPath(gameObject.name,currentGridPos, targetgridPos);
-
+        oldPath = newPath;
         foreach (var tile in newPath)
         {
             tile.ChangeTileColor(Color.magenta);
