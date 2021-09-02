@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,24 @@ public class AStarPathFinder : MonoBehaviour
 
     HexGrid hexGridComp;
 
+    PathRequesterManager PathRequester;
+
     void Awake()
     {
         hexGridComp = GetComponent<HexGrid>();
+        PathRequester = GetComponent<PathRequesterManager>();
     }
 
-    public List<HexTile> FindPath(string entityID, Vector2Int startPos, Vector2Int goalPos)
+    public void StartFindPath(Vector2Int pathStart, Vector2Int pathEnd)
     {
+        StartCoroutine(FindPath(pathStart, pathEnd));
+    }
+
+    private IEnumerator FindPath( Vector2Int startPos, Vector2Int goalPos)
+    {
+        var path = new List<HexTile>();
+        var succeeded = false;
+
         var startTile = hexGridComp.GetTileFromGridCoord(startPos);
         var goalTile = hexGridComp.GetTileFromGridCoord(goalPos);
 
@@ -23,24 +35,13 @@ public class AStarPathFinder : MonoBehaviour
         var closedTiles = new HashSet<HexTile>();
         availableTiles.Add(startTile);
 
-
-         Debug.Log("goaltile= "+goalTile.coordinates.ToString());
         while (availableTiles.Count > 0)
         {
             var currentTile = availableTiles[0];
-
-            PathNode currentTileNode;
-            if (!currentTile.TilePathNode.ContainsKey(entityID))
-            {
-                currentTile.TilePathNode.Add(entityID, new PathNode());
-            }
-            currentTileNode = currentTile.TilePathNode[entityID];
-
             for (int i = 0; i < availableTiles.Count; i++)
             {
                 var indexTile = availableTiles[i];
-                var indexTileNode = indexTile.TilePathNode[entityID];
-                if (indexTileNode.fCost <= currentTileNode.fCost && indexTileNode.hCost < currentTileNode.hCost) 
+                if (indexTile.fCost <= currentTile.fCost && indexTile.hCost < currentTile.hCost)
                 {
                     currentTile = indexTile;
                 }
@@ -48,52 +49,52 @@ public class AStarPathFinder : MonoBehaviour
             availableTiles.Remove(currentTile);
             closedTiles.Add(currentTile);
 
-
-            if (currentTile == goalTile)    { return RetracePath(entityID, startTile, goalTile); }
-
+            if (currentTile == goalTile)
+            {
+                succeeded = true;
+                break;
+            }
 
             var adjacentTiles = hexGridComp.GetAdjacentTiles(currentTile);
-            foreach (var adjacentTile in adjacentTiles)
+            foreach (var adjacent in adjacentTiles)
             {
-                PathNode adjacentTileNode;
-                if (!adjacentTile.TilePathNode.ContainsKey(entityID))
+                var isImpassable = ((int)adjacent.tileProperties & 1 << (int)TileTags.Impassable) != 0;
+                if (isImpassable || closedTiles.Contains(adjacent)) { continue; }
+
+                var newMoveCostToAdjacent = currentTile.gCost + GetGridDistanceCost(currentTile, adjacent);
+                if (newMoveCostToAdjacent < adjacent.gCost || !availableTiles.Contains(adjacent))
                 {
-                    adjacentTile.TilePathNode.Add(entityID, new PathNode());
-                }
-                adjacentTileNode = adjacentTile.TilePathNode[entityID];
+                    adjacent.gCost = newMoveCostToAdjacent;
+                    adjacent.hCost = GetGridDistanceCost(adjacent, goalTile);
+                    adjacent.parent = currentTile;
 
-                var isImpassable = ((int)adjacentTile.tileProperties & 1 << (int)TileTags.Impassable) != 0;
-                if (isImpassable || closedTiles.Contains(adjacentTile)){ continue; }
-
-                var newMoveCostToAdjacent = currentTileNode.gCost + GetGridDistanceCost(currentTile, adjacentTile);
-                if (newMoveCostToAdjacent < adjacentTile.TilePathNode[entityID].gCost || !availableTiles.Contains(adjacentTile)) 
-                {
-
-                    adjacentTileNode.gCost = newMoveCostToAdjacent;
-                    adjacentTileNode.hCost = GetGridDistanceCost(adjacentTile,goalTile);
-                    adjacentTileNode.parent = currentTile;
-
-                    if (!availableTiles.Contains(adjacentTile)) { availableTiles.Add(adjacentTile); }
+                    if (!availableTiles.Contains(adjacent)) { availableTiles.Add(adjacent); }
                 }
             }
         }
-        return new List<HexTile>();
+        yield return null;
+
+        if (succeeded)
+        {
+            path = RetracePath(startTile, goalTile);
+        }
+
+        PathRequester.FinishedProcessingPath(path, succeeded);
     }
 
+  
+
     //TODO look into fixing PathNode solution that is commented out below
-    private List<HexTile> RetracePath(string entityID, HexTile startTile, HexTile endTile)
+    private List<HexTile> RetracePath( HexTile startTile, HexTile endTile)
     {
         var path = new List<HexTile>();
         var currentTile = endTile;
-
 
         while (currentTile != startTile)
         {
 
             path.Add(currentTile);
-            var tempPointer = currentTile;
-            currentTile = currentTile.TilePathNode[entityID].parent;
-            tempPointer.TilePathNode.Remove(entityID);
+            currentTile = currentTile.parent;
         }
         path.Reverse();
 
