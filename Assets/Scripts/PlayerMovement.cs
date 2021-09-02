@@ -40,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
 
         Debug.Log($"currentgridpos ={currentGridPos.x},{currentGridPos.y}");
         Debug.Log($"targetgridpos ={targetgridPos.x},{targetgridPos.y}");
-        var newPath = pathFinder.FindPath(currentGridPos, targetgridPos);
+        var newPath = pathFinder.FindPath(gameObject.name,currentGridPos, targetgridPos);
 
         foreach (var tile in newPath)
         {
