@@ -8,8 +8,6 @@ public class PlayerMovement : MonoBehaviour
 
     public Vector2Int MyGridPos { get; private set; }
 
-    public AStarPathFinder pathFinder { get; set; }
-
     private List<HexTile> oldPath = new List<HexTile>();
 
     public void Setup(Vector2Int startCoord)
@@ -17,7 +15,6 @@ public class PlayerMovement : MonoBehaviour
         MyGridPos = startCoord;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -26,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //when a player clicks the screen, see if they select a tile
     private void SelectionInput()
     {
         var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -52,12 +50,10 @@ public class PlayerMovement : MonoBehaviour
 
         var currentGridPos = new Vector2Int(MyGridPos.x, MyGridPos.y);
         var targetgridPos = new Vector2Int(hitTile.Coordinates.x, hitTile.Coordinates.y);
-
-        Debug.Log($"currentgridpos ={currentGridPos.x},{currentGridPos.y}");
-        Debug.Log($"targetgridpos ={targetgridPos.x},{targetgridPos.y}");
         PathRequestManager.RequestPath(currentGridPos, targetgridPos, OnPathFound);
        
     }
+
     public void OnPathFound(List<HexTile> path, bool succeded)
     {
         if (!succeded) { return; }

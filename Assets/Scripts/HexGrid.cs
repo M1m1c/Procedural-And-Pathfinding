@@ -124,7 +124,6 @@ public class HexGrid : MonoBehaviour
 
             playerInstance.transform.position = tile.transform.position;
             playerInstance.Setup(tile.Coordinates);
-            playerInstance.pathFinder = this.GetComponent<AStarPathFinder>();
             tile.OccupyTile(playerInstance.gameObject);
             break;
         }
