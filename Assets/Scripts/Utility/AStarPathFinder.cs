@@ -12,10 +12,12 @@ public class AStarPathFinder : MonoBehaviour
 
     PathRequestManager PathRequester;
 
+    Heap<HexTile> openSet;
     void Awake()
     {
         hexGridComp = GetComponent<HexGrid>();
         PathRequester = GetComponent<PathRequestManager>();
+        openSet = new Heap<HexTile>(hexGridComp.GridMaxSize);
     }
 
     public void StartFindPath(Vector2Int pathStart, Vector2Int pathEnd)
@@ -33,25 +35,13 @@ public class AStarPathFinder : MonoBehaviour
 
         var isGoalReacable = ((int)goalTile.tileProperties & 1 << (int)TileTags.Impassable) == 0;
         if (isGoalReacable)
-        {
-            var availableTiles = new List<HexTile>();//new Heap<HexTile>(hexGridComp.GridMaxSize);
-            //var availableTiles = new Heap<HexTile>(hexGridComp.GridMaxSize);
+        {         
             var closedTiles = new HashSet<HexTile>();
-            availableTiles.Add(startTile);
+            openSet.Add(startTile);
 
-            while (availableTiles.Count > 0)
+            while (openSet.Count > 0)
             {
-                //var currentTile = availableTiles.RemoveFirst();
-                var currentTile = availableTiles[0];
-                for (int i = 0; i < availableTiles.Count; i++)
-                {
-                    var indexTile = availableTiles[i];
-                    if (indexTile.fCost <= currentTile.fCost && indexTile.hCost < currentTile.hCost)
-                    {
-                        currentTile = indexTile;
-                    }
-                }
-                availableTiles.Remove(currentTile);
+                var currentTile = openSet.RemoveFirst();
                 closedTiles.Add(currentTile);
 
                 if (currentTile == goalTile)
@@ -69,13 +59,13 @@ public class AStarPathFinder : MonoBehaviour
                     var tentative_gCost = currentTile.gCost + GetGridDistanceCost(currentTile, adjacent);
                     if (closedTiles.Contains(adjacent) && tentative_gCost >= adjacent.gCost) { continue; }
                     
-                    if (tentative_gCost < adjacent.gCost || !availableTiles.Contains(adjacent))
+                    if (tentative_gCost < adjacent.gCost || !openSet.Contains(adjacent))
                     {
                         adjacent.gCost = tentative_gCost;
                         adjacent.hCost = GetGridDistanceCost(adjacent, goalTile);
                         adjacent.parent = currentTile;
 
-                        if (!availableTiles.Contains(adjacent)) { availableTiles.Add(adjacent); }
+                        if (!openSet.Contains(adjacent)) { openSet.Add(adjacent); }
                     }
                 }
             }
@@ -87,6 +77,7 @@ public class AStarPathFinder : MonoBehaviour
         if (succeeded)
         {
             path = RetracePath(startTile, goalTile);
+            openSet.Clear();
         }
 
         PathRequester.FinishedProcessingPath(path, succeeded);
