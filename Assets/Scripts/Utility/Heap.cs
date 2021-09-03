@@ -36,9 +36,21 @@ public class Heap<T> where T : IHeapItem<T>
         SortForwards(item);
     }
 
+    public void Clear()
+    {
+        currentItemCount = 0;
+    }
+
     public bool Contains(T item)
     {
-        return Equals(items[item.HeapIndex], item);
+        if (item.HeapIndex < currentItemCount)
+        {
+            return Equals(items[item.HeapIndex], item);
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /// <summary>
