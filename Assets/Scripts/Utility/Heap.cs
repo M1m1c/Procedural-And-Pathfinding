@@ -12,7 +12,25 @@ public class Heap<T> where T : IHeapItem<T>
         items = new T[maxHeapSize];
     }
 
- 
+    /// <summary>
+    /// sorts the item to a lower index (closer to the start of the array), 
+    /// based on if its priority is higher than the parent index before it.
+    /// </summary>
+    void SortDown(T item)
+    {
+        var parentIndex = (item.HeapIndex - 1) / 2;
+        while (true)
+        {
+            T parentItem = items[parentIndex];
+            if (item.CompareTo(parentItem) > 0)
+            {
+                Swap(item, parentItem);
+            }
+            else { break; }
+            parentIndex = (item.HeapIndex - 1) / 2;
+        }
+    }
+
     void Swap(T itemA, T itemB)
     {
         items[itemA.HeapIndex] = itemB;
