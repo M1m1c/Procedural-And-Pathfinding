@@ -21,6 +21,32 @@ public class Heap<T> where T : IHeapItem<T>
     }
 
     /// <summary>
+    /// sorts the item to a higher index (closer to the end of the array),
+    /// based on if its priority is lower than the child indexes after it.
+    /// </summary>
+    private void SortUp(T item)
+    {
+        while (true)
+        {
+            var childIndexLeft = item.HeapIndex * 2 + 1;
+            var childIndexRight = item.HeapIndex * 2 + 2;
+            var swapIndex = 0;
+
+            if (!(childIndexLeft < currentItemCount)) { return; }
+
+            swapIndex = childIndexLeft;
+            if (childIndexRight < currentItemCount && 
+                items[childIndexLeft].CompareTo(items[childIndexLeft]) < 0)
+            {
+                swapIndex = childIndexRight;
+            }
+
+            if (!(item.CompareTo(items[swapIndex]) < 0)){ return; }
+            Swap(item, items[swapIndex]);
+        }
+    }
+
+    /// <summary>
     /// sorts the item to a lower index (closer to the start of the array), 
     /// based on if its priority is higher than the parent index before it.
     /// </summary>
