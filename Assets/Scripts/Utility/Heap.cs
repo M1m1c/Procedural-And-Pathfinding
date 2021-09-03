@@ -30,6 +30,11 @@ public class Heap<T> where T : IHeapItem<T>
         return firstItem;
     }
 
+    public void UpdateItem(T item)
+    {
+        SortDown(item);
+    }
+
     public int Count()
     {
         return currentItemCount;
