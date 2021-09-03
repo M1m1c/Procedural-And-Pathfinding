@@ -110,8 +110,8 @@ public class AStarPathFinder : MonoBehaviour
     private int GetGridDistanceCost(HexTile tileA, HexTile tileB)
     {
         var retval = 0;
-        var distX = Mathf.Abs(tileA.coordinates.X - tileB.coordinates.X);
-        var distY = Mathf.Abs(tileA.coordinates.Y - tileB.coordinates.Y);
+        var distX = Mathf.Abs(tileA.Coordinates.x - tileB.Coordinates.x);
+        var distY = Mathf.Abs(tileA.Coordinates.x - tileB.Coordinates.y);
 
         if (distX > distY) { retval = gridStepCost * (distX - distY); }
         else { retval = gridStepCost * (distY - distX); }

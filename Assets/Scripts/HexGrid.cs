@@ -39,8 +39,8 @@ public class HexGrid : MonoBehaviour
     {
         var retval = new List<HexTile>();
 
-        var currentX = currentTile.coordinates.X;
-        var currentY = currentTile.coordinates.Y;
+        var currentX = currentTile.Coordinates.x;
+        var currentY = currentTile.Coordinates.y;
         var tempGridPos = new Vector2Int();
 
 
@@ -123,7 +123,7 @@ public class HexGrid : MonoBehaviour
             var playerInstance = Instantiate(PlayerPrefab);
 
             playerInstance.transform.position = tile.transform.position;
-            playerInstance.MyGridPos = tile.coordinates;
+            playerInstance.Setup(tile.Coordinates);
             playerInstance.pathFinder = this.GetComponent<AStarPathFinder>();
             tile.OccupyTile(playerInstance.gameObject);
             break;
@@ -180,17 +180,18 @@ public class HexGrid : MonoBehaviour
 
     private HexTile CreateTile(int x, int y, HexTile tilePrefab)
     {
-        Vector3 position = GetPlacementPositionFromIndex(new Vector2Int(x, y));
+        var coordPos = new Vector2Int(x, y);
+        Vector3 position = GetPlacementPositionFromIndex(coordPos);
 
         HexTile tile = Instantiate(tilePrefab);
+        tile.Setup(coordPos);
         tile.transform.SetParent(transform, false);
         tile.transform.localPosition = position;
-        tile.coordinates = HexCoordinates.FromOffsetCoordinates(x, y);
 
         Text label = Instantiate(TileLabel);
         label.rectTransform.SetParent(gridCanvas.transform, false);
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.y);
-        label.text = tile.coordinates.ToStringOnSeparateLines();
+        label.text = $"{tile.Coordinates.x.ToString()}\n{tile.Coordinates.y.ToString()}";
 
         return tile;
     }

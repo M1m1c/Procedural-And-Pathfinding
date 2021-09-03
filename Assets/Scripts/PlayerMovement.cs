@@ -6,11 +6,16 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 
-    public HexCoordinates MyGridPos { get; set; }
+    public Vector2Int MyGridPos { get; private set; }
 
     public AStarPathFinder pathFinder { get; set; }
 
     private List<HexTile> oldPath = new List<HexTile>();
+
+    public void Setup(Vector2Int startCoord)
+    {
+        MyGridPos = startCoord;
+    }
 
     // Update is called once per frame
     void Update()
@@ -45,8 +50,8 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        var currentGridPos = new Vector2Int(MyGridPos.X, MyGridPos.Y);
-        var targetgridPos = new Vector2Int(hitTile.coordinates.X, hitTile.coordinates.Y);
+        var currentGridPos = new Vector2Int(MyGridPos.x, MyGridPos.y);
+        var targetgridPos = new Vector2Int(hitTile.Coordinates.x, hitTile.Coordinates.y);
 
         Debug.Log($"currentgridpos ={currentGridPos.x},{currentGridPos.y}");
         Debug.Log($"targetgridpos ={targetgridPos.x},{targetgridPos.y}");
