@@ -50,9 +50,16 @@ public class PlayerMovement : MonoBehaviour
 
         Debug.Log($"currentgridpos ={currentGridPos.x},{currentGridPos.y}");
         Debug.Log($"targetgridpos ={targetgridPos.x},{targetgridPos.y}");
-        var newPath = pathFinder.FindPath(gameObject.name,currentGridPos, targetgridPos);
-        oldPath = newPath;
-        foreach (var tile in newPath)
+        PathRequesterManager.RequestPath(currentGridPos, targetgridPos, OnPathFound);
+       
+    }
+    public void OnPathFound(List<HexTile> path, bool succeded)
+    {
+        if (!succeded) { return; }
+
+       
+        oldPath = path;
+        foreach (var tile in path)
         {
             tile.ChangeTileColor(Color.magenta);
         }
