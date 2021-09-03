@@ -12,6 +12,14 @@ public class Heap<T> where T : IHeapItem<T>
         items = new T[maxHeapSize];
     }
 
+    public void Add(T item)
+    {
+        item.HeapIndex = currentItemCount;
+        items[currentItemCount] = item;
+        SortDown(item);
+        currentItemCount++;
+    }
+
     /// <summary>
     /// sorts the item to a lower index (closer to the start of the array), 
     /// based on if its priority is higher than the parent index before it.
