@@ -50,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
 
         Debug.Log($"currentgridpos ={currentGridPos.x},{currentGridPos.y}");
         Debug.Log($"targetgridpos ={targetgridPos.x},{targetgridPos.y}");
-        PathRequesterManager.RequestPath(currentGridPos, targetgridPos, OnPathFound);
+        PathRequestManager.RequestPath(currentGridPos, targetgridPos, OnPathFound);
        
     }
     public void OnPathFound(List<HexTile> path, bool succeded)

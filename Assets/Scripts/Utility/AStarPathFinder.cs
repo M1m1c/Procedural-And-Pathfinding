@@ -10,12 +10,12 @@ public class AStarPathFinder : MonoBehaviour
 
     HexGrid hexGridComp;
 
-    PathRequesterManager PathRequester;
+    PathRequestManager PathRequester;
 
     void Awake()
     {
         hexGridComp = GetComponent<HexGrid>();
-        PathRequester = GetComponent<PathRequesterManager>();
+        PathRequester = GetComponent<PathRequestManager>();
     }
 
     public void StartFindPath(Vector2Int pathStart, Vector2Int pathEnd)
@@ -31,47 +31,53 @@ public class AStarPathFinder : MonoBehaviour
         var startTile = hexGridComp.GetTileFromGridCoord(startPos);
         var goalTile = hexGridComp.GetTileFromGridCoord(goalPos);
 
-        var availableTiles = new List<HexTile>();
-        var closedTiles = new HashSet<HexTile>();
-        availableTiles.Add(startTile);
-
-        while (availableTiles.Count > 0)
+        var isGoalReacable = ((int)goalTile.tileProperties & 1 << (int)TileTags.Impassable) == 0;
+        if (isGoalReacable)
         {
-            var currentTile = availableTiles[0];
-            for (int i = 0; i < availableTiles.Count; i++)
+            var availableTiles = new List<HexTile>();
+            var closedTiles = new HashSet<HexTile>();
+            availableTiles.Add(startTile);
+
+            while (availableTiles.Count > 0)
             {
-                var indexTile = availableTiles[i];
-                if (indexTile.fCost <= currentTile.fCost && indexTile.hCost < currentTile.hCost)
+                var currentTile = availableTiles[0];
+                for (int i = 0; i < availableTiles.Count; i++)
                 {
-                    currentTile = indexTile;
+                    var indexTile = availableTiles[i];
+                    if (indexTile.fCost <= currentTile.fCost && indexTile.hCost < currentTile.hCost)
+                    {
+                        currentTile = indexTile;
+                    }
                 }
-            }
-            availableTiles.Remove(currentTile);
-            closedTiles.Add(currentTile);
+                availableTiles.Remove(currentTile);
+                closedTiles.Add(currentTile);
 
-            if (currentTile == goalTile)
-            {
-                succeeded = true;
-                break;
-            }
-
-            var adjacentTiles = hexGridComp.GetAdjacentTiles(currentTile);
-            foreach (var adjacent in adjacentTiles)
-            {
-                var isImpassable = ((int)adjacent.tileProperties & 1 << (int)TileTags.Impassable) != 0;
-                if (isImpassable || closedTiles.Contains(adjacent)) { continue; }
-
-                var newMoveCostToAdjacent = currentTile.gCost + GetGridDistanceCost(currentTile, adjacent);
-                if (newMoveCostToAdjacent < adjacent.gCost || !availableTiles.Contains(adjacent))
+                if (currentTile == goalTile)
                 {
-                    adjacent.gCost = newMoveCostToAdjacent;
-                    adjacent.hCost = GetGridDistanceCost(adjacent, goalTile);
-                    adjacent.parent = currentTile;
+                    succeeded = true;
+                    break;
+                }
 
-                    if (!availableTiles.Contains(adjacent)) { availableTiles.Add(adjacent); }
+                var adjacentTiles = hexGridComp.GetAdjacentTiles(currentTile);
+                foreach (var adjacent in adjacentTiles)
+                {
+                    var isImpassable = ((int)adjacent.tileProperties & 1 << (int)TileTags.Impassable) != 0;
+                    if (isImpassable || closedTiles.Contains(adjacent)) { continue; }
+
+                    var newMoveCostToAdjacent = currentTile.gCost + GetGridDistanceCost(currentTile, adjacent);
+                    if (newMoveCostToAdjacent < adjacent.gCost || !availableTiles.Contains(adjacent))
+                    {
+                        adjacent.gCost = newMoveCostToAdjacent;
+                        adjacent.hCost = GetGridDistanceCost(adjacent, goalTile);
+                        adjacent.parent = currentTile;
+
+                        if (!availableTiles.Contains(adjacent)) { availableTiles.Add(adjacent); }
+                    }
                 }
             }
         }
+
+       
         yield return null;
 
         if (succeeded)

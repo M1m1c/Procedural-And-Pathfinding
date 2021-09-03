@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathRequesterManager : MonoBehaviour
+public class PathRequestManager : MonoBehaviour
 {
     Queue<PathRequest> PathRequestQueue = new Queue<PathRequest>();
     PathRequest currentRequest;
 
-    static PathRequesterManager PathRequesterInstance;
+    static PathRequestManager PathRequesterInstance;
     AStarPathFinder PathFinder;
 
     bool isProceesingPath = false;
