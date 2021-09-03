@@ -30,6 +30,11 @@ public class Heap<T> where T : IHeapItem<T>
         return firstItem;
     }
 
+    public bool Contains(T item)
+    {
+        return Equals(items[item.HeapIndex], item);
+    }
+
     /// <summary>
     /// sorts the item to a higher index (closer to the end of the array),
     /// based on if its priority is lower than the child indexes after it.
