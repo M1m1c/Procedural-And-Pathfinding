@@ -16,7 +16,7 @@ public class Heap<T> where T : IHeapItem<T>
     {
         item.HeapIndex = currentItemCount;
         items[currentItemCount] = item;
-        SortDown(item);
+        SortForwards(item);
         currentItemCount++;
     }
 
@@ -26,13 +26,13 @@ public class Heap<T> where T : IHeapItem<T>
         currentItemCount--;
         items[0] = items[currentItemCount];
         items[0].HeapIndex = 0;
-        SortUp(items[0]);
+        SortBackwards(items[0]);
         return firstItem;
     }
 
     public void UpdateItem(T item)
     {
-        SortDown(item);
+        SortForwards(item);
     }
 
     public int Count()
@@ -49,7 +49,7 @@ public class Heap<T> where T : IHeapItem<T>
     /// sorts the item to a higher index (closer to the end of the array),
     /// based on if its priority is lower than the child indexes after it.
     /// </summary>
-    private void SortUp(T item)
+    private void SortBackwards(T item)
     {
         while (true)
         {
@@ -75,7 +75,7 @@ public class Heap<T> where T : IHeapItem<T>
     /// sorts the item to a lower index (closer to the start of the array), 
     /// based on if its priority is higher than the parent index before it.
     /// </summary>
-    void SortDown(T item)
+    void SortForwards(T item)
     {
         var parentIndex = (item.HeapIndex - 1) / 2;
         while (true)
