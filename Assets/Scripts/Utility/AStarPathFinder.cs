@@ -34,12 +34,14 @@ public class AStarPathFinder : MonoBehaviour
         var isGoalReacable = ((int)goalTile.tileProperties & 1 << (int)TileTags.Impassable) == 0;
         if (isGoalReacable)
         {
-            var availableTiles = new List<HexTile>();
+            var availableTiles = new List<HexTile>();//new Heap<HexTile>(hexGridComp.GridMaxSize);
+            //var availableTiles = new Heap<HexTile>(hexGridComp.GridMaxSize);
             var closedTiles = new HashSet<HexTile>();
             availableTiles.Add(startTile);
 
             while (availableTiles.Count > 0)
             {
+                //var currentTile = availableTiles.RemoveFirst();
                 var currentTile = availableTiles[0];
                 for (int i = 0; i < availableTiles.Count; i++)
                 {
@@ -62,12 +64,14 @@ public class AStarPathFinder : MonoBehaviour
                 foreach (var adjacent in adjacentTiles)
                 {
                     var isImpassable = ((int)adjacent.tileProperties & 1 << (int)TileTags.Impassable) != 0;
-                    if (isImpassable || closedTiles.Contains(adjacent)) { continue; }
+                    if (isImpassable) { continue; }
 
-                    var newMoveCostToAdjacent = currentTile.gCost + GetGridDistanceCost(currentTile, adjacent);
-                    if (newMoveCostToAdjacent < adjacent.gCost || !availableTiles.Contains(adjacent))
+                    var tentative_gCost = currentTile.gCost + GetGridDistanceCost(currentTile, adjacent);
+                    if (closedTiles.Contains(adjacent) && tentative_gCost >= adjacent.gCost) { continue; }
+                    
+                    if (tentative_gCost < adjacent.gCost || !availableTiles.Contains(adjacent))
                     {
-                        adjacent.gCost = newMoveCostToAdjacent;
+                        adjacent.gCost = tentative_gCost;
                         adjacent.hCost = GetGridDistanceCost(adjacent, goalTile);
                         adjacent.parent = currentTile;
 
@@ -113,8 +117,10 @@ public class AStarPathFinder : MonoBehaviour
         var distX = Mathf.Abs(tileA.Coordinates.x - tileB.Coordinates.x);
         var distY = Mathf.Abs(tileA.Coordinates.y - tileB.Coordinates.y);
 
-        if (distX > distY) { retval = (gridStepCost * distY) + gridStepCost * (distX - distY); }
-        else { retval = (gridStepCost * distX) + gridStepCost * (distY - distX); }
+        if (distX > distY)
+        { retval = (distY * gridStepCost) + gridStepCost * (distX - distY); }
+        else
+        { retval = (distX * gridStepCost) + gridStepCost * (distY - distX); }
 
         return retval;
     }
