@@ -21,6 +21,7 @@ public class HexGrid : MonoBehaviour
 
     [SerializeField] private int height = 8;
     [SerializeField] private int width = 16;
+    public int GridMaxSize { get { return width * height; } }
 
     [SerializeField] private float scale = 10.0f;
     [SerializeField] private float offsetX = 10.0f;
