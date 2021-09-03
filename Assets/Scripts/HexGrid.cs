@@ -55,7 +55,7 @@ public class HexGrid : MonoBehaviour
                
                 if(currentX==tempGridPos.x && currentY == tempGridPos.y) { continue; }
 
-                if (tempGridPos.x >= tiles.GetLength(0) || tempGridPos.y >= tiles.GetLength(1)) { continue; }
+                if (tempGridPos.x >= width || tempGridPos.y >= height) { continue; }
                 if (tempGridPos.x < 0 || tempGridPos.y < 0) { continue; }
 
                 var foundTile = tiles[tempGridPos.x, tempGridPos.y];
