@@ -6,8 +6,9 @@ public class Heap<T> where T : IHeapItem<T>
 {
     T[] items;
     int currentItemCount;
+    public int Count { get { return currentItemCount; } }
 
-    Heap(int maxHeapSize)
+    public Heap(int maxHeapSize)
     {
         items = new T[maxHeapSize];
     }
@@ -33,11 +34,6 @@ public class Heap<T> where T : IHeapItem<T>
     public void UpdateItem(T item)
     {
         SortForwards(item);
-    }
-
-    public int Count()
-    {
-        return currentItemCount;
     }
 
     public bool Contains(T item)
@@ -92,8 +88,9 @@ public class Heap<T> where T : IHeapItem<T>
 
     void Swap(T itemA, T itemB)
     {
+        var tempHolder = items[itemA.HeapIndex];
         items[itemA.HeapIndex] = itemB;
-        items[itemB.HeapIndex] = itemA;
+        items[itemB.HeapIndex] = tempHolder;
 
         int itemAHeapindex = itemA.HeapIndex;
         itemA.HeapIndex = itemB.HeapIndex;
