@@ -111,10 +111,10 @@ public class AStarPathFinder : MonoBehaviour
     {
         var retval = 0;
         var distX = Mathf.Abs(tileA.Coordinates.x - tileB.Coordinates.x);
-        var distY = Mathf.Abs(tileA.Coordinates.x - tileB.Coordinates.y);
+        var distY = Mathf.Abs(tileA.Coordinates.y - tileB.Coordinates.y);
 
-        if (distX > distY) { retval = gridStepCost * (distX - distY); }
-        else { retval = gridStepCost * (distY - distX); }
+        if (distX > distY) { retval = (gridStepCost * distY) + gridStepCost * (distX - distY); }
+        else { retval = (gridStepCost * distX) + gridStepCost * (distY - distX); }
 
         return retval;
     }
