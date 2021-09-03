@@ -57,7 +57,7 @@ public class Heap<T> where T : IHeapItem<T>
 
             swapIndex = childIndexLeft;
             if (childIndexRight < currentItemCount && 
-                items[childIndexLeft].CompareTo(items[childIndexLeft]) < 0)
+                items[childIndexLeft].CompareTo(items[childIndexRight]) < 0)
             {
                 swapIndex = childIndexRight;
             }
