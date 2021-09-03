@@ -20,6 +20,16 @@ public class Heap<T> where T : IHeapItem<T>
         currentItemCount++;
     }
 
+    public T RemoveFirst()
+    {
+        T firstItem = items[0];
+        currentItemCount--;
+        items[0] = items[currentItemCount];
+        items[0].HeapIndex = 0;
+        SortUp(items[0]);
+        return firstItem;
+    }
+
     /// <summary>
     /// sorts the item to a higher index (closer to the end of the array),
     /// based on if its priority is lower than the child indexes after it.
