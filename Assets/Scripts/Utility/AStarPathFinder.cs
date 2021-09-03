@@ -25,7 +25,7 @@ public class AStarPathFinder : MonoBehaviour
         StartCoroutine(FindPath(pathStart, pathEnd));
     }
 
-    private IEnumerator FindPath( Vector2Int startPos, Vector2Int goalPos)
+    private IEnumerator FindPath(Vector2Int startPos, Vector2Int goalPos)
     {
         var path = new List<HexTile>();
         var succeeded = false;
@@ -35,7 +35,7 @@ public class AStarPathFinder : MonoBehaviour
 
         var isGoalReacable = ((int)goalTile.tileProperties & 1 << (int)TileTags.Impassable) == 0;
         if (isGoalReacable)
-        {         
+        {
             var closedTiles = new HashSet<HexTile>();
             openSet.Add(startTile);
 
@@ -58,7 +58,7 @@ public class AStarPathFinder : MonoBehaviour
 
                     var tentative_gCost = currentTile.gCost + GetGridDistanceCost(currentTile, adjacent);
                     if (closedTiles.Contains(adjacent) && tentative_gCost >= adjacent.gCost) { continue; }
-                    
+
                     if (tentative_gCost < adjacent.gCost || !openSet.Contains(adjacent))
                     {
                         adjacent.gCost = tentative_gCost;
@@ -71,7 +71,7 @@ public class AStarPathFinder : MonoBehaviour
             }
         }
 
-       
+
         yield return null;
 
         if (succeeded)
@@ -83,10 +83,8 @@ public class AStarPathFinder : MonoBehaviour
         PathRequester.FinishedProcessingPath(path, succeeded);
     }
 
-  
 
-    //TODO look into fixing PathNode solution that is commented out below
-    private List<HexTile> RetracePath( HexTile startTile, HexTile endTile)
+    private List<HexTile> RetracePath(HexTile startTile, HexTile endTile)
     {
         var path = new List<HexTile>();
         var currentTile = endTile;
