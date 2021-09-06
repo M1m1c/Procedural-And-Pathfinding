@@ -10,14 +10,33 @@ public class PlayerMovement : MonoBehaviour
 
     private List<HexTile> oldPath = new List<HexTile>();
 
+    private bool isExtendPathButtonHeld = false;
+    private bool isMoving = false;
+
     public void Setup(Vector2Int startCoord)
     {
         MyGridPos = startCoord;
     }
-    private bool isExtendPathButtonHeld = false;
+
+    public void OnPathFound(List<HexTile> path, bool succeded)
+    {
+        if (!succeded) { return; }
+
+        if (isExtendPathButtonHeld)
+        { oldPath.AddRange(path); }
+        else
+        { oldPath = path; }
+
+        foreach (var tile in oldPath)
+        {
+            tile.ChangeTileColor(Color.magenta);
+        }
+    }
 
     void Update()
     {
+
+        if (isMoving) { return; }
         if (Input.GetMouseButtonDown(0))
         {
             SelectionInput();
@@ -29,6 +48,12 @@ public class PlayerMovement : MonoBehaviour
             isExtendPathButtonHeld = true;
         }
         else { isExtendPathButtonHeld = false; }
+
+        if (Input.GetButtonDown("Jump"))
+        {      
+            if (oldPath.Count < 1) { return; }
+            StartCoroutine(MoveAlongPath());
+        }
     }
 
     //when a player clicks the screen, see if they select a tile
@@ -67,19 +92,37 @@ public class PlayerMovement : MonoBehaviour
         PathRequestManager.RequestPath(currentGridPos, targetgridPos, OnPathFound);
 
     }
-
-    public void OnPathFound(List<HexTile> path, bool succeded)
+    private IEnumerator MoveAlongPath()
     {
-        if (!succeded) { return; }
-
-        if (isExtendPathButtonHeld)
-        { oldPath.AddRange(path); }
-        else
-        { oldPath = path; }
-        
-        foreach (var tile in oldPath)
+        isMoving = true;
+        while (oldPath.Count > 0)
         {
-            tile.ChangeTileColor(Color.magenta);
+            var targetTile = oldPath[0];
+
+            yield return StartCoroutine(MoveToTile(targetTile, 1.0f));
+
+            oldPath.RemoveAt(0);
+        }
+        isMoving = false;
+        yield return null;
+    }
+    private IEnumerator MoveToTile(HexTile targetTile, float moveTime)
+    {
+        var elapsedTime = 0f;
+        var startingPos = transform.position;
+        var newPosition = targetTile.transform.position;
+        while (elapsedTime < moveTime)
+        {
+            transform.position = Vector3.Lerp(startingPos, newPosition, (elapsedTime / moveTime));
+            elapsedTime += Time.deltaTime;
+
+            var dist = Vector3.Distance(transform.position, newPosition);
+            if (dist > -0.1f && dist < 0.1f)
+            {
+                var success=targetTile.OccupyTile(this.gameObject);
+                if (success) { MyGridPos = targetTile.Coordinates; }
+            }
+            yield return null;
         }
     }
 }
