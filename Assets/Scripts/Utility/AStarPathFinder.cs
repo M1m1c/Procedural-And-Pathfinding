@@ -56,12 +56,12 @@ public class AStarPathFinder : MonoBehaviour
                     var isImpassable = ((int)adjacent.tileProperties & 1 << (int)TileTags.Impassable) != 0;
                     if (isImpassable) { continue; }
 
-                    var tentative_gCost = currentTile.gCost + GetGridDistanceCost(currentTile, adjacent);
-                    if (closedTiles.Contains(adjacent) && tentative_gCost >= adjacent.gCost) { continue; }
+                    var newGCost = currentTile.gCost + GetGridDistanceCost(currentTile, adjacent);
+                    if (closedTiles.Contains(adjacent) && newGCost >= adjacent.gCost) { continue; }
 
-                    if (tentative_gCost < adjacent.gCost || !openSet.Contains(adjacent))
+                    if (newGCost < adjacent.gCost || !openSet.Contains(adjacent))
                     {
-                        adjacent.gCost = tentative_gCost;
+                        adjacent.gCost = newGCost;
                         adjacent.hCost = GetGridDistanceCost(adjacent, goalTile);
                         adjacent.parent = currentTile;
 
