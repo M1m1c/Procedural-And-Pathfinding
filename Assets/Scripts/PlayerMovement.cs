@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
 
     private List<HexTile> oldPath = new List<HexTile>();
 
+    [SerializeField]private float moveTime = 1.0f;
+
     private bool isExtendPathButtonHeld = false;
     private bool isMoving = false;
 
@@ -99,20 +101,21 @@ public class PlayerMovement : MonoBehaviour
         {
             var targetTile = oldPath[0];
 
-            yield return StartCoroutine(MoveToTile(targetTile, 1.0f));
-
+            yield return StartCoroutine(MoveToTile(targetTile));
+            targetTile.ChangeTileColor(Color.white);
             oldPath.RemoveAt(0);
         }
         isMoving = false;
         yield return null;
     }
-    private IEnumerator MoveToTile(HexTile targetTile, float moveTime)
+    private IEnumerator MoveToTile(HexTile targetTile)
     {
         var elapsedTime = 0f;
         var startingPos = transform.position;
         var newPosition = targetTile.transform.position;
         while (elapsedTime < moveTime)
         {
+
             transform.position = Vector3.Lerp(startingPos, newPosition, (elapsedTime / moveTime));
             elapsedTime += Time.deltaTime;
 
