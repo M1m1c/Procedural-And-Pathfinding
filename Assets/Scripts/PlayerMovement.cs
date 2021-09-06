@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     {
         MyGridPos = startCoord;
     }
+    private bool isExtendPathButtonHeld = false;
 
     void Update()
     {
@@ -21,6 +22,13 @@ public class PlayerMovement : MonoBehaviour
         {
             SelectionInput();
         }
+
+        //Currently set to be left control
+        if (Input.GetButton("Fire1"))
+        {
+            isExtendPathButtonHeld = true;
+        }
+        else { isExtendPathButtonHeld = false; }
     }
 
     //when a player clicks the screen, see if they select a tile
@@ -30,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
         var mousePos2D = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
 
         RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero, 0f);
-        if (!hit){ return; }
+        if (!hit) { return; }
 
         var hitTile = hit.transform.gameObject.GetComponent<HexTile>();
         if (!hitTile) { return; }
@@ -47,20 +55,29 @@ public class PlayerMovement : MonoBehaviour
                 tile.ChangeTileColor(Color.white);
             }
         }
+        Vector2Int currentGridPos;
+        var oPCount = oldPath.Count;
 
-        var currentGridPos = new Vector2Int(MyGridPos.x, MyGridPos.y);
+        if (isExtendPathButtonHeld && oPCount > 0)
+        { currentGridPos = oldPath[oPCount - 1].Coordinates; }
+        else
+        { currentGridPos = new Vector2Int(MyGridPos.x, MyGridPos.y); }
+
         var targetgridPos = new Vector2Int(hitTile.Coordinates.x, hitTile.Coordinates.y);
         PathRequestManager.RequestPath(currentGridPos, targetgridPos, OnPathFound);
-       
+
     }
 
     public void OnPathFound(List<HexTile> path, bool succeded)
     {
         if (!succeded) { return; }
 
-       
-        oldPath = path;
-        foreach (var tile in path)
+        if (isExtendPathButtonHeld)
+        { oldPath.AddRange(path); }
+        else
+        { oldPath = path; }
+        
+        foreach (var tile in oldPath)
         {
             tile.ChangeTileColor(Color.magenta);
         }
