@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
 
     private List<HexTile> oldPath = new List<HexTile>();
 
-    [SerializeField]private float moveTime = 1.0f;
+    [SerializeField]private float moveTime = 0.6f;
 
     private bool isExtendPathButtonHeld = false;
     private bool isMoving = false;
