@@ -38,9 +38,10 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 
-        if (isMoving) { return; }
+     
         if (Input.GetMouseButtonDown(0))
         {
+            if (isMoving) { return; }
             SelectionInput();
         }
 
@@ -52,7 +53,8 @@ public class PlayerMovement : MonoBehaviour
         else { isExtendPathButtonHeld = false; }
 
         if (Input.GetButtonDown("Jump"))
-        {      
+        {
+            if (isMoving) { return; }
             if (oldPath.Count < 1) { return; }
             StartCoroutine(MoveAlongPath());
         }
