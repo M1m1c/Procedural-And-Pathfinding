@@ -74,7 +74,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void ClickTile(HexTile hitTile)
     {
-        //TODO call find path and change color of path tiles
         if (oldPath.Count > 0)
         {
             foreach (var tile in oldPath)
