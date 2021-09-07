@@ -8,11 +8,18 @@ public class MovableEntity : MonoBehaviour
 
     protected List<HexTile> oldPath = new List<HexTile>();
 
+    protected PathIndicatorGizmo pathGizmo;
+
     [SerializeField] protected float moveTime = 0.6f;
 
     protected bool isMoving = false;
 
     public virtual void OnPathFound(List<HexTile> path, bool succeded) { }
+
+    private void Awake()
+    {
+        pathGizmo = GetComponentInChildren<PathIndicatorGizmo>();
+    }
 
     protected IEnumerator MoveAlongPath()
     {
@@ -21,7 +28,8 @@ public class MovableEntity : MonoBehaviour
         {
             var targetTile = oldPath[0];
             yield return StartCoroutine(MoveToTile(targetTile));
-            targetTile.ChangeTileColor(Color.white);
+            //targetTile.ChangeTileColor(Color.white);
+            pathGizmo.RemovefirstPosition();
             oldPath.RemoveAt(0);
         }
         isMoving = false;

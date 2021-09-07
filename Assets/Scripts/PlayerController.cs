@@ -23,10 +23,12 @@ public class PlayerController : MovableEntity
         else
         { oldPath = path; }
 
-        foreach (var tile in oldPath)
-        {
-            tile.ChangeTileColor(Color.magenta);
-        }
+        //foreach (var tile in oldPath)
+        //{
+        //    tile.ChangeTileColor(Color.magenta);
+        //}
+
+        pathGizmo.SetupPath(oldPath);
     }
 
     public void ActivateExtendSelection(InputAction.CallbackContext context)
