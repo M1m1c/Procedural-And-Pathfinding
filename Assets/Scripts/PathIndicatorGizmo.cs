@@ -13,6 +13,7 @@ public class PathIndicatorGizmo : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.startColor = lineColor;
         lineRenderer.endColor = lineColor;
+        lineRenderer.endWidth = 1.3f;
     }
 
     public void SetupPath(List<HexTile> tiles, Vector3 startPos)
@@ -52,6 +53,6 @@ public class PathIndicatorGizmo : MonoBehaviour
             points[i] = path[i];
         }
         lineRenderer.positionCount = points.Length;
-        lineRenderer.SetPositions(points);
+        lineRenderer.SetPositions(points);    
     }
 }
