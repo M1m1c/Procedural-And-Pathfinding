@@ -28,7 +28,6 @@ public class MovableEntity : MonoBehaviour
         {
             var targetTile = oldPath[0];
             yield return StartCoroutine(MoveToTile(targetTile));
-            //targetTile.ChangeTileColor(Color.white);
             pathGizmo.RemovefirstPosition();
             oldPath.RemoveAt(0);
         }

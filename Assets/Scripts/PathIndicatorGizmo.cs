@@ -15,10 +15,10 @@ public class PathIndicatorGizmo : MonoBehaviour
         lineRenderer.endColor = lineColor;
     }
 
-    public void SetupPath(List<HexTile> tiles)
+    public void SetupPath(List<HexTile> tiles, Vector3 startPos)
     {
         positions.Clear();
-
+        positions.Add(startPos);
         foreach (var item in tiles)
         {
             positions.Add(item.transform.position);

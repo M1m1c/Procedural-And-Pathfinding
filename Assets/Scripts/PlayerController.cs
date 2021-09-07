@@ -28,7 +28,7 @@ public class PlayerController : MovableEntity
         //    tile.ChangeTileColor(Color.magenta);
         //}
 
-        pathGizmo.SetupPath(oldPath);
+        pathGizmo.SetupPath(oldPath, transform.position);
     }
 
     public void ActivateExtendSelection(InputAction.CallbackContext context)
@@ -50,13 +50,14 @@ public class PlayerController : MovableEntity
         if (context.started == false || context.canceled) { return; }
         if (isMoving) { return; }
         if (oldPath.Count < 1) { return; }
+        pathGizmo.RemovefirstPosition();
         StartCoroutine(MoveAlongPath());
     }
 
     //when a player clicks the screen, see if they select a tile
     public void SelectionInput(InputAction.CallbackContext context)
-    {     
-        if (context.started == false || context.canceled) { return; }
+    {
+        if (!context.started || context.canceled || context.performed) { return; }
         if (isMoving) { return; }
 
         var mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
@@ -72,13 +73,6 @@ public class PlayerController : MovableEntity
 
     private void ClickTile(HexTile hitTile)
     {
-        if (oldPath.Count > 0)
-        {
-            foreach (var tile in oldPath)
-            {
-                tile.ChangeTileColor(Color.white);
-            }
-        }
         Vector2Int currentGridPos;
         var oPCount = oldPath.Count;
 
