@@ -19,8 +19,9 @@ public class PathRequestManager : MonoBehaviour
         PathFinder = GetComponent<AStarPathFinder>();
     }
 
-    public static void RequestPath(Vector2Int pathStart, Vector2Int pathEnd,Action<List<HexTile>,bool> callBack)
+    public static void RequestPath(Vector2Int pathStart, Vector2Int pathEnd,Action<List<HexTile>,bool> callBack, bool isAlreadyMoving)
     {
+        if (isAlreadyMoving) { return; }
         PathRequest newRequest = new PathRequest(pathStart, pathEnd, callBack);
         PathRequesterInstance.PathRequestQueue.Enqueue(newRequest);
         PathRequesterInstance.TryProcessNextRequest();

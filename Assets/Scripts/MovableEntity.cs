@@ -24,13 +24,16 @@ public class MovableEntity : MonoBehaviour
     protected IEnumerator MoveAlongPath()
     {
         isMoving = true;
+        HexTile goalTile = null;
         while (oldPath.Count > 0)
         {
             var targetTile = oldPath[0];
+            goalTile = targetTile;
             yield return StartCoroutine(MoveToTile(targetTile));
             pathGizmo.RemovefirstPosition();
             oldPath.RemoveAt(0);
         }
+        MyGridPos = goalTile.Coordinates;
         isMoving = false;
         yield return null;
     }

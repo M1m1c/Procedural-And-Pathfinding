@@ -82,7 +82,7 @@ public class PlayerController : MovableEntity
         { currentGridPos = new Vector2Int(MyGridPos.x, MyGridPos.y); }
 
         var targetgridPos = new Vector2Int(hitTile.Coordinates.x, hitTile.Coordinates.y);
-        PathRequestManager.RequestPath(currentGridPos, targetgridPos, OnPathFound);
+        PathRequestManager.RequestPath(currentGridPos, targetgridPos, OnPathFound, isMoving);
 
     } 
 }
