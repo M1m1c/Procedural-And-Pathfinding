@@ -20,7 +20,6 @@ public class MovableEntity : MonoBehaviour
         while (oldPath.Count > 0)
         {
             var targetTile = oldPath[0];
-
             yield return StartCoroutine(MoveToTile(targetTile));
             targetTile.ChangeTileColor(Color.white);
             oldPath.RemoveAt(0);
@@ -43,8 +42,9 @@ public class MovableEntity : MonoBehaviour
             var dist = Vector3.Distance(transform.position, newPosition);
             if (dist > -0.1f && dist < 0.1f)
             {
-                var success = targetTile.OccupyTile(this.gameObject);
-                if (success) { MyGridPos = targetTile.Coordinates; }
+                //var success = targetTile.OccupyTile(this.gameObject);
+                //if (success) { MyGridPos = targetTile.Coordinates; }
+                MyGridPos = targetTile.Coordinates;
             }
             yield return null;
         }
