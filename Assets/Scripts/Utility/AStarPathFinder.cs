@@ -25,6 +25,7 @@ public class AStarPathFinder : MonoBehaviour
         StartCoroutine(FindPath(pathStart, pathEnd));
     }
 
+    //this is the A* portion, it followes the A* pattern
     private IEnumerator FindPath(Vector2Int startPos, Vector2Int goalPos)
     {
         var path = new List<HexTile>();
