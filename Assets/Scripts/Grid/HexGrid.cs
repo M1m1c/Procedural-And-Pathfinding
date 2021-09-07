@@ -11,7 +11,7 @@ public class HexGrid : MonoBehaviour
     public HexTile LightTilePrefab;
     public HexTile DarkTilePrefab;
 
-    public PlayerMovement PlayerPrefab;
+    public PlayerController PlayerPrefab;
 
     public Text TileLabel;
 

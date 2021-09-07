@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MovableEntity
+public class PlayerController : MovableEntity
 {
 
     private bool isExtendPathButtonHeld = false;  
