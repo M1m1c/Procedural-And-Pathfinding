@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MovableEntity
 {
 
-    private bool isExtendPathButtonHeld = false;  
+    private bool isExtendPathButtonHeld = false;
 
     public void Setup(Vector2Int startCoord)
     {
@@ -28,36 +29,36 @@ public class PlayerController : MovableEntity
         }
     }
 
-    void Update()
-    {
+    public void ActivateExtendSelection(InputAction.CallbackContext context)
+    {      
+        if (context.started == false || context.canceled) { return; }
+        if (isMoving) { return; }
+        isExtendPathButtonHeld = true;
+    }
 
-     
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (isMoving) { return; }
-            SelectionInput();
-        }
+    public void DeactivateExtendSelection(InputAction.CallbackContext context)
+    {       
+        if (context.started == true || context.canceled) { return; }
+        if (isMoving) { return; }
+        isExtendPathButtonHeld = false;
+    }
 
-        //Currently set to be left control
-        if (Input.GetButton("Fire1"))
-        {
-            isExtendPathButtonHeld = true;
-        }
-        else { isExtendPathButtonHeld = false; }
-
-        if (Input.GetButtonDown("Jump"))
-        {
-            if (isMoving) { return; }
-            if (oldPath.Count < 1) { return; }
-            StartCoroutine(MoveAlongPath());
-        }
+    public void StartMoving(InputAction.CallbackContext context)
+    {      
+        if (context.started == false || context.canceled) { return; }
+        if (isMoving) { return; }
+        if (oldPath.Count < 1) { return; }
+        StartCoroutine(MoveAlongPath());
     }
 
     //when a player clicks the screen, see if they select a tile
-    private void SelectionInput()
-    {
-        var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        var mousePos2D = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+    public void SelectionInput(InputAction.CallbackContext context)
+    {     
+        if (context.started == false || context.canceled) { return; }
+        if (isMoving) { return; }
+
+        var mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        var mousePos2D = new Vector2(mousePosition.x, mousePosition.y);
 
         RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero, 0f);
         if (!hit) { return; }

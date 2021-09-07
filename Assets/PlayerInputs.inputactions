@@ -1,1 +1,90 @@
-{}
+{
+    "name": "PlayerInputs",
+    "maps": [
+        {
+            "name": "DefaultControls",
+            "id": "1f4f881c-cac9-4f2d-8fa8-2d32904eecd2",
+            "actions": [
+                {
+                    "name": "ActivateExtend",
+                    "type": "Button",
+                    "id": "fb67ed8b-4140-4b3a-8bfe-5d2a07214bb2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DeactivateExtend",
+                    "type": "Button",
+                    "id": "5199038e-7fdf-4e26-a5d0-1e6e30c52f4e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "StartMove",
+                    "type": "Button",
+                    "id": "25a7da66-eb00-40cd-9542-4d78ac19ea99",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Select",
+                    "type": "Button",
+                    "id": "ae2cef2a-f40e-40f5-b4b0-eca3b541c5ee",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "13ea00ed-e720-4f80-8428-403774ced54b",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d9ad8ab6-5360-4a48-a7b9-96395b2eae14",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StartMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ed05936c-76d4-4ab2-a7de-eff4cadd5a28",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DeactivateExtend",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4e32e1f1-2c45-4dd5-952d-35206c7a008c",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ActivateExtend",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
