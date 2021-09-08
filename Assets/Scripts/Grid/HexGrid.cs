@@ -34,6 +34,25 @@ public class HexGrid : MonoBehaviour
 
     private HexTile playerSpawnPoint;
 
+    public HexTile GetRandomWalkableTileWithin(Vector3 requsterPos, int tileCount)
+    {
+        HexTile retval = null;
+
+        while (true)
+        {
+            var tile = GetRandomViableSpawnTile();
+            if (!tile) { continue; }
+
+            var b = IsTileWithinDistanceSpan(requsterPos, tile.transform.position, 5, true);
+            if (!b) { continue; }
+            retval = tile;
+            break;
+
+        }
+        
+        return retval;
+    }
+
     public HexTile GetTileFromGridCoord(Vector2Int coord)
     {
         return tiles[coord.x, coord.y];
@@ -109,6 +128,24 @@ public class HexGrid : MonoBehaviour
         pos2 = GetPlacementPositionFromIndex(tile1);
 
         return Vector3.Distance(pos1, pos2);
+    }
+
+    private bool IsTileWithinDistanceSpan(Vector3 posA, Vector3 posB, int tileCount, bool lessOrMoreThanCount)
+    {
+        var retval = false;
+
+        var tiledistance = adjacentDist * tileCount;
+
+        if (lessOrMoreThanCount)
+        {
+            if (Vector3.Distance(posA, posB) < tiledistance) { retval = true; }
+        }
+        else
+        {
+            if (Vector3.Distance(posA, posB) > tiledistance) { retval = true; }
+        }
+
+        return retval;
     }
 
     private Vector3 GetPlacementPositionFromIndex(Vector2Int index)
@@ -211,24 +248,6 @@ public class HexGrid : MonoBehaviour
                 Destroy(tile.gameObject);
             }
         }
-    }
-
-    private bool IsTileWithinDistanceSpan(Vector3 posA,Vector3 posB,int tileCount,bool lessOrMoreThanCount)
-    {
-        var retval = false;
-
-        var tiledistance = adjacentDist * tileCount;
-
-        if (lessOrMoreThanCount)
-        {
-            if (Vector3.Distance(posA, posB) < tiledistance) { retval = true; }
-        }
-        else
-        {
-            if (Vector3.Distance(posA, posB) > tiledistance) { retval = true; }
-        }
-        
-        return retval;
     }
 
     private void GenerateGrid()
