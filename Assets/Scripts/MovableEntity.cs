@@ -29,6 +29,8 @@ public class MovableEntity : MonoBehaviour
     {
         if (!succeded) { return; }
 
+        oldPath = path;
+
         pathGizmo.SetupPath(oldPath, transform.position);
     }
 
