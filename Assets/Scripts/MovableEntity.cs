@@ -25,7 +25,12 @@ public class MovableEntity : MonoBehaviour
         MyGridPos = startCoord;
     }
 
-    public virtual void OnPathFound(List<HexTile> path, bool succeded) { }
+    public virtual void OnPathFound(List<HexTile> path, bool succeded)
+    {
+        if (!succeded) { return; }
+
+        pathGizmo.SetupPath(oldPath, transform.position);
+    }
 
     private void Awake()
     {
