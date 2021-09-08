@@ -119,10 +119,8 @@ public class HexGrid : MonoBehaviour
     private HexTile GetRandomViableSpawnTile()
     {
         HexTile retval = null;
-        var x = UnityEngine.Random.Range(0, width);
-        var y = UnityEngine.Random.Range(0, height);
+        HexTile tile = GetRandomTile();
 
-        var tile = tiles[x, y];
         if (tile)
         {
             int properties = (int)tile.tileProperties;
@@ -131,9 +129,18 @@ public class HexGrid : MonoBehaviour
                 retval = tile;
             }
         }
+        
         return retval;
 
     }
+
+    private HexTile GetRandomTile()
+    {
+        var x = UnityEngine.Random.Range(0, width);
+        var y = UnityEngine.Random.Range(0, height);
+        return tiles[x, y];
+    }
+
     private void SpawnPlayer()
     {
         if (!PlayerPrefab) { return; }
@@ -163,12 +170,11 @@ public class HexGrid : MonoBehaviour
 
             if (tile == playerSpawnPoint) { continue; }
 
-            var tilesFromPlayer = 3;
-            var tiledistance = adjacentDist * tilesFromPlayer;
+           
             var tilePos = tile.transform.position;
             var playerPos = playerSpawnPoint.transform.position;
 
-            if (Vector3.Distance(tilePos, playerPos) < tiledistance) { continue; }
+            if(IsTileWithinDistanceSpan(tilePos, playerPos, 3, true) == false) { continue; }
 
             var enemyInstance = Instantiate(EnemyPrefab);
             enemyInstance.transform.position = tile.transform.position;
@@ -207,8 +213,40 @@ public class HexGrid : MonoBehaviour
             else
             {
                 //TODO check if it is an island by fiding a long path
+                //var tilePos = tile.transform.position;
+                //while (true)
+                //{
+                    
+
+                //    var testTile = GetRandomTile();
+                //    if (!testTile) { continue; }
+
+                //    var testTilePos = testTile.transform.position;
+                //    if(IsTileWithinDistanceSpan(testTilePos,tilePos, 4, false) == false) { continue; }
+
+
+                //}
+                
             }
         }
+    }
+
+    private bool IsTileWithinDistanceSpan(Vector3 posA,Vector3 posB,int tileCount,bool lessOrMoreThanCount)
+    {
+        var retval = false;
+
+        var tiledistance = adjacentDist * tileCount;
+
+        if (lessOrMoreThanCount)
+        {
+            if (Vector3.Distance(posA, posB) < tiledistance) { retval = true; }
+        }
+        else
+        {
+            if (Vector3.Distance(posA, posB) > tiledistance) { retval = true; }
+        }
+        
+        return retval;
     }
 
     private void GenerateGrid()
