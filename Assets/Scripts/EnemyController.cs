@@ -7,10 +7,15 @@ public class EnemyController : MovableEntity
 
     public void OnPlayerWalking()
     {
-        Debug.Log("player is walking");
     }
     public void OnPlayerStopping()
     {
+
+    }
+
+    public void OnPlayerRequestingPath()
+    {
+        if (oldPath.Count == 0) { return; }
 
     }
     private void GetRandomMoveGoal()
