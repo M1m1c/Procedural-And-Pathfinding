@@ -91,7 +91,7 @@ public class HexGrid : MonoBehaviour
         //ClearGrid();
         SpawnPlayer();
 
-        //SpawnEnemies();
+        SpawnEnemies();
     }
 
     private float CalucluateAdjacentDistance()
@@ -145,6 +145,31 @@ public class HexGrid : MonoBehaviour
             playerSpawnPoint = tile;
             tile.OccupyTile(playerInstance.gameObject);
             break;
+        }
+    }
+
+
+    private void SpawnEnemies()
+    {
+        int enemycount = 2;
+        while (enemycount > 0)
+        {
+            var tile = GetRandomViableSpawnTile();
+            if (!tile) { continue; }
+
+            if (tile == playerSpawnPoint) { continue; }
+
+            var tilesFromPlayer = 3;
+            var tiledistance = adjacentDist * tilesFromPlayer;
+            var tilePos = tile.transform.position;
+            var playerPos = playerSpawnPoint.transform.position;
+
+            if (Vector3.Distance(tilePos, playerPos) < tiledistance) { continue; }
+
+            var enemyInstance = Instantiate(EnemyPrefab);
+            enemyInstance.transform.position = tile.transform.position;
+            enemycount--;
+
         }
     }
 
