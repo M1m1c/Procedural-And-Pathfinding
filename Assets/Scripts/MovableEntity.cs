@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
 
 public class MovableEntity : MonoBehaviour
 {
+
+    public UnityEvent Walking;
+    public UnityEvent StoppingMovement;
+
     public Vector2Int MyGridPos { get; protected set; }
 
     protected List<HexTile> oldPath = new List<HexTile>();
@@ -34,6 +39,7 @@ public class MovableEntity : MonoBehaviour
             oldPath.RemoveAt(0);
         }
         MyGridPos = goalTile.Coordinates;
+        StoppingMovement.Invoke();
         isMoving = false;
         yield return null;
     }
