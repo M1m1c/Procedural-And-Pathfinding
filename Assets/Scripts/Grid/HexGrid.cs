@@ -12,6 +12,7 @@ public class HexGrid : MonoBehaviour
     public HexTile DarkTilePrefab;
 
     public PlayerController PlayerPrefab;
+    public EnemyController EnemyPrefab;
 
     public Text TileLabel;
 
@@ -30,6 +31,8 @@ public class HexGrid : MonoBehaviour
     private float adjacentDist = 0.0f;
 
     HexTile[,] tiles;
+
+    private HexTile playerSpawnPoint;
 
     public HexTile GetTileFromGridCoord(Vector2Int coord)
     {
@@ -87,6 +90,8 @@ public class HexGrid : MonoBehaviour
 
         //ClearGrid();
         SpawnPlayer();
+
+        //SpawnEnemies();
     }
 
     private float CalucluateAdjacentDistance()
@@ -107,24 +112,37 @@ public class HexGrid : MonoBehaviour
         return new Vector3(index.x * (HexSettings.circumRadius * 1.5f), (index.y + index.x * 0.5f - index.x / 2) * (HexSettings.inRadius * 2.0f), 0.0f);
     }
 
+    private HexTile GetRandomViableSpawnTile()
+    {
+        HexTile retval = null;
+        var x = UnityEngine.Random.Range(0, width);
+        var y = UnityEngine.Random.Range(0, height);
+
+        var tile = tiles[x, y];
+        if (tile)
+        {
+            int properties = (int)tile.tileProperties;
+            if ((properties & 1 << (int)TileTags.Impassable) == 0)
+            {
+                retval = tile;
+            }
+        }
+        return retval;
+
+    }
     private void SpawnPlayer()
     {
         if (!PlayerPrefab) { return; }
         while (true)
         {
-            var x = UnityEngine.Random.Range(0, width);
-            var y = UnityEngine.Random.Range(0, height);
-
-            var tile = tiles[x, y];
+            var tile = GetRandomViableSpawnTile();
             if (!tile) { continue; }
-           
-            int properties = (int)tile.tileProperties;
-            if ((properties & 1 << (int)TileTags.Impassable) != 0) { continue; }
 
             var playerInstance = Instantiate(PlayerPrefab);
 
             playerInstance.transform.position = tile.transform.position;
             playerInstance.Setup(tile.Coordinates);
+            playerSpawnPoint = tile;
             tile.OccupyTile(playerInstance.gameObject);
             break;
         }
