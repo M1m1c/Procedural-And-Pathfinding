@@ -52,6 +52,7 @@ public class PlayerController : MovableEntity
         if (oldPath.Count < 1) { return; }
         pathGizmo.RemovefirstPosition();
         StartCoroutine(MoveAlongPath());
+        //TODO invoke event so that enemies know that they can start moving
     }
 
     //when a player clicks the screen, see if they select a tile
