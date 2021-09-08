@@ -19,10 +19,10 @@ public class PathRequestManager : MonoBehaviour
         PathFinder = GetComponent<AStarPathFinder>();
     }
 
-    public static void RequestPath(Vector2Int pathStart, Vector2Int pathEnd,Action<List<HexTile>,bool> callBack, bool isAlreadyMoving)
+    public static void RequestPath(Vector2Int pathStart, Vector2Int pathEnd,bool ignoreImpassable,Action<List<HexTile>,bool> callBack, bool isAlreadyMoving)
     {
         if (isAlreadyMoving) { return; }
-        PathRequest newRequest = new PathRequest(pathStart, pathEnd, callBack);
+        PathRequest newRequest = new PathRequest(pathStart, pathEnd, ignoreImpassable, callBack);
         PathRequesterInstance.PathRequestQueue.Enqueue(newRequest);
         PathRequesterInstance.TryProcessNextRequest();
     }
@@ -34,7 +34,7 @@ public class PathRequestManager : MonoBehaviour
             currentRequest = PathRequestQueue.Dequeue();
             isProceesingPath = true;
 
-            PathFinder.StartFindPath(currentRequest.pathStart, currentRequest.pathEnd);
+            PathFinder.StartFindPath(currentRequest.pathStart, currentRequest.pathEnd, currentRequest.ignoreImpassable);
         }
     }
 
@@ -49,12 +49,14 @@ public class PathRequestManager : MonoBehaviour
     {
         public Vector2Int pathStart;
         public Vector2Int pathEnd;
+        public bool ignoreImpassable;
         public Action<List<HexTile>, bool> callBack;
 
-        public PathRequest(Vector2Int start, Vector2Int end, Action<List<HexTile>, bool> call)
+        public PathRequest(Vector2Int start, Vector2Int end,bool ignore, Action<List<HexTile>, bool> call)
         {
             pathStart = start;
             pathEnd = end;
+            ignoreImpassable = ignore;
             callBack = call;
         }
     }
