@@ -16,6 +16,8 @@ public class HexGrid : MonoBehaviour
 
     public Text TileLabel;
 
+    private PlayerController playerInstance;
+
     private Dictionary<int, HexTile> tileSet = new Dictionary<int, HexTile>();
 
     private Canvas gridCanvas;
@@ -187,12 +189,13 @@ public class HexGrid : MonoBehaviour
             var tile = GetRandomViableSpawnTile();
             if (!tile) { continue; }
 
-            var playerInstance = Instantiate(PlayerPrefab);
+            var player = Instantiate(PlayerPrefab);
 
-            playerInstance.transform.position = tile.transform.position;
-            playerInstance.Setup(tile.Coordinates);
+            player.transform.position = tile.transform.position;
+            player.Setup(tile.Coordinates);
             playerSpawnPoint = tile;
-            tile.OccupyTile(playerInstance.gameObject);
+            tile.OccupyTile(player.gameObject);
+            playerInstance = player;          
             break;
         }
     }
@@ -216,6 +219,8 @@ public class HexGrid : MonoBehaviour
 
             var enemyInstance = Instantiate(EnemyPrefab);
             enemyInstance.transform.position = tile.transform.position;
+            playerInstance.Walking.AddListener(enemyInstance.OnPlayerWalking);
+            playerInstance.StoppingMovement.AddListener(enemyInstance.OnPlayerStopping);
             enemycount--;
 
         }
