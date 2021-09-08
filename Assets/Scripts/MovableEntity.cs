@@ -8,6 +8,7 @@ public class MovableEntity : MonoBehaviour
 
     public UnityEvent Walking;
     public UnityEvent StoppingMovement;
+    public UnityEvent RequestingPath;
 
     public Vector2Int MyGridPos { get; protected set; }
 
