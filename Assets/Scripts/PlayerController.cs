@@ -10,10 +10,6 @@ public class PlayerController : MovableEntity
 
     private bool isExtendPathButtonHeld = false;
 
-    public void Setup(Vector2Int startCoord)
-    {
-        MyGridPos = startCoord;
-    }
 
     public override void OnPathFound(List<HexTile> path, bool succeded)
     {

@@ -19,6 +19,11 @@ public class MovableEntity : MonoBehaviour
 
     protected bool isMoving = false;
 
+    public void Setup(Vector2Int startCoord)
+    {
+        MyGridPos = startCoord;
+    }
+
     public virtual void OnPathFound(List<HexTile> path, bool succeded) { }
 
     private void Awake()
