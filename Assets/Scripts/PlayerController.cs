@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 using UnityEngine.InputSystem;
 
 public class PlayerController : MovableEntity
@@ -53,6 +54,7 @@ public class PlayerController : MovableEntity
         pathGizmo.RemovefirstPosition();
         StartCoroutine(MoveAlongPath());
         //TODO invoke event so that enemies know that they can start moving
+        Walking.Invoke();
     }
 
     //when a player clicks the screen, see if they select a tile
