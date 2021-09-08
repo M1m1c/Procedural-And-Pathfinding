@@ -174,7 +174,7 @@ public class HexGrid : MonoBehaviour
             var tilePos = tile.transform.position;
             var playerPos = playerSpawnPoint.transform.position;
 
-            if(IsTileWithinDistanceSpan(tilePos, playerPos, 3, true) == false) { continue; }
+            if(IsTileWithinDistanceSpan(tilePos, playerPos, 3, true)) { continue; }
 
             var enemyInstance = Instantiate(EnemyPrefab);
             enemyInstance.transform.position = tile.transform.position;
