@@ -6,8 +6,8 @@ using System;
 
 public class HexGrid : MonoBehaviour
 {
+    static HexGrid HexGridInstance;
 
-   
     public HexTile LightTilePrefab;
     public HexTile DarkTilePrefab;
 
@@ -34,16 +34,16 @@ public class HexGrid : MonoBehaviour
 
     private HexTile playerSpawnPoint;
 
-    public HexTile GetRandomWalkableTileWithin(Vector3 requsterPos, int tileCount)
+    public static HexTile GetRandomWalkableTileWithin(Vector3 requsterPos, int tileCount)
     {
         HexTile retval = null;
-
+        
         while (true)
         {
-            var tile = GetRandomViableSpawnTile();
+            var tile = HexGridInstance.GetRandomViableSpawnTile();
             if (!tile) { continue; }
 
-            var b = IsTileWithinDistanceSpan(requsterPos, tile.transform.position, 5, true);
+            var b = HexGridInstance.IsTileWithinDistanceSpan(requsterPos, tile.transform.position, tileCount, true);
             if (!b) { continue; }
             retval = tile;
             break;
@@ -96,6 +96,7 @@ public class HexGrid : MonoBehaviour
 
     void Awake()
     {
+        HexGridInstance = this;
         gridCanvas = GetComponentInChildren<Canvas>();
 
         tileSet.Add(0, LightTilePrefab);
