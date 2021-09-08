@@ -210,24 +210,6 @@ public class HexGrid : MonoBehaviour
             {
                 Destroy(tile.gameObject);
             }
-            else
-            {
-                //TODO check if it is an island by fiding a long path
-                //var tilePos = tile.transform.position;
-                //while (true)
-                //{
-                    
-
-                //    var testTile = GetRandomTile();
-                //    if (!testTile) { continue; }
-
-                //    var testTilePos = testTile.transform.position;
-                //    if(IsTileWithinDistanceSpan(testTilePos,tilePos, 4, false) == false) { continue; }
-
-
-                //}
-                
-            }
         }
     }
 
