@@ -88,11 +88,15 @@ public class HexGrid : MonoBehaviour
 
         GenerateGrid();
 
+        RemoveUnreachableTiles();
+
         //ClearGrid();
         SpawnPlayer();
 
         SpawnEnemies();
     }
+
+   
 
     private float CalucluateAdjacentDistance()
     {
@@ -187,6 +191,23 @@ public class HexGrid : MonoBehaviour
         for (int i = labels.Length - 1; i >= 0; i--)
         {
             Destroy(labels[i].gameObject);
+        }
+    }
+
+    private void RemoveUnreachableTiles()
+    {
+        foreach (var tile in tiles)
+        {
+            if (!tile) { continue; }
+
+            if (GetAdjacentTiles(tile).Count == 0)
+            {
+                Destroy(tile.gameObject);
+            }
+            else
+            {
+                //TODO check if it is an island by fiding a long path
+            }
         }
     }
 
