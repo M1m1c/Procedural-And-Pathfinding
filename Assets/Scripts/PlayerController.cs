@@ -20,11 +20,6 @@ public class PlayerController : MovableEntity
         else
         { oldPath = path; }
 
-        //foreach (var tile in oldPath)
-        //{
-        //    tile.ChangeTileColor(Color.magenta);
-        //}
-
         pathGizmo.SetupPath(oldPath, transform.position);
     }
 
@@ -49,7 +44,6 @@ public class PlayerController : MovableEntity
         if (oldPath.Count < 1) { return; }
         pathGizmo.RemovefirstPosition();
         StartCoroutine(MoveAlongPath());
-        //TODO invoke event so that enemies know that they can start moving
         Walking.Invoke();
     }
 
