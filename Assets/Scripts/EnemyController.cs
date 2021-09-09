@@ -85,7 +85,15 @@ public class EnemyController : MovableEntity
 
     private void CreateNewPath()
     {
-        var goalTile = HexGrid.GetRandomWalkableTileWithin(this.transform.position, 4);
+        HexTile goalTile = null;
+        while (true)
+        {
+            goalTile= HexGrid.GetRandomWalkableTileWithin(this.transform.position, 4);
+            if (EnemyMaster.IsMoveGoalShared(goalTile, this)) { continue; }
+            break;
+        }
+
+        if (!goalTile) { return; }
         PathRequestManager.RequestPath(MyGridPos, goalTile.Coordinates, false, OnPathFound, false);
     }
 }
