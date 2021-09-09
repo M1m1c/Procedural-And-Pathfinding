@@ -8,6 +8,10 @@ public class EnemyController : MovableEntity
 
     private bool isPlayerMoving = false;
 
+    private List<HexTile> fieldOfView = new List<HexTile>();
+
+    private HexTile facingTile;
+
     public void OnPlayerStartWalking()
     {
         isPlayerMoving = true;
@@ -17,7 +21,6 @@ public class EnemyController : MovableEntity
     {
         isMoving = false;
         isPlayerMoving = false;
-
         OnPlayerRequestingPath();
     }
 
@@ -51,7 +54,14 @@ public class EnemyController : MovableEntity
 
         oldPath = path;
         pathGizmo.SetupPath(oldPath, transform.position);
-
+        
+        if (oldPath.Count > 0)
+        {
+            facingTile = oldPath[0];
+            UpdateFieldOfView();
+        }
+       
+       
         if (!isPlayerMoving) { return; }
         OnPlayerStartWalking();
     }
@@ -62,13 +72,17 @@ public class EnemyController : MovableEntity
         HexTile goalTile = null;
         while (oldPath.Count > 0)
         {
+            if (oldPath[0]) { facingTile = oldPath[0]; }
+            UpdateFieldOfView();
+
             if (!isMoving) { break; }
             if (!isPlayerMoving) { break; }
-            var targetTile = oldPath[0];
+            var targetTile = oldPath[0];        
             goalTile = targetTile;
+                     
             yield return StartCoroutine(MoveToTile(targetTile));
-            pathGizmo.RemovefirstPosition();
 
+            pathGizmo.RemovefirstPosition();
             if (oldPath.Count == 0) { break; }
             oldPath.RemoveAt(0);
         }
@@ -95,5 +109,32 @@ public class EnemyController : MovableEntity
 
         if (!goalTile) { return; }
         PathRequestManager.RequestPath(MyGridPos, goalTile.Coordinates, false, OnPathFound, false);
+    }
+
+    private void UpdateFieldOfView()
+    {
+        var lookTile = facingTile;
+        if (oldPath.Count == 0) { return; }  
+        if (!lookTile) { lookTile = oldPath[0]; }
+        var newFieldOfView = HexGrid.GetFieldOfViewTiles(lookTile, this.transform.position);
+        
+        if (fieldOfView.Count != 0)
+        {
+            foreach (var item in fieldOfView)
+            {
+                item.ChangeTileColor(Color.white);
+            }
+        }
+         
+        if(newFieldOfView.Count != 0)
+        {
+            newFieldOfView.Add(oldPath[0]);
+            foreach (var item in newFieldOfView)
+            {
+                item.ChangeTileColor(Color.yellow);
+            }
+            fieldOfView = newFieldOfView;
+        }
+       
     }
 }
