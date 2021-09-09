@@ -16,7 +16,7 @@ public class MovableEntity : MonoBehaviour
 
     protected PathIndicatorGizmo pathGizmo;
 
-    [SerializeField] protected float moveTime = 0.6f;
+    [SerializeField]protected float moveTime = 0.6f;
 
     protected bool isMoving = false;
 
@@ -39,7 +39,7 @@ public class MovableEntity : MonoBehaviour
         pathGizmo = GetComponentInChildren<PathIndicatorGizmo>();
     }
 
-    protected IEnumerator MoveAlongPath()
+    protected virtual IEnumerator MoveAlongPath()
     {
         isMoving = true;
         HexTile goalTile = null;
@@ -50,10 +50,11 @@ public class MovableEntity : MonoBehaviour
             yield return StartCoroutine(MoveToTile(targetTile));
             pathGizmo.RemovefirstPosition();
             oldPath.RemoveAt(0);
-        }
+        }       
         MyGridPos = goalTile.Coordinates;
-        StoppingMovement.Invoke();
+        transform.position = goalTile.transform.position;      
         isMoving = false;
+        StoppingMovement.Invoke();
         yield return null;
     }
 
@@ -64,7 +65,6 @@ public class MovableEntity : MonoBehaviour
         var newPosition = targetTile.transform.position;
         while (elapsedTime < moveTime)
         {
-
             transform.position = Vector3.Lerp(startingPos, newPosition, (elapsedTime / moveTime));
             elapsedTime += Time.deltaTime;
 
