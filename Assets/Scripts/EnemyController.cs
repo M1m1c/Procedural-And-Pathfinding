@@ -6,26 +6,39 @@ using UnityEngine;
 public class EnemyController : MovableEntity
 {
 
-
+    private bool isPlayerMoving = false;
 
     public void OnPlayerWalking()
     {
-        if (isMoving) { return; }
-        if (oldPath.Count < 1) { return; }
-        pathGizmo.RemovefirstPosition();
+        isPlayerMoving = true;
+        if (isMoving) { return; }      
+        if (oldPath.Count < 1)
+        {
+            CreateNewPath();
+            return;
+        }
+        //pathGizmo.RemovefirstPosition();  
         StartCoroutine(MoveAlongPath());
+        
     }
     public void OnPlayerStopping()
     {
-        OnPlayerRequestingPath();
+        isMoving = false;
+        isPlayerMoving = false;
+
+        if (oldPath.Count < 1)
+        {
+            CreateNewPath();
+        }
     }
 
     public void OnPlayerRequestingPath()
     {
 
-        if (oldPath.Count != 0) { return; }     
+        if (oldPath.Count != 0) { return; }
         CreateNewPath();
     }
+
     public override void OnPathFound(List<HexTile> path, bool succeded)
     {
         if (!succeded || path.Count > 4)
