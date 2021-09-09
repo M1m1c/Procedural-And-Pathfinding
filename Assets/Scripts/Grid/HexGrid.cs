@@ -220,9 +220,10 @@ public class HexGrid : MonoBehaviour
             var enemyInstance = Instantiate(EnemyPrefab);
             enemyInstance.transform.position = tile.transform.position;
             enemyInstance.Setup(tile.Coordinates);
-            playerInstance.Walking.AddListener(enemyInstance.OnPlayerWalking);
+            playerInstance.StartWalking.AddListener(enemyInstance.OnPlayerStartWalking);
             playerInstance.StoppingMovement.AddListener(enemyInstance.OnPlayerStopping);
             playerInstance.RequestingPath.AddListener(enemyInstance.OnPlayerRequestingPath);
+            playerInstance.ContinuousWalking.AddListener(enemyInstance.OnPlayerStillMoving);
             enemycount--;
 
         }

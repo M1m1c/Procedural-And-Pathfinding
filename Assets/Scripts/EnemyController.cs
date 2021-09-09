@@ -8,28 +8,17 @@ public class EnemyController : MovableEntity
 
     private bool isPlayerMoving = false;
 
-    public void OnPlayerWalking()
+    public void OnPlayerStartWalking()
     {
         isPlayerMoving = true;
-        if (isMoving) { return; }      
-        if (oldPath.Count < 1)
-        {
-            CreateNewPath();
-            return;
-        }
-        //pathGizmo.RemovefirstPosition();  
-        StartCoroutine(MoveAlongPath());
-        
+        OnPlayerStillMoving();
     }
     public void OnPlayerStopping()
     {
         isMoving = false;
         isPlayerMoving = false;
 
-        if (oldPath.Count < 1)
-        {
-            CreateNewPath();
-        }
+        OnPlayerRequestingPath();
     }
 
     public void OnPlayerRequestingPath()
@@ -37,6 +26,19 @@ public class EnemyController : MovableEntity
 
         if (oldPath.Count != 0) { return; }
         CreateNewPath();
+    }
+
+    public void OnPlayerStillMoving()
+    {
+        if (!isPlayerMoving) { return; }
+        if (isMoving) { return; }
+        if (oldPath.Count < 1)
+        {
+            CreateNewPath();
+            return;
+        }
+        //pathGizmo.RemovefirstPosition();  
+        StartCoroutine(MoveAlongPath());
     }
 
     public override void OnPathFound(List<HexTile> path, bool succeded)
@@ -51,7 +53,7 @@ public class EnemyController : MovableEntity
         pathGizmo.SetupPath(oldPath, transform.position);
 
         if (!isPlayerMoving) { return; }
-        OnPlayerWalking();
+        OnPlayerStartWalking();
     }
 
     protected override IEnumerator MoveAlongPath()
