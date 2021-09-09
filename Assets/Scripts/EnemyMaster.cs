@@ -10,6 +10,28 @@ public class EnemyMaster : MonoBehaviour
 
     private List<EnemyController> enemiesList = new List<EnemyController>();
 
+    public static bool IsMoveGoalShared(HexTile myGoal,EnemyController requester)
+    {
+        var retval = false;
+        if (myGoal)
+        {
+            foreach (var enemy in enemyMaster.enemiesList)
+            {
+                if (enemy == requester) { continue; }
+
+                var otherGoal = enemy.GetGoalTile();
+                if (!otherGoal) { continue; }
+
+                if (otherGoal == myGoal)
+                {
+                    retval = true;
+                    break;
+                }
+            }
+        }    
+        return retval;
+    }
+
     public void SpawnEnemies(ref PlayerController playerInstance, int enemyCount)
     {
         while (enemyCount > 0)
