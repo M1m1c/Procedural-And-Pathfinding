@@ -92,6 +92,8 @@ public class EnemyController : MovableEntity
             MyGridPos = goalTile.Coordinates;
             transform.position = goalTile.transform.position;
         }
+
+        //TODO figure out a way to keep the facing direction for when enemy reaches goal tile so it does not look behind it.
        
         isMoving = false;
         yield return null;
