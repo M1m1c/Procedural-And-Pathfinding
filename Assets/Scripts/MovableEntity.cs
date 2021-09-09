@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
+using System.Linq;
 
 public class MovableEntity : MonoBehaviour
 {
@@ -20,6 +21,11 @@ public class MovableEntity : MonoBehaviour
     [SerializeField]protected float moveTime = 0.6f;
 
     protected bool isMoving = false;
+
+    public HexTile GetGoalTile()
+    {
+        return oldPath.LastOrDefault();
+    }
 
     public void Setup(Vector2Int startCoord)
     {
