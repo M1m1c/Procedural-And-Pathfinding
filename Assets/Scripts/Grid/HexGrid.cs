@@ -40,7 +40,7 @@ public class HexGrid : MonoBehaviour
     public static HexTile GetRandomWalkableTileWithin(Vector3 requsterPos, int tileCount)
     {
         HexTile retval = null;
-        
+
         while (true)
         {
             var tile = HexGridInstance.GetRandomViableSpawnTile();
@@ -52,7 +52,7 @@ public class HexGrid : MonoBehaviour
             break;
 
         }
-        
+
         return retval;
     }
 
@@ -68,6 +68,34 @@ public class HexGrid : MonoBehaviour
 
         if (HexGridInstance.IsTileWithinDistanceSpan(tilePos, playerPos, 3, true)) { return null; }
         return tile;
+    }
+
+    public static List<HexTile> GetFieldOfViewTiles(HexTile pathTile, Vector3 requesterPos)
+    {
+        List<HexTile> retval = new List<HexTile>();
+
+        var adjacent = HexGridInstance.GetAdjacentTiles(pathTile);
+        var adjacentDist = HexGridInstance.adjacentDist;
+
+        for (int i = adjacent.Count - 1; i >= 0; i--)
+        {
+
+            var adjacentPos = adjacent[i].transform.position;
+            var pathTilePos = pathTile.transform.position;
+
+            var isImpassable = ((int)adjacent[i].tileProperties & 1 << (int)TileTags.Impassable) != 0;
+            var isNotCloseToRequester = Vector3.Distance(requesterPos, adjacent[i].transform.position) > adjacentDist + 1f;
+            var isNotCloseToPathTile =  Vector3.Distance(pathTilePos, adjacentPos) > adjacentDist + 1f;
+            //var isNotCloseEnough = Mathf.Approximately( Vector3.Distance(requesterPos, adjacent[i].transform.position), adjacentDist + 1f);
+
+            if (isImpassable || isNotCloseToRequester || isNotCloseToPathTile) 
+            {
+                adjacent.RemoveAt(i);
+            }
+        }
+
+        if (adjacent.Count != 0) { retval = adjacent; }
+        return retval;
     }
 
     public HexTile GetTileFromGridCoord(Vector2Int coord)
