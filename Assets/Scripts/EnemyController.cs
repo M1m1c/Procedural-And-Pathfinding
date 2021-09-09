@@ -50,8 +50,8 @@ public class EnemyController : MovableEntity
         oldPath = path;
         pathGizmo.SetupPath(oldPath, transform.position);
 
-        //if (!isPlayerMoving) { return; }
-        //OnPlayerWalking();
+        if (!isPlayerMoving) { return; }
+        OnPlayerWalking();
     }
 
     protected override IEnumerator MoveAlongPath()
