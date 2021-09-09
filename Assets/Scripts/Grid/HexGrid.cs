@@ -12,7 +12,6 @@ public class HexGrid : MonoBehaviour
     public HexTile DarkTilePrefab;
 
     public PlayerController PlayerPrefab;
-    public EnemyController EnemyPrefab;
 
     public Text TileLabel;
 
@@ -21,6 +20,8 @@ public class HexGrid : MonoBehaviour
     private Dictionary<int, HexTile> tileSet = new Dictionary<int, HexTile>();
 
     private Canvas gridCanvas;
+
+    private EnemyMaster enemyMasterComp;
 
     [SerializeField] private int height = 8;
     [SerializeField] private int width = 16;
@@ -53,6 +54,20 @@ public class HexGrid : MonoBehaviour
         }
         
         return retval;
+    }
+
+    public static HexTile GetRandomEnemySpawn()
+    {
+        var tile = HexGridInstance.GetRandomViableSpawnTile();
+        if (!tile) { return null; }
+
+        if (tile == HexGridInstance.playerSpawnPoint) { return null; }
+
+        var tilePos = tile.transform.position;
+        var playerPos = HexGridInstance.playerSpawnPoint.transform.position;
+
+        if (HexGridInstance.IsTileWithinDistanceSpan(tilePos, playerPos, 3, true)) { return null; }
+        return tile;
     }
 
     public HexTile GetTileFromGridCoord(Vector2Int coord)
@@ -100,6 +115,7 @@ public class HexGrid : MonoBehaviour
     {
         HexGridInstance = this;
         gridCanvas = GetComponentInChildren<Canvas>();
+        enemyMasterComp = GetComponent<EnemyMaster>();
 
         tileSet.Add(0, LightTilePrefab);
         tileSet.Add(1, DarkTilePrefab);
@@ -115,7 +131,8 @@ public class HexGrid : MonoBehaviour
         //ClearGrid();
         SpawnPlayer();
 
-        SpawnEnemies();
+
+        enemyMasterComp.SpawnEnemies(ref playerInstance, 2);
     }
 
    
@@ -197,35 +214,6 @@ public class HexGrid : MonoBehaviour
             tile.OccupyTile(player.gameObject);
             playerInstance = player;          
             break;
-        }
-    }
-
-
-    private void SpawnEnemies()
-    {
-        int enemycount = 2;
-        while (enemycount > 0)
-        {
-            var tile = GetRandomViableSpawnTile();
-            if (!tile) { continue; }
-
-            if (tile == playerSpawnPoint) { continue; }
-
-           
-            var tilePos = tile.transform.position;
-            var playerPos = playerSpawnPoint.transform.position;
-
-            if(IsTileWithinDistanceSpan(tilePos, playerPos, 3, true)) { continue; }
-
-            var enemyInstance = Instantiate(EnemyPrefab);
-            enemyInstance.transform.position = tile.transform.position;
-            enemyInstance.Setup(tile.Coordinates);
-            playerInstance.StartWalking.AddListener(enemyInstance.OnPlayerStartWalking);
-            playerInstance.StoppingMovement.AddListener(enemyInstance.OnPlayerStopping);
-            playerInstance.RequestingPath.AddListener(enemyInstance.OnPlayerRequestingPath);
-            playerInstance.ContinuousWalking.AddListener(enemyInstance.OnPlayerStillMoving);
-            enemycount--;
-
         }
     }
 

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6879161611793022071}
   - component: {fileID: -5021908579741073123}
   - component: {fileID: -2829347168664436171}
+  - component: {fileID: 413116124910458671}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -81,6 +82,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72cae8e9bfc9abe4a9972ddffadeb8bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &413116124910458671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879161611793022070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44e5d6685f75a494b829774327f59aa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyPrefab: {fileID: 4118093877534979985, guid: 991f8ee3a7cb3d641b6859487a340882, type: 3}
 --- !u!1 &6879161611816473759
 GameObject:
   m_ObjectHideFlags: 0
