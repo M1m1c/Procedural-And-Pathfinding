@@ -44,7 +44,7 @@ public class PlayerController : MovableEntity
         if (oldPath.Count < 1) { return; }
         pathGizmo.RemovefirstPosition();
         StartCoroutine(MoveAlongPath());
-        Walking.Invoke();
+        StartWalking.Invoke();
     }
 
     //when a player clicks the screen, see if they select a tile

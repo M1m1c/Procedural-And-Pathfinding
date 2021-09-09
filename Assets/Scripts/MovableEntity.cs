@@ -6,9 +6,10 @@ using UnityEngine;
 public class MovableEntity : MonoBehaviour
 {
 
-    public UnityEvent Walking;
+    public UnityEvent StartWalking;
     public UnityEvent StoppingMovement;
     public UnityEvent RequestingPath;
+    public UnityEvent ContinuousWalking;
 
     public Vector2Int MyGridPos { get; protected set; }
 
@@ -45,6 +46,7 @@ public class MovableEntity : MonoBehaviour
         HexTile goalTile = null;
         while (oldPath.Count > 0)
         {
+            ContinuousWalking.Invoke();
             var targetTile = oldPath[0];
             goalTile = targetTile;
             yield return StartCoroutine(MoveToTile(targetTile));
