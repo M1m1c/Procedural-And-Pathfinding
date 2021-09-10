@@ -181,6 +181,10 @@ public class EnemyController : MovableEntity
                     //TODO recalculate path and pursue occupant
                     myState = EnemyState.FollowingPlayer;
                     followTarget = occupant.GetComponent<MovableEntity>();
+
+                    oldPath.Clear();
+                    pathGizmo.SetupPath(oldPath, this.transform.position);
+                    OnPlayerRequestingPath();
                 }
             }
         }
