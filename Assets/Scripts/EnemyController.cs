@@ -178,6 +178,7 @@ public class EnemyController : MovableEntity
 
     private void FixedUpdate()
     {
+        //TODO make sure that enemy stops moving original path and starts following player as soon as player enters field of view.
         CheckFieldOfViewForPlayer();
     }
 
