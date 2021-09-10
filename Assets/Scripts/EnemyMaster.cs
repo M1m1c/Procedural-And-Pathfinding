@@ -42,7 +42,7 @@ public class EnemyMaster : MonoBehaviour
             var enemyInstance = Instantiate(EnemyPrefab);
             enemiesList.Add(enemyInstance);
             enemyInstance.transform.position = tile.transform.position;
-            enemyInstance.Setup(tile.Coordinates);
+            enemyInstance.Setup(tile.Coordinates,tile);
             playerInstance.StartWalking.AddListener(enemyInstance.OnPlayerStartWalking);
             playerInstance.StoppingMovement.AddListener(enemyInstance.OnPlayerStopping);
             playerInstance.RequestingPath.AddListener(enemyInstance.OnPlayerRequestingPath);

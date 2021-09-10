@@ -237,7 +237,7 @@ public class HexGrid : MonoBehaviour
             var player = Instantiate(PlayerPrefab);
 
             player.transform.position = tile.transform.position;
-            player.Setup(tile.Coordinates);
+            player.Setup(tile.Coordinates,tile);
             playerSpawnPoint = tile;
             tile.OccupyTile(player.gameObject);
             playerInstance = player;          
