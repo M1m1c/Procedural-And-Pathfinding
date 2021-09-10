@@ -296,8 +296,6 @@ public class HexGrid : MonoBehaviour
                 }
                 else if (clampedPerlin > 0.3f)
                 {
-                    //var flooredPerlin = Mathf.FloorToInt(clampedPerlin * tileSet.Count);
-                    //tiles.Add(CreateTile(x, y,tileSet[flooredPerlin]));
                     tiles[x, y] = CreateTile(x, y, tileSet[0]);
                 }
 
