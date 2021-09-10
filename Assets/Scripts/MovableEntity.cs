@@ -13,6 +13,7 @@ public class MovableEntity : MonoBehaviour
     public UnityEvent ContinuousWalking;
 
     public Vector2Int MyGridPos { get; protected set; }
+    protected HexTile MyCurrentTile = null;
 
     protected List<HexTile> oldPath = new List<HexTile>();
 
@@ -27,9 +28,10 @@ public class MovableEntity : MonoBehaviour
         return oldPath.LastOrDefault();
     }
 
-    public void Setup(Vector2Int startCoord)
+    public void Setup(Vector2Int startCoord, HexTile startTile)
     {
         MyGridPos = startCoord;
+        MyCurrentTile = startTile;
     }
 
     public virtual void OnPathFound(List<HexTile> path, bool succeded)
@@ -55,6 +57,7 @@ public class MovableEntity : MonoBehaviour
             ContinuousWalking.Invoke();
             var targetTile = oldPath[0];
             goalTile = targetTile;
+            MyCurrentTile.DeOccupyTile(this.gameObject);
             yield return StartCoroutine(MoveToTile(targetTile));
             pathGizmo.RemovefirstPosition();
             oldPath.RemoveAt(0);
@@ -79,9 +82,13 @@ public class MovableEntity : MonoBehaviour
             var dist = Vector3.Distance(transform.position, newPosition);
             if (dist > -0.1f && dist < 0.1f)
             {
-                //var success = targetTile.OccupyTile(this.gameObject);
-                //if (success) { MyGridPos = targetTile.Coordinates; }
-                MyGridPos = targetTile.Coordinates;
+                var success = targetTile.OccupyTile(this.gameObject);
+                if (success)
+                {
+                    MyCurrentTile = targetTile;
+                    MyGridPos = targetTile.Coordinates;
+                }
+                //MyGridPos = targetTile.Coordinates;
             }
             yield return null;
         }
