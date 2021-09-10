@@ -89,12 +89,12 @@ public class EnemyController : MovableEntity
             if (!isMoving) { break; }
             if (!isPlayerMoving) { break; }
             var targetTile = oldPath[0];        
-            goalTile = targetTile;
-            MyCurrentTile.DeOccupyTile(this.gameObject);
+            goalTile = targetTile;         
 
             yield return StartCoroutine(MoveToTile(targetTile));
 
             pathGizmo.RemovefirstPosition();
+            targetTile.DeOccupyTile(this.gameObject);
             if (oldPath.Count == 0) { break; }
             oldPath.RemoveAt(0);
         }

@@ -57,10 +57,11 @@ public class MovableEntity : MonoBehaviour
             ContinuousWalking.Invoke();
             var targetTile = oldPath[0];
             goalTile = targetTile;
-            MyCurrentTile.DeOccupyTile(this.gameObject);
+            
             yield return StartCoroutine(MoveToTile(targetTile));
             pathGizmo.RemovefirstPosition();
-            oldPath.RemoveAt(0);
+            targetTile.DeOccupyTile(this.gameObject);
+            oldPath.RemoveAt(0);            
         }       
         MyGridPos = goalTile.Coordinates;
         transform.position = goalTile.transform.position;      
