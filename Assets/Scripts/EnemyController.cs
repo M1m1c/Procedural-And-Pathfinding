@@ -92,7 +92,7 @@ public class EnemyController : MovableEntity
         HexTile goalTile = null;
         while (oldPath.Count > 0)
         {
-            if (oldPath.Count == 0) { break; }
+
 
             if (oldPath[0]) { facingTile = oldPath[0]; }
             UpdateFieldOfView();
