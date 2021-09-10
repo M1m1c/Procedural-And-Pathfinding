@@ -20,7 +20,7 @@ public class EnemyController : MovableEntity
 
     private HexTile facingTile;
 
-    private GameObject followTarget = null;
+    private MovableEntity followTarget = null;
 
     private EnemyState myState = EnemyState.Patrolling;
 
@@ -90,7 +90,8 @@ public class EnemyController : MovableEntity
             if (!isPlayerMoving) { break; }
             var targetTile = oldPath[0];        
             goalTile = targetTile;
-                     
+            MyCurrentTile.DeOccupyTile(this.gameObject);
+
             yield return StartCoroutine(MoveToTile(targetTile));
 
             pathGizmo.RemovefirstPosition();
@@ -111,15 +112,24 @@ public class EnemyController : MovableEntity
     private void CreateNewPath()
     {
         HexTile goalTile = null;
-        while (true)
-        {
-            goalTile= HexGrid.GetRandomWalkableTileWithin(this.transform.position, 4);
-            if (EnemyMaster.IsMoveGoalShared(goalTile, this)) { continue; }
-            break;
-        }
 
-        if (!goalTile) { return; }
-        PathRequestManager.RequestPath(MyGridPos, goalTile.Coordinates, false, OnPathFound, false);
+        if (myState == EnemyState.Patrolling)
+        {
+            while (true)
+            {
+                goalTile = HexGrid.GetRandomWalkableTileWithin(this.transform.position, 4);
+                if (EnemyMaster.IsMoveGoalShared(goalTile, this)) { continue; }
+                break;
+            }
+            if (!goalTile) { return; }
+            PathRequestManager.RequestPath(MyGridPos, goalTile.Coordinates, false, OnPathFound, false);
+        }
+        else if (myState == EnemyState.FollowingPlayer)
+        {
+            if (!followTarget) { return; }
+            PathRequestManager.RequestPath(MyGridPos, followTarget.MyGridPos, false, OnPathFound, false);
+        }
+            
     }
 
     private void UpdateFieldOfView()
@@ -168,7 +178,7 @@ public class EnemyController : MovableEntity
                 {
                     //TODO recalculate path and pursue occupant
                     myState = EnemyState.FollowingPlayer;
-                    followTarget = occupant;
+                    followTarget = occupant.GetComponent<MovableEntity>();
                 }
             }
         }
