@@ -8,7 +8,7 @@ public enum EnemyState
 {
     None,
     Patrolling,
-    Following
+    FollowingPlayer
 }
 
 public class EnemyController : MovableEntity
@@ -19,6 +19,10 @@ public class EnemyController : MovableEntity
     private List<HexTile> fieldOfView = new List<HexTile>();
 
     private HexTile facingTile;
+
+    private GameObject followTarget = null;
+
+    private EnemyState myState = EnemyState.Patrolling;
 
     public void OnPlayerStartWalking()
     {
@@ -47,8 +51,7 @@ public class EnemyController : MovableEntity
         {
             CreateNewPath();
             return;
-        }
-        //pathGizmo.RemovefirstPosition();  
+        } 
         StartCoroutine(MoveAlongPath());
     }
 
@@ -143,6 +146,31 @@ public class EnemyController : MovableEntity
             }
             fieldOfView = newFieldOfView;
         }
-       
+    }
+
+    private void FixedUpdate()
+    {
+        CheckFieldOfViewForPlayer();
+    }
+
+    private void CheckFieldOfViewForPlayer()
+    {
+        if (myState == EnemyState.FollowingPlayer) { return; }
+        if (fieldOfView.Count == 0) { return; }
+
+        foreach (var tile in fieldOfView)
+        {
+            if (tile.Occupants.Count == 0) { continue; }
+
+            foreach (var occupant in tile.Occupants)
+            {
+                if (occupant.GetComponent<PlayerController>())
+                {
+                    //TODO recalculate path and pursue occupant
+                    myState = EnemyState.FollowingPlayer;
+                    followTarget = occupant;
+                }
+            }
+        }
     }
 }
