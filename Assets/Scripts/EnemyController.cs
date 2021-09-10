@@ -21,6 +21,7 @@ public class EnemyController : MovableEntity
     private HexTile facingTile;
 
     private MovableEntity followTarget = null;
+    private Vector2Int fTargetLastCoord = new Vector2Int();
 
     private EnemyState myState = EnemyState.Patrolling;
 
@@ -48,6 +49,7 @@ public class EnemyController : MovableEntity
 
     public void OnPlayerStillMoving()
     {
+        if (followTarget) { fTargetLastCoord = followTarget.MyGridPos; }
         if (!isPlayerMoving) { return; }
         if (isMoving) { return; }
         if (oldPath.Count < 1)
@@ -90,7 +92,7 @@ public class EnemyController : MovableEntity
         HexTile goalTile = null;
         while (oldPath.Count > 0)
         {
-
+            if (oldPath.Count == 0) { break; }
 
             if (oldPath[0]) { facingTile = oldPath[0]; }
             UpdateFieldOfView();
@@ -103,8 +105,7 @@ public class EnemyController : MovableEntity
             yield return StartCoroutine(MoveToTile(targetTile));
 
             pathGizmo.RemovefirstPosition();
-            targetTile.DeOccupyTile(this.gameObject);     
-            
+            targetTile.DeOccupyTile(this.gameObject);
             if (oldPath.Count == 0) { break; }
             oldPath.RemoveAt(0);
         }
@@ -141,8 +142,8 @@ public class EnemyController : MovableEntity
         }
         else if (myState == EnemyState.FollowingPlayer)
         {
-            if (!followTarget) { return; }
-            PathRequestManager.RequestPath(MyGridPos, followTarget.MyGridPos, false, OnPathFound, false);
+            //if (!followTarget) { return; }
+            PathRequestManager.RequestPath(MyGridPos, fTargetLastCoord, false, OnPathFound, false);
         }
 
     }
@@ -194,9 +195,10 @@ public class EnemyController : MovableEntity
                 if (occupant.GetComponent<PlayerController>())
                 {
                     //TODO recalculate path and pursue occupant
+                    StopCoroutine(MoveAlongPath());
                     myState = EnemyState.FollowingPlayer;
                     followTarget = occupant.GetComponent<MovableEntity>();
-
+                    fTargetLastCoord = followTarget.MyGridPos;
                     currentFollowSteps = maxFollowSteps;
                     oldPath.Clear();
                     pathGizmo.SetupPath(oldPath, this.transform.position);
