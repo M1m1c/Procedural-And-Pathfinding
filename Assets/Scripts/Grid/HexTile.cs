@@ -19,7 +19,7 @@ public class HexTile : MonoBehaviour, IHeapItem<HexTile>
 
     public HexTile parent;
 
-    public GameObject Occupant { get; private set; }
+    public List<GameObject> Occupants { get; private set; }
 
     private SpriteRenderer spriteRenderer;
 
@@ -38,10 +38,33 @@ public class HexTile : MonoBehaviour, IHeapItem<HexTile>
         var retval = false;
         if (potentialOccupier)
         {
-            if (!Occupant)
+            if (Occupants.Count == 0)
             {
-                Occupant = potentialOccupier;
+                Occupants.Add(potentialOccupier);
                 retval = true;
+            }
+            else if (!Occupants.Contains(potentialOccupier))
+            {
+                Occupants.Add(potentialOccupier);
+                retval = true;
+            }
+        }
+
+        return retval;
+    }
+
+    public bool DeOccupyTile(GameObject deOccupier)
+    {
+        var retval = false;
+        if (deOccupier)
+        {
+            if (Occupants.Count != 0)
+            {
+                if (Occupants.Contains(deOccupier))
+                {
+                    Occupants.Remove(deOccupier);
+                    retval = true;
+                }
             }
         }
 
@@ -61,5 +84,6 @@ public class HexTile : MonoBehaviour, IHeapItem<HexTile>
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        Occupants = new List<GameObject>();
     }
 }
