@@ -57,8 +57,10 @@ public class EnemyController : MovableEntity
 
     public override void OnPathFound(List<HexTile> path, bool succeded)
     {
-        if (!succeded || path.Count > 4)
+        if (!succeded || (myState == EnemyState.Patrolling && path.Count > 4))
         {
+            followTarget = null;
+            myState = EnemyState.Patrolling;
             CreateNewPath();
             return;
         }
