@@ -10,6 +10,15 @@ public class PlayerController : MovableEntity
 
     private bool isExtendPathButtonHeld = false;
 
+    private SpriteRenderer myRenderer;
+    private HealthIndicator myHealthIndicator;
+
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+        myRenderer = GetComponent<SpriteRenderer>();
+        myHealthIndicator = GetComponentInChildren<HealthIndicator>();
+    }
 
     public override void OnPathFound(List<HexTile> path, bool succeded)
     {

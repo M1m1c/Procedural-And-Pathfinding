@@ -45,6 +45,11 @@ public class MovableEntity : MonoBehaviour
 
     private void Awake()
     {
+        OnAwake();
+    }
+
+    protected virtual void OnAwake()
+    {
         pathGizmo = GetComponentInChildren<PathIndicatorGizmo>();
     }
 
