@@ -181,14 +181,24 @@ public class EnemyController : MovableEntity
     private void Update()
     {
         if (followTarget) { fTargetLastCoord = followTarget.MyGridPos; }
-        CheckFieldOfViewForPlayer();     
+        CheckFieldOfViewForPlayer();
     }
 
     private void CheckFieldOfViewForPlayer()
     {
-        if (myState == EnemyState.FollowingPlayer) { return; }
         if (fieldOfView.Count == 0) { return; }
+        if (myState == EnemyState.FollowingPlayer)
+        {
+            GoThroughFOVTiles(ContinueFollowingPlayer);
+        }
+        else
+        {
+            GoThroughFOVTiles(StartFollowingPlayer);
+        }      
+    }
 
+    private void GoThroughFOVTiles(Action<GameObject> actionToPerfomrIfplayerFound)
+    {
         foreach (var tile in fieldOfView)
         {
             if (tile.Occupants.Count == 0) { continue; }
@@ -197,17 +207,26 @@ public class EnemyController : MovableEntity
             {
                 if (occupant.GetComponent<PlayerController>())
                 {
-                    //TODO recalculate path and pursue occupant
-                    StopCoroutine(MoveAlongPath());
-                    myState = EnemyState.FollowingPlayer;
-                    followTarget = occupant.GetComponent<MovableEntity>();
-                    fTargetLastCoord = followTarget.MyGridPos;
-                    currentFollowSteps = maxFollowSteps;
-                    oldPath.Clear();
-                    pathGizmo.SetupPath(oldPath, this.transform.position);
-                    OnPlayerRequestingPath();
+                    actionToPerfomrIfplayerFound(occupant);
                 }
             }
         }
+    }
+
+    private void StartFollowingPlayer(GameObject occupant)
+    {
+        StopCoroutine(MoveAlongPath());
+        myState = EnemyState.FollowingPlayer;
+        followTarget = occupant.GetComponent<MovableEntity>();
+        fTargetLastCoord = followTarget.MyGridPos;
+        currentFollowSteps = maxFollowSteps;
+        oldPath.Clear();
+        pathGizmo.SetupPath(oldPath, this.transform.position);
+        OnPlayerRequestingPath();
+    }
+
+    private void ContinueFollowingPlayer(GameObject occupant)
+    {
+        currentFollowSteps = maxFollowSteps;
     }
 }
