@@ -88,17 +88,19 @@ public class EnemyController : MovableEntity
 
     protected override IEnumerator MoveAlongPath()
     {
+        if (oldPath.Count == 0) { yield return null; }
         isMoving = true;
         HexTile goalTile = null;
         while (oldPath.Count > 0)
         {
 
-
+            if (oldPath.Count == 0) { break; }
             if (oldPath[0]) { facingTile = oldPath[0]; }
             UpdateFieldOfView();
 
             if (!isMoving) { break; }
             if (!isPlayerMoving) { break; }
+            if (oldPath.Count == 0) { break; }
             var targetTile = oldPath[0];
             goalTile = targetTile;
 
@@ -148,6 +150,7 @@ public class EnemyController : MovableEntity
 
     }
 
+    //Adds FOV tiles to list and Re-draws FOV by chaning color fo tiles
     private void UpdateFieldOfView()
     {
         var lookTile = facingTile;
@@ -176,7 +179,7 @@ public class EnemyController : MovableEntity
         CheckFieldOfViewForPlayer();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         //TODO make sure that enemy stops moving original path and starts following player as soon as player enters field of view.
         CheckFieldOfViewForPlayer();
