@@ -23,6 +23,9 @@ public class HexTile : MonoBehaviour, IHeapItem<HexTile>
 
     private SpriteRenderer spriteRenderer;
 
+    private int maxHealth = 3;
+    private int health = 3;
+
     public int CompareTo(HexTile hexTileToCompare)
     {
         var compare = fCost.CompareTo(hexTileToCompare.fCost);
@@ -82,5 +85,13 @@ public class HexTile : MonoBehaviour, IHeapItem<HexTile>
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         Occupants = new List<GameObject>();
+    }
+
+    private void ReduceHealth()
+    {
+        health = Mathf.Clamp(health - 1, 0, maxHealth);
+        if (health != 0) { return; }
+        tileProperties = 0;
+        ChangeTileColor(Color.white);
     }
 }
