@@ -24,12 +24,23 @@ public class HealthIndicator : MonoBehaviour
         defaultColor = HealthSpriteSlots[0].color;
 
         currentHealth = HealthSpriteSlots.Length;
+
+        SetHealthIndicatorVisivbility(false);
+    }
+
+    private void SetHealthIndicatorVisivbility(bool visibility)
+    {
+        foreach (var renderer in HealthSpriteSlots)
+        {
+            renderer.enabled = visibility;
+        }
     }
 
     public void TakeDamage(SpriteRenderer entitysRenderer)
     {
         if (invunruable == true) { return; }
         invunruable = true;
+        StartCoroutine(DisplayHealth());
         ChangeHealth(false);
         StartCoroutine(InvunurableTimer(entitysRenderer));
     }
@@ -45,25 +56,45 @@ public class HealthIndicator : MonoBehaviour
         if (indexAdjustment < 0 || indexAdjustment > HealthSpriteSlots.Length) { return; }
 
         currentHealth = Mathf.Clamp(currentHealth + changeValue, 0, HealthSpriteSlots.Length);
-        HealthSpriteSlots[indexAdjustment].color = positiveOrNegative ? defaultColor : InactiveColor;
+
+        var renderer = HealthSpriteSlots[indexAdjustment];
+        renderer.color = positiveOrNegative ? defaultColor : InactiveColor;
+
+        StartCoroutine(BlinkTimer(renderer, renderer.color, true));
+    }
+    private IEnumerator DisplayHealth()
+    {
+        SetHealthIndicatorVisivbility(true);
+        yield return new WaitForSeconds(3f);
+        SetHealthIndicatorVisivbility(false);
     }
 
     private IEnumerator InvunurableTimer(SpriteRenderer entitysRenderer)
     {
+        yield return StartCoroutine(BlinkTimer(entitysRenderer, entitysRenderer.color, true));
+        invunruable = false;
+    }
+    private IEnumerator BlinkTimer(SpriteRenderer entitysRenderer, Color originalColor, bool isRenderBlink)
+    {
         var localBlink = maxBlinks;
         while (localBlink >= 0)
         {
-            yield return StartCoroutine(BlinkRenderer(entitysRenderer));
+            Color colorBlink = Color.white;
+
+            if (localBlink % 2 == 1) { colorBlink = InactiveColor; }
+
+            yield return StartCoroutine(BlinkRenderer(entitysRenderer, colorBlink, isRenderBlink));
             localBlink--;
         }
+        entitysRenderer.color = originalColor;
         entitysRenderer.enabled = true;
-        invunruable = false;
         yield return null;
     }
 
-    private IEnumerator BlinkRenderer(SpriteRenderer entitysRenderer)
+    private IEnumerator BlinkRenderer(SpriteRenderer entitysRenderer, Color colorBlink, bool isRenderBlink)
     {
-        entitysRenderer.enabled = !entitysRenderer.enabled;
+        if (isRenderBlink) { entitysRenderer.enabled = !entitysRenderer.enabled; }
+        else { entitysRenderer.color = colorBlink; }
         yield return new WaitForSeconds(blinkInterval);
     }
 }
