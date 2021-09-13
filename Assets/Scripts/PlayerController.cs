@@ -6,18 +6,23 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MovableEntity
-{
+{ 
 
     private bool isExtendPathButtonHeld = false;
 
     private SpriteRenderer myRenderer;
     private HealthIndicator myHealthIndicator;
 
+    private bool activated = true;
+
+
     protected override void OnAwake()
     {
         base.OnAwake();
         myRenderer = GetComponent<SpriteRenderer>();
         myHealthIndicator = GetComponentInChildren<HealthIndicator>();
+        myHealthIndicator.EntityHasDied.AddListener(OnPlayerDeath);
+        
     }
 
     public override void OnPathFound(List<HexTile> path, bool succeded)
@@ -32,22 +37,25 @@ public class PlayerController : MovableEntity
         pathGizmo.SetupPath(oldPath, transform.position);
     }
 
-    public void ActivateExtendSelection(InputAction.CallbackContext context)
-    {      
+    public void InputActivateExtendSelection(InputAction.CallbackContext context)
+    {
+        if (!activated) { return; }
         if (context.started == false || context.canceled) { return; }
         if (isMoving) { return; }
         isExtendPathButtonHeld = true;
     }
 
-    public void DeactivateExtendSelection(InputAction.CallbackContext context)
-    {       
+    public void InputDeactivateExtendSelection(InputAction.CallbackContext context)
+    {
+        if (!activated) { return; }
         if (context.started == true || context.canceled) { return; }
         if (isMoving) { return; }
         isExtendPathButtonHeld = false;
     }
 
-    public void StartMoving(InputAction.CallbackContext context)
-    {      
+    public void InputStartMoving(InputAction.CallbackContext context)
+    {
+        if (!activated) { return; }
         if (context.started == false || context.canceled) { return; }
         if (isMoving) { return; }
         if (oldPath.Count < 1) { return; }
@@ -57,8 +65,9 @@ public class PlayerController : MovableEntity
     }
 
     //when a player clicks the screen, see if they select a tile
-    public void SelectionInput(InputAction.CallbackContext context)
+    public void InputTileSelection(InputAction.CallbackContext context)
     {
+        if (!activated) { return; }
         if (!context.started || context.canceled || context.performed) { return; }
         if (isMoving) { return; }
 
@@ -94,5 +103,10 @@ public class PlayerController : MovableEntity
         {
             myHealthIndicator.TakeDamage(myRenderer);
         }
+    }
+
+    private void OnPlayerDeath()
+    {
+        activated = false;
     }
 }

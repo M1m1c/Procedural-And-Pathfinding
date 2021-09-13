@@ -142,7 +142,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1766397991792909541}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: ActivateExtendSelection
+        m_MethodName: InputActivateExtendSelection
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -158,7 +158,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1766397991792909541}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: DeactivateExtendSelection
+        m_MethodName: InputDeactivateExtendSelection
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -174,7 +174,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1766397991792909541}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: StartMoving
+        m_MethodName: InputStartMoving
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -190,7 +190,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1766397991792909541}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: SelectionInput
+        m_MethodName: InputTileSelection
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
