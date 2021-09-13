@@ -49,7 +49,6 @@ public class EnemyController : MovableEntity
 
     public void OnPlayerStillMoving()
     {
-        if (followTarget) { fTargetLastCoord = followTarget.MyGridPos; }
         if (!isPlayerMoving) { return; }
         if (isMoving) { return; }
         if (oldPath.Count < 1)
@@ -181,8 +180,8 @@ public class EnemyController : MovableEntity
 
     private void Update()
     {
-        //TODO make sure that enemy stops moving original path and starts following player as soon as player enters field of view.
-        CheckFieldOfViewForPlayer();
+        if (followTarget) { fTargetLastCoord = followTarget.MyGridPos; }
+        CheckFieldOfViewForPlayer();     
     }
 
     private void CheckFieldOfViewForPlayer()
