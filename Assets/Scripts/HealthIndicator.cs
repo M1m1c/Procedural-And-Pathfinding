@@ -12,6 +12,8 @@ public class HealthIndicator : MonoBehaviour
 
     private int currentHealth;
 
+    private bool invunruable = false;
+
     private void Awake()
     {
         if (HealthSpriteSlots.Length == 0) { return; }
@@ -20,7 +22,15 @@ public class HealthIndicator : MonoBehaviour
         currentHealth = HealthSpriteSlots.Length;
     }
 
-    public void ChangeHealth(bool positiveOrNegative)
+    public void TakeDamage(SpriteRenderer entitysRenderer)
+    {
+        if (invunruable == true) { return; }
+        invunruable = true;
+        ChangeHealth(false);
+        //TODO start couroutine for invunruablity, should have another courutine to blink, look at walking courutines
+    }
+
+    private void ChangeHealth(bool positiveOrNegative)
     {
         var changeValue = positiveOrNegative ? 1 : -1;
 
