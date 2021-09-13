@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class HealthIndicator : MonoBehaviour
 {
+    public UnityEvent EntityHasDied;
+
     public SpriteRenderer[] HealthSpriteSlots = new SpriteRenderer[3];
 
     public Color InactiveColor;
@@ -43,6 +46,11 @@ public class HealthIndicator : MonoBehaviour
         StartCoroutine(DisplayHealth());
         ChangeHealth(false);
         StartCoroutine(InvunurableTimer(entitysRenderer));
+
+        if (currentHealth == 0)
+        {
+            EntityHasDied.Invoke();
+        }
     }
 
     private void ChangeHealth(bool positiveOrNegative)
