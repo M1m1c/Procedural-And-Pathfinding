@@ -14,7 +14,7 @@ public class HealthIndicator : MonoBehaviour
 
     private int maxBlinks = 8;
 
-    private float blinkInterval = 0.2f; 
+    private float blinkInterval = 0.2f;
 
     private bool invunruable = false;
 
@@ -45,30 +45,25 @@ public class HealthIndicator : MonoBehaviour
         if (indexAdjustment < 0 || indexAdjustment > HealthSpriteSlots.Length) { return; }
 
         currentHealth = Mathf.Clamp(currentHealth + changeValue, 0, HealthSpriteSlots.Length);
-        HealthSpriteSlots[oldHealth].color = positiveOrNegative ? defaultColor : InactiveColor;
+        HealthSpriteSlots[indexAdjustment].color = positiveOrNegative ? defaultColor : InactiveColor;
     }
 
     private IEnumerator InvunurableTimer(SpriteRenderer entitysRenderer)
     {
         var localBlink = maxBlinks;
-        while (localBlink>=0)
+        while (localBlink >= 0)
         {
             yield return StartCoroutine(BlinkRenderer(entitysRenderer));
             localBlink--;
         }
+        entitysRenderer.enabled = true;
         invunruable = false;
         yield return null;
     }
 
     private IEnumerator BlinkRenderer(SpriteRenderer entitysRenderer)
     {
-        var elapsedTime = 0f;
-        while (elapsedTime < blinkInterval)
-        {
-            elapsedTime += Time.deltaTime;
-            entitysRenderer.enabled = !entitysRenderer.enabled;
-            yield return null;
-        }
-       
+        entitysRenderer.enabled = !entitysRenderer.enabled;
+        yield return new WaitForSeconds(blinkInterval);
     }
 }
