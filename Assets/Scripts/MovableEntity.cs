@@ -60,7 +60,7 @@ public class MovableEntity : MonoBehaviour
             
             yield return StartCoroutine(MoveToTile(targetTile));
             pathGizmo.RemovefirstPosition();
-            targetTile.DeOccupyTile(this.gameObject);
+            StartCoroutine(targetTile.DeOccupyTile(this.gameObject));
             oldPath.RemoveAt(0);            
         }       
         MyGridPos = goalTile.Coordinates;

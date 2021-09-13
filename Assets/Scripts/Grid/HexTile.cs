@@ -53,22 +53,19 @@ public class HexTile : MonoBehaviour, IHeapItem<HexTile>
         return retval;
     }
 
-    public bool DeOccupyTile(GameObject deOccupier)
+    public IEnumerator DeOccupyTile(GameObject deOccupier)
     {
-        var retval = false;
+        yield return new WaitForSeconds(0.2f);
         if (deOccupier)
         {
             if (Occupants.Count != 0)
             {
                 if (Occupants.Contains(deOccupier))
                 {
-                    Occupants.Remove(deOccupier);
-                    retval = true;
+                    Occupants.Remove(deOccupier);                
                 }
             }
         }
-
-        return retval;
     }
 
     public void ChangeTileColor(Color newColor)
