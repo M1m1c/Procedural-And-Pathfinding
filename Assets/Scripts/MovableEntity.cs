@@ -89,7 +89,6 @@ public class MovableEntity : MonoBehaviour
                     MyCurrentTile = targetTile;
                     MyGridPos = targetTile.Coordinates;
                 }
-                //MyGridPos = targetTile.Coordinates;
             }
             yield return null;
         }
