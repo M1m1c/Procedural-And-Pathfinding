@@ -37,6 +37,8 @@ public class HexGrid : MonoBehaviour
 
     private HexTile playerSpawnPoint;
 
+    private bool isDebugging = false;
+
     public static HexTile GetRandomWalkableTileWithin(Vector3 requsterPos, int tileCount)
     {
         HexTile retval = null;
@@ -86,7 +88,6 @@ public class HexGrid : MonoBehaviour
             var isImpassable = ((int)adjacent[i].tileProperties & 1 << (int)TileTags.Impassable) != 0;
             var isNotCloseToRequester = Vector3.Distance(requesterPos, adjacent[i].transform.position) > adjacentDist + 1f;
             var isNotCloseToPathTile =  Vector3.Distance(pathTilePos, adjacentPos) > adjacentDist + 1f;
-            //var isNotCloseEnough = Mathf.Approximately( Vector3.Distance(requesterPos, adjacent[i].transform.position), adjacentDist + 1f);
 
             if (isImpassable || isNotCloseToRequester || isNotCloseToPathTile) 
             {
@@ -156,9 +157,7 @@ public class HexGrid : MonoBehaviour
 
         RemoveUnreachableTiles();
 
-        //ClearGrid();
         SpawnPlayer();
-
 
         enemyMasterComp.SpawnEnemies(ref playerInstance, 2);
     }
@@ -254,12 +253,15 @@ public class HexGrid : MonoBehaviour
             Destroy(item.gameObject);
         }
 
-        var labels = gridCanvas.GetComponentsInChildren<Text>();
-
-        for (int i = labels.Length - 1; i >= 0; i--)
+        if (isDebugging)
         {
-            Destroy(labels[i].gameObject);
-        }
+            var labels = gridCanvas.GetComponentsInChildren<Text>();
+
+            for (int i = labels.Length - 1; i >= 0; i--)
+            {
+                Destroy(labels[i].gameObject);
+            }
+        }      
     }
 
     private void RemoveUnreachableTiles()
@@ -314,10 +316,14 @@ public class HexGrid : MonoBehaviour
         tile.transform.SetParent(transform, false);
         tile.transform.localPosition = position;
 
-        Text label = Instantiate(TileLabel);
-        label.rectTransform.SetParent(gridCanvas.transform, false);
-        label.rectTransform.anchoredPosition = new Vector2(position.x, position.y);
-        label.text = $"{tile.Coordinates.x.ToString()}\n{tile.Coordinates.y.ToString()}";
+        if (isDebugging)
+        {
+            Text label = Instantiate(TileLabel);
+            label.rectTransform.SetParent(gridCanvas.transform, false);
+            label.rectTransform.anchoredPosition = new Vector2(position.x, position.y);
+            label.text = $"{tile.Coordinates.x.ToString()}\n{tile.Coordinates.y.ToString()}";
+        }
+       
 
         return tile;
     }
