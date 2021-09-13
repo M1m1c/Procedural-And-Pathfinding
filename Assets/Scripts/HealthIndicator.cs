@@ -12,6 +12,10 @@ public class HealthIndicator : MonoBehaviour
 
     private int currentHealth;
 
+    private int maxBlinks = 8;
+
+    private float blinkInterval = 0.2f; 
+
     private bool invunruable = false;
 
     private void Awake()
@@ -27,7 +31,7 @@ public class HealthIndicator : MonoBehaviour
         if (invunruable == true) { return; }
         invunruable = true;
         ChangeHealth(false);
-        //TODO start couroutine for invunruablity, should have another courutine to blink, look at walking courutines
+        StartCoroutine(InvunurableTimer(entitysRenderer));
     }
 
     private void ChangeHealth(bool positiveOrNegative)
@@ -42,5 +46,29 @@ public class HealthIndicator : MonoBehaviour
 
         currentHealth = Mathf.Clamp(currentHealth + changeValue, 0, HealthSpriteSlots.Length);
         HealthSpriteSlots[oldHealth].color = positiveOrNegative ? defaultColor : InactiveColor;
+    }
+
+    private IEnumerator InvunurableTimer(SpriteRenderer entitysRenderer)
+    {
+        var localBlink = maxBlinks;
+        while (localBlink>=0)
+        {
+            yield return StartCoroutine(BlinkRenderer(entitysRenderer));
+            localBlink--;
+        }
+        invunruable = false;
+        yield return null;
+    }
+
+    private IEnumerator BlinkRenderer(SpriteRenderer entitysRenderer)
+    {
+        var elapsedTime = 0f;
+        while (elapsedTime < blinkInterval)
+        {
+            elapsedTime += Time.deltaTime;
+            entitysRenderer.enabled = !entitysRenderer.enabled;
+            yield return null;
+        }
+       
     }
 }
