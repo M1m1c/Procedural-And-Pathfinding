@@ -108,5 +108,9 @@ public class PlayerController : MovableEntity
     private void OnPlayerDeath()
     {
         activated = false;
+        StoppingMovement.Invoke();
+        StopAllCoroutines();
+        oldPath.Clear();
+        pathGizmo.SetupPath(oldPath,this.transform.position);
     }
 }
