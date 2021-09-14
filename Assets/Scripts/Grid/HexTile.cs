@@ -99,11 +99,12 @@ public class HexTile : MonoBehaviour, IHeapItem<HexTile>
         spriteRenderer.color = newColor;
     }
 
-    private void ReduceHealth()
+    public void ReduceHealth()
     {
         health = Mathf.Clamp(health - 1, 0, maxHealth);
         if (health != 0) { return; }
         tileProperties = 0;
+        defaultColor = Color.white;
         ChangeTileColor(Color.white);
     }
 }
