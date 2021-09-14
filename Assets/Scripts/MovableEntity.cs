@@ -32,6 +32,7 @@ public class MovableEntity : MonoBehaviour
     {
         MyGridPos = startCoord;
         MyCurrentTile = startTile;
+        startTile.OccupyTile(this.gameObject);
     }
 
     public virtual void OnPathFound(List<HexTile> path, bool succeded)
