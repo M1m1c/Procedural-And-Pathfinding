@@ -84,6 +84,20 @@ public class PlayerController : MovableEntity
 
     private void ClickTile(HexTile hitTile)
     {
+        var isTileDestructable = ((int)hitTile.tileProperties & 1 << (int)TileTags.Destructable) != 0;
+        var isTileNextToMe = HexGrid.IsTileNextTo(this.transform.position, hitTile.transform.position);
+        if (isTileDestructable && isTileNextToMe) 
+        {
+            Debug.Log("hit destructabel");
+        }
+        else
+        {
+            RequestPathToTile(hitTile);
+        }
+    }
+
+    private void RequestPathToTile(HexTile hitTile)
+    {
         Vector2Int currentGridPos;
         var oPCount = oldPath.Count;
 
