@@ -101,12 +101,26 @@ public class PlayerController : MovableEntity
         var isTileNextToMe = HexGrid.IsTileNextTo(this.transform.position, hitTile.transform.position);
         if (isTileDestructable && isTileNextToMe) 
         {
-            Debug.Log("hit destructabel");
+            StartCoroutine(AttackTile(hitTile));
         }
         else
         {
             RequestPathToTile(hitTile);
         }
+    }
+
+    private IEnumerator AttackTile(HexTile hitTile)
+    {
+        StartWalking.Invoke();
+        hitTile.ReduceHealth();
+        float elapsedTime = 0f;
+        while (elapsedTime < moveTime)
+        {
+            elapsedTime += Time.deltaTime;
+        }
+            
+        StoppingMovement.Invoke();
+        yield return null;
     }
 
     private void RequestPathToTile(HexTile hitTile)
