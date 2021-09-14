@@ -101,7 +101,7 @@ public class HexGrid : MonoBehaviour
 
     public static bool IsTileNextTo(Vector3 posA, Vector3 posB)
     {
-        return HexGridInstance.IsTileWithinDistanceSpan(posA, posB, 2, true);
+        return HexGridInstance.AreTilesAdjacent(posA, posB);
     }
 
     public static List<HexTile> GetAdjacentDestructableTiles(HexTile currentTile)
@@ -111,7 +111,7 @@ public class HexGrid : MonoBehaviour
         for (int i = retval.Count - 1; i >= 0; i--)
         {
             var isNotDestrucatble = ((int)retval[i].tileProperties & 1 << (int)TileTags.Destructable) == 0;
-            if (isNotDestrucatble)
+            if (isNotDestrucatble || !HexGridInstance.AreTilesAdjacent(currentTile.transform.position, retval[i].transform.position))
             {
                 retval.RemoveAt(i);
             }
@@ -140,8 +140,8 @@ public class HexGrid : MonoBehaviour
             for (int q = -1; q <= 1; q++)
             {
                 tempGridPos.y = currentY + q;
-               
-                if(currentX==tempGridPos.x && currentY == tempGridPos.y) { continue; }
+
+                if (currentX == tempGridPos.x && currentY == tempGridPos.y) { continue; }
 
                 if (tempGridPos.x >= width || tempGridPos.y >= height) { continue; }
                 if (tempGridPos.x < 0 || tempGridPos.y < 0) { continue; }
@@ -151,13 +151,18 @@ public class HexGrid : MonoBehaviour
 
                 var currentPos = currentTile.transform.position;
                 var foundPos = foundTile.transform.position;
-                if (!Mathf.Approximately(Vector3.Distance(currentPos, foundPos), adjacentDist)) { continue; }
+                if (!AreTilesAdjacent(currentPos, foundPos)) { continue; }
 
                 retval.Add(foundTile);
 
             }
         }
         return retval;
+    }
+
+    private bool AreTilesAdjacent(Vector3 posA, Vector3 posB)
+    {
+        return Mathf.Approximately(Vector3.Distance(posA, posB), adjacentDist);
     }
 
     void Awake()
