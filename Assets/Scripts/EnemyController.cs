@@ -229,6 +229,9 @@ public class EnemyController : MovableEntity
         oldPath.Clear();
         pathGizmo.SetupPath(oldPath, this.transform.position);
         OnPlayerSelectionAction();
+
+        //TODO add alerted visuals
+        Debug.Log("Alerted!");
     }
 
     private void ContinueFollowingPlayer(GameObject occupant)
