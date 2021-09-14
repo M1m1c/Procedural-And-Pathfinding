@@ -11,6 +11,8 @@ public class HexTile : MonoBehaviour, IHeapItem<HexTile>
     [EnumFlags]
     public TileTags tileProperties;
 
+    public Color highlightColor;
+
     public int gCost;
     public int hCost;
     public int fCost { get { return gCost + hCost; } }
@@ -23,8 +25,23 @@ public class HexTile : MonoBehaviour, IHeapItem<HexTile>
 
     private SpriteRenderer spriteRenderer;
 
+    private Color defaultColor;
+    
+
     private int maxHealth = 3;
     private int health = 3;
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        Occupants = new List<GameObject>();
+        defaultColor = spriteRenderer.color;
+    }
+
+    public void Setup(Vector2Int startCoord)
+    {
+        Coordinates = startCoord;
+    }
 
     public int CompareTo(HexTile hexTileToCompare)
     {
@@ -71,20 +88,15 @@ public class HexTile : MonoBehaviour, IHeapItem<HexTile>
         }
     }
 
+    public void HighLightTile(bool shouldLighten)
+    {
+        if (shouldLighten) { ChangeTileColor(highlightColor); }
+        else { ChangeTileColor(defaultColor); }
+    }
+
     public void ChangeTileColor(Color newColor)
     {
         spriteRenderer.color = newColor;
-    }
-
-    public void Setup(Vector2Int startCoord)
-    {
-        Coordinates = startCoord;
-    }
-
-    private void Awake()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        Occupants = new List<GameObject>();
     }
 
     private void ReduceHealth()
