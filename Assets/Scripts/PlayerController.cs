@@ -80,6 +80,10 @@ public class PlayerController : MovableEntity
         if (!context.started || context.canceled || context.performed) { return; }
         if (isMoving) { return; }
 
+        SelectionAction.Invoke();
+        oldPath.Clear();
+        pathGizmo.SetupPath(oldPath,this.transform.position);
+
         var mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         var mousePos2D = new Vector2(mousePosition.x, mousePosition.y);
 
@@ -117,7 +121,6 @@ public class PlayerController : MovableEntity
 
         var targetgridPos = new Vector2Int(hitTile.Coordinates.x, hitTile.Coordinates.y);
         PathRequestManager.RequestPath(currentGridPos, targetgridPos, false, OnPathFound, isMoving);
-        RequestingPath.Invoke();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
