@@ -28,7 +28,7 @@ public class MovableEntity : MonoBehaviour
         return oldPath.LastOrDefault();
     }
 
-    public void Setup(Vector2Int startCoord, HexTile startTile)
+    public virtual void Setup(Vector2Int startCoord, HexTile startTile)
     {
         MyGridPos = startCoord;
         MyCurrentTile = startTile;
