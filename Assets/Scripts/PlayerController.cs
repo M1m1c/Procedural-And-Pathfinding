@@ -81,8 +81,6 @@ public class PlayerController : MovableEntity
         if (isMoving) { return; }
 
         SelectionAction.Invoke();
-        oldPath.Clear();
-        pathGizmo.SetupPath(oldPath,this.transform.position);
 
         var mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         var mousePos2D = new Vector2(mousePosition.x, mousePosition.y);
@@ -101,6 +99,8 @@ public class PlayerController : MovableEntity
         var isTileNextToMe = HexGrid.IsTileNextTo(this.transform.position, hitTile.transform.position);
         if (isTileDestructable && isTileNextToMe) 
         {
+            oldPath.Clear();
+            pathGizmo.SetupPath(oldPath, this.transform.position);
             StartCoroutine(AttackTile(hitTile));
         }
         else
