@@ -184,7 +184,7 @@ public class EnemyController : MovableEntity
 
     private void Update()
     {
-        if (followTarget) { fTargetLastCoord = followTarget.MyGridPos; }
+        if (myState == EnemyState.FollowingPlayer && followTarget) { fTargetLastCoord = followTarget.MyGridPos; }
         CheckFieldOfViewForPlayer();
     }
 
@@ -195,7 +195,7 @@ public class EnemyController : MovableEntity
         {
             GoThroughFOVTiles(ContinueFollowingPlayer);
         }
-        else
+        else if (myState == EnemyState.Patrolling)
         {
             GoThroughFOVTiles(StartFollowingPlayer);
         }      
@@ -205,10 +205,12 @@ public class EnemyController : MovableEntity
     {
         foreach (var tile in fieldOfView)
         {
+            if (!tile) { continue; }
             if (tile.Occupants.Count == 0) { continue; }
 
             foreach (var occupant in tile.Occupants)
             {
+                if (!occupant) { continue; }
                 if (occupant.GetComponent<PlayerController>())
                 {
                     actionToPerfomrIfplayerFound(occupant);
