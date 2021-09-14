@@ -61,6 +61,8 @@ public class EnemyController : MovableEntity
 
     public override void OnPathFound(List<HexTile> path, bool succeded)
     {
+        isRequestingPath = false;
+
         if (!succeded ||
             (myState == EnemyState.Patrolling && path.Count > 4) ||
             (myState == EnemyState.FollowingPlayer && currentFollowSteps == 0))
@@ -70,7 +72,7 @@ public class EnemyController : MovableEntity
             CreateNewPath();
             return;
         }
-
+        
         oldPath = path;
         pathGizmo.SetupPath(oldPath, transform.position);
 
@@ -129,6 +131,8 @@ public class EnemyController : MovableEntity
     private void CreateNewPath()
     {
         HexTile goalTile = null;
+        if (isRequestingPath) { return; }
+        isRequestingPath = true;
 
         if (myState == EnemyState.Patrolling)
         {
@@ -139,7 +143,7 @@ public class EnemyController : MovableEntity
                 break;
             }
             if (!goalTile) { return; }
-            PathRequestManager.RequestPath(MyGridPos, goalTile.Coordinates, false, OnPathFound, false);
+            PathRequestManager.RequestPath(MyGridPos, goalTile.Coordinates, false, OnPathFound, false);       
         }
         else if (myState == EnemyState.FollowingPlayer)
         {
