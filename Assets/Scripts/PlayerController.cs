@@ -24,7 +24,14 @@ public class PlayerController : MovableEntity
         myRenderer = GetComponent<SpriteRenderer>();
         myHealthIndicator = GetComponentInChildren<HealthIndicator>();
         myHealthIndicator.EntityHasDied.AddListener(OnPlayerDeath);
-        
+        StoppingMovement.AddListener(HighlightDestructableTiles);
+        StartWalking.AddListener(DeLightDestrucatableTiles);
+    }
+
+    public override void Setup(Vector2Int startCoord, HexTile startTile)
+    {
+        base.Setup(startCoord, startTile);
+        HighlightDestructableTiles();
     }
 
     public override void OnPathFound(List<HexTile> path, bool succeded)
