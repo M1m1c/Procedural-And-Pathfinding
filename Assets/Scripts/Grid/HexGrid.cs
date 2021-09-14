@@ -99,6 +99,11 @@ public class HexGrid : MonoBehaviour
         return retval;
     }
 
+    public static bool IsTileNextTo(Vector3 posA, Vector3 posB)
+    {
+        return HexGridInstance.IsTileWithinDistanceSpan(posA, posB, 2, true);
+    }
+
     public HexTile GetTileFromGridCoord(Vector2Int coord)
     {
         return tiles[coord.x, coord.y];
@@ -138,11 +143,6 @@ public class HexGrid : MonoBehaviour
             }
         }
         return retval;
-    }
-
-    public static bool IsTileNextTo(Vector3 posA, Vector3 posB)
-    {
-        return HexGridInstance.IsTileWithinDistanceSpan(posA, posB, 2, true);
     }
 
     void Awake()
