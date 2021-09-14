@@ -13,6 +13,8 @@ public class PlayerController : MovableEntity
     private SpriteRenderer myRenderer;
     private HealthIndicator myHealthIndicator;
 
+    private List<HexTile> AdjacentDestructables = new List<HexTile>();
+
     private bool activated = true;
 
 
@@ -126,5 +128,28 @@ public class PlayerController : MovableEntity
         StopAllCoroutines();
         oldPath.Clear();
         pathGizmo.SetupPath(oldPath,this.transform.position);
+    }
+
+    private void HighlightDestructableTiles()
+    {
+        if (!MyCurrentTile) { return; }
+        AdjacentDestructables = HexGrid.GetAdjacentDestructableTiles(MyCurrentTile);
+
+        ChangeLightOfDestructableTiles(true);
+    }
+
+    private void DeLightDestrucatableTiles()
+    {
+        ChangeLightOfDestructableTiles(false);
+        AdjacentDestructables.Clear();
+    }
+
+    private void ChangeLightOfDestructableTiles(bool lightOrDark)
+    {
+        if (AdjacentDestructables.Count == 0) { return; }
+        foreach (var tile in AdjacentDestructables)
+        {
+            tile.HighLightTile(lightOrDark);
+        }
     }
 }
