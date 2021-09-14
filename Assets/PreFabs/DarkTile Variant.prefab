@@ -68,8 +68,40 @@ PrefabInstance:
       value: 0.33962262
       objectReference: {fileID: 0}
     - target: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
+      propertyPath: temp.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
+      propertyPath: temp.b
+      value: 0.6698113
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
+      propertyPath: temp.g
+      value: 0.6698113
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
+      propertyPath: temp.r
+      value: 0.6698113
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
       propertyPath: tileProperties
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
+      propertyPath: highlightColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
+      propertyPath: highlightColor.b
+      value: 0.6603774
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
+      propertyPath: highlightColor.g
+      value: 0.6603774
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
+      propertyPath: highlightColor.r
+      value: 0.6603774
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
