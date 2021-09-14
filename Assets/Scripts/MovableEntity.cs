@@ -23,6 +23,8 @@ public class MovableEntity : MonoBehaviour
 
     protected bool isMoving = false;
 
+    protected bool isRequestingPath = false;
+
     public HexTile GetGoalTile()
     {
         return oldPath.LastOrDefault();
