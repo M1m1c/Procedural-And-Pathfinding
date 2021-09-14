@@ -37,10 +37,10 @@ public class EnemyController : MovableEntity
     {
         isMoving = false;
         isPlayerMoving = false;
-        OnPlayerRequestingPath();
+        OnPlayerSelectionAction();
     }
 
-    public void OnPlayerRequestingPath()
+    public void OnPlayerSelectionAction()
     {
 
         if (oldPath.Count != 0) { return; }
@@ -222,7 +222,7 @@ public class EnemyController : MovableEntity
         currentFollowSteps = maxFollowSteps;
         oldPath.Clear();
         pathGizmo.SetupPath(oldPath, this.transform.position);
-        OnPlayerRequestingPath();
+        OnPlayerSelectionAction();
     }
 
     private void ContinueFollowingPlayer(GameObject occupant)
