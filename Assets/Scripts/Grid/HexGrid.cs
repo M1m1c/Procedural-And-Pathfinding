@@ -104,6 +104,21 @@ public class HexGrid : MonoBehaviour
         return HexGridInstance.IsTileWithinDistanceSpan(posA, posB, 2, true);
     }
 
+    public static List<HexTile> GetAdjacentDestructableTiles(HexTile currentTile)
+    {
+        List<HexTile> retval = HexGridInstance.GetAdjacentTiles(currentTile);
+
+        for (int i = retval.Count - 1; i >= 0; i--)
+        {
+            var isNotDestrucatble = ((int)retval[i].tileProperties & 1 << (int)TileTags.Destructable) == 0;
+            if (isNotDestrucatble)
+            {
+                retval.RemoveAt(i);
+            }
+        }
+        return retval;
+    }
+
     public HexTile GetTileFromGridCoord(Vector2Int coord)
     {
         return tiles[coord.x, coord.y];
