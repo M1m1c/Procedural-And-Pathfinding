@@ -25,6 +25,12 @@ public class MovableEntity : MonoBehaviour
 
     protected bool isRequestingPath = false;
 
+    //TODO implement a step system that counts how many steps every entiety can make in the folowing action.
+    //make sure that other movable enteties are listening to player and that player waits for them before bieng able to
+    //perform a new action.
+    //for instance if the player performs a attack tile,
+    //player cannot perform another attack tile until all enemies have finished moving one tile or decided a path.
+
     public HexTile GetGoalTile()
     {
         return oldPath.LastOrDefault();
