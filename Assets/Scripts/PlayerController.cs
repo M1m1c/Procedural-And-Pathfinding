@@ -93,7 +93,6 @@ public class PlayerController : MovableEntity
         ClickTile(hitTile);
     }
 
-    //TODO fix spam clicking bugg that throws enemmies of their course
     private void ClickTile(HexTile hitTile)
     {
         if (isAttackingTile) { return; }
@@ -103,7 +102,6 @@ public class PlayerController : MovableEntity
         var isTileNextToMe = HexGrid.IsTileNextTo(this.transform.position, hitTile.transform.position);
         if (isTileDestructable && isTileNextToMe && !isMoving) 
         {
-            //TODO If tile is off cooldown then we can attack it
             isAttackingTile = true;
             oldPath.Clear();
             pathGizmo.SetupPath(oldPath, this.transform.position);
