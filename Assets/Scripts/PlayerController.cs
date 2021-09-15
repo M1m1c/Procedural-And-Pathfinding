@@ -15,7 +15,7 @@ public class PlayerController : MovableEntity
 
     private List<HexTile> AdjacentDestructables = new List<HexTile>();
 
-    private bool activated = true;
+    private bool activated = false;
 
 
     protected override void OnAwake()
@@ -31,6 +31,7 @@ public class PlayerController : MovableEntity
     public override void Setup(Vector2Int startCoord, HexTile startTile)
     {
         base.Setup(startCoord, startTile);
+        activated = true;
         HighlightDestructableTiles();
     }
 
@@ -93,7 +94,7 @@ public class PlayerController : MovableEntity
         ClickTile(hitTile);
     }
 
-    //TODO fix spam clicking bu that throws enemmies of their course
+    //TODO fix spam clicking bugg that throws enemmies of their course
     private void ClickTile(HexTile hitTile)
     {
         SelectionAction.Invoke();
