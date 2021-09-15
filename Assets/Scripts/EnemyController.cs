@@ -163,8 +163,6 @@ public class EnemyController : MovableEntity
         HexTile goalTile = null;
         if (isRequestingPath) { return; }
         isRequestingPath = true;    
-        
-        if (CheckActionStepsLeft()) { return; }
 
         if (myState == EnemyState.Patrolling)
         {
