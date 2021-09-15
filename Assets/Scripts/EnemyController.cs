@@ -28,18 +28,24 @@ public class EnemyController : MovableEntity
     private int maxFollowSteps = 5;
     private int currentFollowSteps = 5;
 
-    private int maxActionSteps = 0;
+    private int maxActionSteps = 1;
     private int currentActionSteps = 0;
 
-    public void OnPlayerStartWalking()
+    private bool finishedWithActions = false;
+
+    public void OnPlayerStartWalking(int playerActionCount)
     {
         isPlayerMoving = true;
+        finishedWithActions = false;
+        maxActionSteps = playerActionCount;
+        currentActionSteps = 0;
         OnPlayerStillMoving();
     }
     public void OnPlayerStopping()
     {
         isMoving = false;
         isPlayerMoving = false;
+        //CheckActionStepsLeft();      
         OnPlayerSelectionAction();
     }
 
