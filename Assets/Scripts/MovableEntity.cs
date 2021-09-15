@@ -7,7 +7,7 @@ using System.Linq;
 public class MovableEntity : MonoBehaviour
 {
 
-    public UnityEvent StartWalking;
+    public UnityEvent<int> StartWalking;
     public UnityEvent StoppingMovement;
     public UnityEvent SelectionAction;
     public UnityEvent ContinuousWalking;
