@@ -44,7 +44,6 @@ public class EnemyMaster : MonoBehaviour
             enemiesList.Add(enemyInstance);
             enemyInstance.transform.position = tile.transform.position;
             enemyInstance.Setup(tile.Coordinates,tile);
-            enemyInstance.StoppingMovement.AddListener(playerInstance.OnEntityStop);
             playerInstance.StartWalking.AddListener(enemyInstance.OnPlayerStartWalking);
             playerInstance.StoppingMovement.AddListener(enemyInstance.OnPlayerStopping);
             playerInstance.SelectionAction.AddListener(enemyInstance.OnPlayerSelectionAction);
