@@ -117,6 +117,7 @@ public class PlayerController : MovableEntity
         var isTileNextToMe = HexGrid.IsTileNextTo(this.transform.position, hitTile.transform.position);
         if (isTileDestructable && isTileNextToMe && !isMoving) 
         {        
+            //TODO If tile is off cooldown then we can attack it
             oldPath.Clear();
             pathGizmo.SetupPath(oldPath, this.transform.position);
             StartCoroutine(AttackTile(hitTile));
@@ -138,7 +139,7 @@ public class PlayerController : MovableEntity
         //}
         yield return new WaitForSeconds(moveTime);
             
-        //StoppingMovement.Invoke();
+        StoppingMovement.Invoke();
         
         //yield return null;
     }
