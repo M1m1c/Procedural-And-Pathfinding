@@ -6,17 +6,18 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MovableEntity
-{ 
-
-    private bool isExtendPathButtonHeld = false;
+{
+    public int OtherEntetiesCount { get; set; } 
 
     private SpriteRenderer myRenderer;
     private HealthIndicator myHealthIndicator;
 
     private List<HexTile> AdjacentDestructables = new List<HexTile>();
 
+    private bool isExtendPathButtonHeld = false;
     private bool activated = false;
 
+    private int finishedEntetiesCount = 0;
 
     protected override void OnAwake()
     {
