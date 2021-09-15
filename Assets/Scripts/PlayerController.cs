@@ -100,7 +100,7 @@ public class PlayerController : MovableEntity
 
         var isTileDestructable = ((int)hitTile.tileProperties & 1 << (int)TileTags.Destructable) != 0;
         var isTileNextToMe = HexGrid.IsTileNextTo(this.transform.position, hitTile.transform.position);
-        if (isTileDestructable && isTileNextToMe && !isMoving) 
+        if (isTileDestructable && isTileNextToMe && !isMoving && !isExtendPathButtonHeld) 
         {
             isAttackingTile = true;
             oldPath.Clear();
