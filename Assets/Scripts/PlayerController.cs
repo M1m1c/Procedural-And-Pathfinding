@@ -48,6 +48,19 @@ public class PlayerController : MovableEntity
         pathGizmo.SetupPath(oldPath, transform.position);
     }
 
+    public void OnEntityStop()
+    {
+        
+        finishedEntetiesCount++;
+        Debug.Log($"{finishedEntetiesCount}");
+        if (finishedEntetiesCount == OtherEntetiesCount)
+        {
+            Debug.Log($"activation");
+            StoppingMovement.Invoke();
+            activated = true;
+        }
+    }
+
     public void InputActivateExtendSelection(InputAction.CallbackContext context)
     {
         if (!activated) { return; }
