@@ -36,7 +36,6 @@ public class EnemyController : MovableEntity
     }
     public void OnPlayerStopping()
     {
-        isMoving = false;
         isPlayerMoving = false;  
         OnPlayerSelectionAction();
     }
