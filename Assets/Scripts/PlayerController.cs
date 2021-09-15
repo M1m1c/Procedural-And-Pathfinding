@@ -175,6 +175,12 @@ public class PlayerController : MovableEntity
         pathGizmo.SetupPath(oldPath,this.transform.position);
     }
 
+    private void OnDeactivateInput(int notUsed)
+    {
+        activated = false;
+        finishedEntetiesCount = 0;
+    }
+
     private void HighlightDestructableTiles()
     {
         if (!MyCurrentTile) { return; }
