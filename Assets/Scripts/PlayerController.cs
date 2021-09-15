@@ -16,8 +16,7 @@ public class PlayerController : MovableEntity
 
     private bool isExtendPathButtonHeld = false;
     private bool activated = false;
-
-    private int finishedEntetiesCount = 0;
+ 
 
     protected override void OnAwake()
     {
@@ -27,7 +26,6 @@ public class PlayerController : MovableEntity
         myHealthIndicator.EntityHasDied.AddListener(OnPlayerDeath);
         StoppingMovement.AddListener(HighlightDestructableTiles);
         StartWalking.AddListener(DeLightDestrucatableTiles);
-        //StartWalking.AddListener(OnDeactivateInput);
     }
 
     public override void Setup(Vector2Int startCoord, HexTile startTile)
@@ -47,19 +45,6 @@ public class PlayerController : MovableEntity
         { oldPath = path; }
 
         pathGizmo.SetupPath(oldPath, transform.position);
-    }
-
-    public void OnEntityStop()
-    {
-        
-        finishedEntetiesCount++;
-        Debug.Log($"{finishedEntetiesCount}");
-        if (finishedEntetiesCount == OtherEntetiesCount)
-        {
-            Debug.Log($"activation");
-            StoppingMovement.Invoke();
-            activated = true;
-        }
     }
 
     public void InputActivateExtendSelection(InputAction.CallbackContext context)
@@ -173,12 +158,6 @@ public class PlayerController : MovableEntity
         StopAllCoroutines();
         oldPath.Clear();
         pathGizmo.SetupPath(oldPath,this.transform.position);
-    }
-
-    private void OnDeactivateInput(int notUsed)
-    {
-        activated = false;
-        finishedEntetiesCount = 0;
     }
 
     private void HighlightDestructableTiles()
