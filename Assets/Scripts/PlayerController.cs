@@ -27,6 +27,7 @@ public class PlayerController : MovableEntity
         myHealthIndicator.EntityHasDied.AddListener(OnPlayerDeath);
         StoppingMovement.AddListener(HighlightDestructableTiles);
         StartWalking.AddListener(DeLightDestrucatableTiles);
+        //StartWalking.AddListener(OnDeactivateInput);
     }
 
     public override void Setup(Vector2Int startCoord, HexTile startTile)
@@ -93,9 +94,7 @@ public class PlayerController : MovableEntity
     {
         if (!activated) { return; }
         if (!context.started || context.canceled || context.performed) { return; }
-        if (isMoving) { return; }
-
-     
+        if (isMoving) { return; }   
 
         var mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         var mousePos2D = new Vector2(mousePosition.x, mousePosition.y);
@@ -111,14 +110,15 @@ public class PlayerController : MovableEntity
     //TODO fix spam clicking bugg that throws enemmies of their course
     private void ClickTile(HexTile hitTile)
     {
+      
         SelectionAction.Invoke();
+
         var isTileDestructable = ((int)hitTile.tileProperties & 1 << (int)TileTags.Destructable) != 0;
         var isTileNextToMe = HexGrid.IsTileNextTo(this.transform.position, hitTile.transform.position);
         if (isTileDestructable && isTileNextToMe && !isMoving) 
-        {
+        {        
             oldPath.Clear();
             pathGizmo.SetupPath(oldPath, this.transform.position);
-            isMoving = true;
             StartCoroutine(AttackTile(hitTile));
         }
         else
@@ -138,10 +138,9 @@ public class PlayerController : MovableEntity
         //}
         yield return new WaitForSeconds(moveTime);
             
-        StoppingMovement.Invoke();
+        //StoppingMovement.Invoke();
         
         //yield return null;
-        isMoving = false;
     }
 
     private void RequestPathToTile(HexTile hitTile)
