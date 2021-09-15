@@ -93,7 +93,7 @@ public class EnemyController : MovableEntity
 
 
         if (!isPlayerMoving) { return; }
-        OnPlayerStartWalking();
+        OnPlayerStartWalking(maxActionSteps);
     }
 
     protected override IEnumerator MoveAlongPath()
