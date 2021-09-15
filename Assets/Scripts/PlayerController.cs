@@ -16,6 +16,7 @@ public class PlayerController : MovableEntity
 
     private bool isExtendPathButtonHeld = false;
     private bool activated = false;
+    private bool isAttackingTile = false;
  
 
     protected override void OnAwake()
@@ -95,14 +96,15 @@ public class PlayerController : MovableEntity
     //TODO fix spam clicking bugg that throws enemmies of their course
     private void ClickTile(HexTile hitTile)
     {
-      
+        if (isAttackingTile) { return; }
         SelectionAction.Invoke();
 
         var isTileDestructable = ((int)hitTile.tileProperties & 1 << (int)TileTags.Destructable) != 0;
         var isTileNextToMe = HexGrid.IsTileNextTo(this.transform.position, hitTile.transform.position);
         if (isTileDestructable && isTileNextToMe && !isMoving) 
-        {        
+        {
             //TODO If tile is off cooldown then we can attack it
+            isAttackingTile = true;
             oldPath.Clear();
             pathGizmo.SetupPath(oldPath, this.transform.position);
             StartCoroutine(AttackTile(hitTile));
@@ -122,10 +124,10 @@ public class PlayerController : MovableEntity
         //{
         //    elapsedTime += Time.deltaTime;
         //}
-        yield return new WaitForSeconds(moveTime);
-            
-        StoppingMovement.Invoke();
+        yield return new WaitForSeconds(moveTime+0.1f);
         
+        StoppingMovement.Invoke();
+        isAttackingTile = false;
         //yield return null;
     }
 
