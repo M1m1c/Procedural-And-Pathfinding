@@ -127,15 +127,38 @@ public class EnemyController : MovableEntity
             currentFollowSteps = Mathf.Clamp(currentFollowSteps - 1, 0, maxFollowSteps);
         }
 
+        //CheckActionStepsLeft();
+
         isMoving = false;
         yield return null;
+    }
+
+    private bool CheckActionStepsLeft()
+    {
+        var retval = false;
+        if (finishedWithActions == false)
+        {
+            if (!isPlayerMoving) { currentActionSteps = maxActionSteps; }
+            if (currentActionSteps >= maxActionSteps)
+            {
+                retval = true;
+                finishedWithActions = true;
+                StoppingMovement.Invoke();
+                if (isPlayerMoving) { OnPlayerStopping(); }
+            }
+        }
+        else { retval = true; }
+        
+        return retval;
     }
 
     private void CreateNewPath()
     {
         HexTile goalTile = null;
         if (isRequestingPath) { return; }
-        isRequestingPath = true;
+        isRequestingPath = true;    
+        
+        if (CheckActionStepsLeft()) { return; }
 
         if (myState == EnemyState.Patrolling)
         {
