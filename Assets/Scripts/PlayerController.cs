@@ -71,7 +71,7 @@ public class PlayerController : MovableEntity
         if (oldPath.Count < 1) { return; }
         pathGizmo.RemovefirstPosition();
         StartCoroutine(MoveAlongPath());
-        StartWalking.Invoke(oldPath.Count);
+        StartWalking.Invoke();
     }
 
     //when a player clicks the screen, see if they select a tile
@@ -115,7 +115,7 @@ public class PlayerController : MovableEntity
 
     private IEnumerator AttackTile(HexTile hitTile)
     {
-        StartWalking.Invoke(1);
+        StartWalking.Invoke();
         hitTile.ReduceHealth();
         //float elapsedTime = 0f;
         //while (elapsedTime < moveTime)
@@ -168,7 +168,7 @@ public class PlayerController : MovableEntity
         ChangeLightOfDestructableTiles(true);
     }
 
-    private void DeLightDestrucatableTiles(int notUsed)
+    private void DeLightDestrucatableTiles()
     {
         ChangeLightOfDestructableTiles(false);
         AdjacentDestructables.Clear();
