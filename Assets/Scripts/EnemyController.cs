@@ -28,24 +28,16 @@ public class EnemyController : MovableEntity
     private int maxFollowSteps = 5;
     private int currentFollowSteps = 5;
 
-    private int maxActionSteps = 1;
-    private int currentActionSteps = 0;
 
-    private bool finishedWithActions = false;
-
-    public void OnPlayerStartWalking(int playerActionCount)
+    public void OnPlayerStartWalking()
     {
         isPlayerMoving = true;
-        finishedWithActions = false;
-        maxActionSteps = playerActionCount;
-        currentActionSteps = 0;
         OnPlayerStillMoving();
     }
     public void OnPlayerStopping()
     {
         isMoving = false;
-        isPlayerMoving = false;
-        //CheckActionStepsLeft();      
+        isPlayerMoving = false;  
         OnPlayerSelectionAction();
     }
 
@@ -93,7 +85,7 @@ public class EnemyController : MovableEntity
 
 
         if (!isPlayerMoving) { return; }
-        OnPlayerStartWalking(maxActionSteps);
+        OnPlayerStartWalking();
     }
 
     protected override IEnumerator MoveAlongPath()
@@ -137,25 +129,6 @@ public class EnemyController : MovableEntity
 
         isMoving = false;
         yield return null;
-    }
-
-    private bool CheckActionStepsLeft()
-    {
-        var retval = false;
-        if (finishedWithActions == false)
-        {
-            if (!isPlayerMoving) { currentActionSteps = maxActionSteps; }
-            if (currentActionSteps >= maxActionSteps)
-            {
-                retval = true;
-                finishedWithActions = true;
-                StoppingMovement.Invoke();
-                if (isPlayerMoving) { OnPlayerStopping(); }
-            }
-        }
-        else { retval = true; }
-        
-        return retval;
     }
 
     private void CreateNewPath()
