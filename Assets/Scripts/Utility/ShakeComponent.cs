@@ -60,6 +60,6 @@ struct shakeRequest
         defaultObjectPos = defPos;
         trauma = Mathf.Clamp(inTrauma, 0f, 1f);
         degerdationRateTrauma = 4.0f;
-        maxOffset = 0.6f;
+        maxOffset = 2f;
     }
 }
