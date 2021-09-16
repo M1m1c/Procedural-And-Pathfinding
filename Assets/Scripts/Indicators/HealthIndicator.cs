@@ -29,6 +29,23 @@ public class HealthIndicator : MonoBehaviour
         currentHealth = HealthSpriteSlots.Length;
 
         SetHealthIndicatorVisivbility(false);
+
+        var persistentHealth = PersistentScript.CurrentHealth;
+        if (persistentHealth < currentHealth)
+        {
+            while (currentHealth != persistentHealth)
+            {
+                ChangeHealth(false, false);
+            }
+        }
+    }
+    private void OnDestroy()
+    {
+        PersistentScript.CurrentHealth = currentHealth;
+    }
+    private void OnDisable()
+    {
+        PersistentScript.CurrentHealth = currentHealth;
     }
 
     private void SetHealthIndicatorVisivbility(bool visibility)
@@ -44,7 +61,7 @@ public class HealthIndicator : MonoBehaviour
         if (invunruable == true) { return; }
         invunruable = true;
         StartCoroutine(DisplayHealth());
-        ChangeHealth(false);
+        ChangeHealth(false,true);
         StartCoroutine(InvunurableTimer(entitysRenderer));
 
         if (currentHealth == 0)
@@ -53,7 +70,7 @@ public class HealthIndicator : MonoBehaviour
         }
     }
 
-    private void ChangeHealth(bool positiveOrNegative)
+    private void ChangeHealth(bool positiveOrNegative, bool shouldBlink)
     {
         var changeValue = positiveOrNegative ? 1 : -1;
 
@@ -68,6 +85,7 @@ public class HealthIndicator : MonoBehaviour
         var renderer = HealthSpriteSlots[indexAdjustment];
         renderer.color = positiveOrNegative ? defaultColor : InactiveColor;
 
+        if (!shouldBlink) { return; }
         StartCoroutine(BlinkTimer(renderer, renderer.color, true));
     }
     private IEnumerator DisplayHealth()
