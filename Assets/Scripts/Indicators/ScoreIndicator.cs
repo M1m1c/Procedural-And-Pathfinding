@@ -12,11 +12,23 @@ public class ScoreIndicator : MonoBehaviour
     {
         ScoreIndicatorInstance = this;
         scoreText = GetComponentInChildren<Text>();
+        var persistentScore = PersistentScript.TotalScore;
+        if (persistentScore > 0) { AddToScore(persistentScore); }
     }
 
     public static void AddToScore(int scoreToadd)
     {
         ScoreIndicatorInstance.score += scoreToadd;
         ScoreIndicatorInstance.scoreText.text = $"{ScoreIndicatorInstance.score}";
+    }
+
+    private void OnDestroy()
+    {
+        PersistentScript.TotalScore = score;
+    }
+
+    private void OnDisable()
+    {
+        PersistentScript.TotalScore = score;
     }
 }
