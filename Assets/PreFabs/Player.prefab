@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8969053638178117110}
   - component: {fileID: 1760855052958817231}
   - component: {fileID: 8082365355621449258}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 0.4030281, g: 0.8867924, b: 0.39654678, a: 1}
   m_FlipX: 0
@@ -106,7 +106,7 @@ MonoBehaviour:
   StoppingMovement:
     m_PersistentCalls:
       m_Calls: []
-  RequestingPath:
+  SelectionAction:
     m_PersistentCalls:
       m_Calls: []
   ContinuousWalking:
@@ -311,6 +311,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5387234773916087150, guid: 42f03c31a8bdc1040ac7ce5c88e66457, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5914303440714561415, guid: 42f03c31a8bdc1040ac7ce5c88e66457, type: 3}
       propertyPath: m_SortingOrder
       value: 10
@@ -326,6 +330,18 @@ PrefabInstance:
     - target: {fileID: 8396359258789281249, guid: 42f03c31a8bdc1040ac7ce5c88e66457, type: 3}
       propertyPath: m_Name
       value: HealthIndicator
+      objectReference: {fileID: 0}
+    - target: {fileID: 8396359258789281249, guid: 42f03c31a8bdc1040ac7ce5c88e66457, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8845953243817073514, guid: 42f03c31a8bdc1040ac7ce5c88e66457, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 9215087365747136326, guid: 42f03c31a8bdc1040ac7ce5c88e66457, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42f03c31a8bdc1040ac7ce5c88e66457, type: 3}
@@ -432,6 +448,10 @@ PrefabInstance:
     - target: {fileID: 1317333757980637022, guid: 9cb7957c4d752da45bfe8e9ee324a349, type: 3}
       propertyPath: m_Name
       value: PathIndicator
+      objectReference: {fileID: 0}
+    - target: {fileID: 1317333757980637022, guid: 9cb7957c4d752da45bfe8e9ee324a349, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9cb7957c4d752da45bfe8e9ee324a349, type: 3}
