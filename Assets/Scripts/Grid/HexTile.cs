@@ -13,6 +13,8 @@ public class HexTile : MonoBehaviour, IHeapItem<HexTile>
 
     public Color highlightColor;
 
+    public Sprite WalkableSprite;
+
     public int gCost;
     public int hCost;
     public int fCost { get { return gCost + hCost; } }
@@ -111,5 +113,12 @@ public class HexTile : MonoBehaviour, IHeapItem<HexTile>
         if (health != 0) { return; }
         tileProperties = 0;
         ChangeTileColor(walkableColor,true);
+        spriteRenderer.sprite = WalkableSprite;
+    }
+
+    public void ChangeSprite(Sprite newSprite)
+    {
+        if (!newSprite) { return; }
+        spriteRenderer.sprite = newSprite;
     }
 }

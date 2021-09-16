@@ -56,16 +56,20 @@ PrefabInstance:
       value: DarkTile Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5627288095083129795, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a50d20b4164635d47bdde338de12a8da, type: 3}
+    - target: {fileID: 5627288095083129795, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
       propertyPath: m_Color.b
-      value: 0.33962262
+      value: 0.5754717
       objectReference: {fileID: 0}
     - target: {fileID: 5627288095083129795, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
       propertyPath: m_Color.g
-      value: 0.33962262
+      value: 0.5754717
       objectReference: {fileID: 0}
     - target: {fileID: 5627288095083129795, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
       propertyPath: m_Color.r
-      value: 0.33962262
+      value: 0.5754717
       objectReference: {fileID: 0}
     - target: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
       propertyPath: temp.a
@@ -83,6 +87,10 @@ PrefabInstance:
       propertyPath: temp.r
       value: 0.6698113
       objectReference: {fileID: 0}
+    - target: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
+      propertyPath: WalkableSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9176d10e0a79586488d3595b68ec5215, type: 3}
     - target: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
       propertyPath: tileProperties
       value: 6
