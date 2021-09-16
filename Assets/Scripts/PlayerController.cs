@@ -116,6 +116,7 @@ public class PlayerController : MovableEntity
     private IEnumerator AttackTile(HexTile hitTile)
     {
         StartWalking.Invoke();
+        ShakeComponent.SetupShake(hitTile.gameObject, 1f);
         hitTile.ReduceHealth();
         //float elapsedTime = 0f;
         //while (elapsedTime < moveTime)
