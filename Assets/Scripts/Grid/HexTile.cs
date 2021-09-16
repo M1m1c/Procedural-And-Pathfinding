@@ -73,9 +73,8 @@ public class HexTile : MonoBehaviour, IHeapItem<HexTile>
         return retval;
     }
 
-    public IEnumerator DeOccupyTile(GameObject deOccupier)
+    public void DeOccupyTile(GameObject deOccupier)
     {
-        yield return new WaitForSeconds(0.1f);
         if (deOccupier)
         {
             if (Occupants.Count != 0)
