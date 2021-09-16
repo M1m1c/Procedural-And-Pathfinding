@@ -7,8 +7,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MovableEntity
 {
-    public int OtherEntetiesCount { get; set; } 
-
     private SpriteRenderer myRenderer;
     private HealthIndicator myHealthIndicator;
 
@@ -17,7 +15,7 @@ public class PlayerController : MovableEntity
     private bool isExtendPathButtonHeld = false;
     private bool activated = false;
     private bool isAttackingTile = false;
- 
+
 
     protected override void OnAwake()
     {
@@ -26,7 +24,9 @@ public class PlayerController : MovableEntity
         myHealthIndicator = GetComponentInChildren<HealthIndicator>();
         myHealthIndicator.EntityHasDied.AddListener(OnPlayerDeath);
         StoppingMovement.AddListener(HighlightDestructableTiles);
+        StoppingMovement.AddListener(ShowNextLevelButton);
         StartWalking.AddListener(DeLightDestrucatableTiles);
+        StartWalking.AddListener(HideNextLevelButton);
     }
 
     public override void Setup(Vector2Int startCoord, HexTile startTile)
@@ -80,12 +80,12 @@ public class PlayerController : MovableEntity
     {
         if (!activated) { return; }
         if (!context.started || context.canceled || context.performed) { return; }
-        if (isMoving) { return; }   
+        if (isMoving) { return; }
 
         var mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         var mousePos2D = new Vector2(mousePosition.x, mousePosition.y);
 
-        RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero, 0f,1<<0);
+        RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero, 0f, 1 << 0);
         if (!hit) { return; }
 
         var hitTile = hit.transform.gameObject.GetComponent<HexTile>();
@@ -98,9 +98,9 @@ public class PlayerController : MovableEntity
         if (isAttackingTile) { return; }
         SelectionAction.Invoke();
 
-        var isTileDestructable = HexGrid.ContainsTileTag(hitTile.tileProperties,TileTags.Destructable);
+        var isTileDestructable = HexGrid.ContainsTileTag(hitTile.tileProperties, TileTags.Destructable);
         var isTileNextToMe = HexGrid.IsTileNextTo(this.transform.position, hitTile.transform.position);
-        if (isTileDestructable && isTileNextToMe && !isMoving && !isExtendPathButtonHeld) 
+        if (isTileDestructable && isTileNextToMe && !isMoving && !isExtendPathButtonHeld)
         {
             isAttackingTile = true;
             oldPath.Clear();
@@ -117,11 +117,11 @@ public class PlayerController : MovableEntity
     {
         StartWalking.Invoke();
         ShakeComponent.SetupShake(hitTile.gameObject, 1f);
-        hitTile.ChangeTileColor(Color.cyan,false);//TODO find a better color
+        hitTile.ChangeTileColor(Color.cyan, false);//TODO find a better color
         hitTile.ReduceHealth();
-      
-        yield return new WaitForSeconds(moveTime+0.1f);
-        
+
+        yield return new WaitForSeconds(moveTime + 0.1f);
+
         StoppingMovement.Invoke();
         isAttackingTile = false;
     }
@@ -162,7 +162,7 @@ public class PlayerController : MovableEntity
         StoppingMovement.Invoke();
         StopAllCoroutines();
         oldPath.Clear();
-        pathGizmo.SetupPath(oldPath,this.transform.position);
+        pathGizmo.SetupPath(oldPath, this.transform.position);
     }
 
     private void HighlightDestructableTiles()
@@ -186,5 +186,29 @@ public class PlayerController : MovableEntity
         {
             tile.HighLightTile(lightOrDark);
         }
+    }
+
+    private void ShowNextLevelButton()
+    {
+        StartCoroutine(NextLevelButtonTimer());
+
+    }
+
+    private IEnumerator NextLevelButtonTimer()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (!isMoving)
+        {
+            if (MyCurrentTile.tileProperties == TileTags.PlayerSpawn)
+            {
+                NextLevelMenu.DisplayButton();
+            }
+        }
+
+    }
+
+    private void HideNextLevelButton()
+    {
+        NextLevelMenu.HideButton();
     }
 }
