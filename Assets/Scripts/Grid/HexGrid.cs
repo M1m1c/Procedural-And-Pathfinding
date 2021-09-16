@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class HexGrid : MonoBehaviour
 {
@@ -108,14 +109,9 @@ public class HexGrid : MonoBehaviour
     {
         List<HexTile> retval = HexGridInstance.GetAdjacentTiles(currentTile);
 
-        for (int i = retval.Count - 1; i >= 0; i--)
-        {
-            var isNotDestrucatble = ((int)retval[i].tileProperties & 1 << (int)TileTags.Destructable) == 0;
-            if (isNotDestrucatble || !HexGridInstance.AreTilesAdjacent(currentTile.transform.position, retval[i].transform.position))
-            {
-                retval.RemoveAt(i);
-            }
-        }
+        retval.RemoveAll(q => !ContainsTileTag(q.tileProperties,TileTags.Destructable) ||
+        !HexGridInstance.AreTilesAdjacent(currentTile.transform.position, q.transform.position));
+  
         return retval;
     }
 
