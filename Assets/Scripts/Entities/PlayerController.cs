@@ -163,6 +163,8 @@ public class PlayerController : MovableEntity
         StopAllCoroutines();
         oldPath.Clear();
         pathGizmo.SetupPath(oldPath, this.transform.position);
+        PersistentScript.PlayerIsDead();
+        NextLevelMenu.DisplayButton();
     }
 
     private void HighlightDestructableTiles()
