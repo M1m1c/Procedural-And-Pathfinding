@@ -174,7 +174,7 @@ public class EnemyController : MovableEntity
         {
             foreach (var item in fieldOfView)
             {
-                item.ChangeTileColor(Color.white);
+                item.ChangeToDefaultColor();
             }
         }
 
@@ -183,7 +183,7 @@ public class EnemyController : MovableEntity
             newFieldOfView.Add(oldPath[0]);
             foreach (var item in newFieldOfView)
             {
-                item.ChangeTileColor(Color.yellow);
+                item.ChangeTileColor(Color.yellow,false);
             }
             fieldOfView = newFieldOfView;
         }

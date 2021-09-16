@@ -89,13 +89,19 @@ public class HexTile : MonoBehaviour, IHeapItem<HexTile>
 
     public void HighLightTile(bool shouldLighten)
     {
-        if (shouldLighten) { ChangeTileColor(highlightColor); }
-        else { ChangeTileColor(defaultColor); }
+        if (shouldLighten) { ChangeTileColor(highlightColor,false); }
+        else { ChangeTileColor(defaultColor,false); }
     }
 
-    public void ChangeTileColor(Color newColor)
+    public void ChangeTileColor(Color newColor,bool shouldChangeDefault)
     {
         spriteRenderer.color = newColor;
+        if (shouldChangeDefault) { defaultColor = newColor; }
+    }
+
+    public void ChangeToDefaultColor()
+    {
+        ChangeTileColor(defaultColor, false);
     }
 
     public void ReduceHealth()
@@ -103,7 +109,6 @@ public class HexTile : MonoBehaviour, IHeapItem<HexTile>
         health = Mathf.Clamp(health - 1, 0, maxHealth);
         if (health != 0) { return; }
         tileProperties = 0;
-        defaultColor = Color.white;
-        ChangeTileColor(Color.white);
+        ChangeTileColor(Color.white,true);
     }
 }

@@ -271,7 +271,7 @@ public class HexGrid : MonoBehaviour
             playerInstance = player;
 
             playerSpawnPoint.tileProperties = TileTags.PlayerSpawn;
-            playerSpawnPoint.ChangeTileColor(Color.magenta);
+            playerSpawnPoint.ChangeTileColor(Color.magenta,true);
             break;
         }
     }
