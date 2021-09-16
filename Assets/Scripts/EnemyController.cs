@@ -13,6 +13,7 @@ public enum EnemyState
 
 public class EnemyController : MovableEntity
 {
+    public SpriteRenderer AlertedSymbol;
 
     private bool isPlayerMoving = false;
 
@@ -28,6 +29,11 @@ public class EnemyController : MovableEntity
     private int maxFollowSteps = 5;
     private int currentFollowSteps = 5;
 
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+        if (AlertedSymbol) { AlertedSymbol.enabled = false; }
+    }
 
     public void OnPlayerStartWalking()
     {
@@ -68,6 +74,7 @@ public class EnemyController : MovableEntity
             (myState == EnemyState.FollowingPlayer && currentFollowSteps == 0))
         {
             followTarget = null;
+            AlertedSymbol.enabled = false;
             myState = EnemyState.Patrolling;
             CreateNewPath();
             return;
@@ -225,6 +232,7 @@ public class EnemyController : MovableEntity
     {
         StopCoroutine(MoveAlongPath());
         ShakeComponent.SetupShake(this.gameObject, 1f);
+        AlertedSymbol.enabled = true;
         myState = EnemyState.FollowingPlayer;
         followTarget = occupant.GetComponent<MovableEntity>();
         fTargetLastCoord = followTarget.MyGridPos;
