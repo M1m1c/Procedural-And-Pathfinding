@@ -19,6 +19,8 @@ public class HexGrid : MonoBehaviour
 
     public Text TileLabel;
 
+    public Sprite ExitTileSprite;
+
     private PlayerController playerInstance;
 
     private Dictionary<int, HexTile> tileSet = new Dictionary<int, HexTile>();
@@ -271,7 +273,8 @@ public class HexGrid : MonoBehaviour
             playerInstance = player;
 
             playerSpawnPoint.tileProperties = TileTags.PlayerSpawn;
-            playerSpawnPoint.ChangeTileColor(Color.magenta,true);
+            playerSpawnPoint.ChangeSprite(ExitTileSprite);
+            //playerSpawnPoint.ChangeTileColor(Color.magenta,true);
             break;
         }
     }
