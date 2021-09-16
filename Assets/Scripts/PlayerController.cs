@@ -117,13 +117,13 @@ public class PlayerController : MovableEntity
     {
         StartWalking.Invoke();
         ShakeComponent.SetupShake(hitTile.gameObject, 1f);
+        hitTile.ChangeTileColor(Color.cyan);//TODO find a better color
         hitTile.ReduceHealth();
       
         yield return new WaitForSeconds(moveTime+0.1f);
         
         StoppingMovement.Invoke();
         isAttackingTile = false;
-        //yield return null;
     }
 
     private void RequestPathToTile(HexTile hitTile)
