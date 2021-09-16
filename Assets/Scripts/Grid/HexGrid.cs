@@ -119,6 +119,11 @@ public class HexGrid : MonoBehaviour
         return retval;
     }
 
+    private static bool ContainsTileTag(TileTags objecTag, TileTags tagToCheck)
+    {
+        return ((int)objecTag & 1 << (int)tagToCheck) != 0;
+    }
+
     public HexTile GetTileFromGridCoord(Vector2Int coord)
     {
         return tiles[coord.x, coord.y];
