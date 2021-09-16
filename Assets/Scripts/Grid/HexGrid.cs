@@ -188,7 +188,7 @@ public class HexGrid : MonoBehaviour
 
         SpawnPlayer();
 
-        enemyMasterComp.SpawnEnemies(ref playerInstance, 2);
+        enemyMasterComp.SpawnEnemies(ref playerInstance, 3);
 
         SpawnMultipleTreassures();
     }
