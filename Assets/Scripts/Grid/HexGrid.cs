@@ -100,19 +100,19 @@ public class HexGrid : MonoBehaviour
         return retval;
     }
 
-    public static bool IsTileNextTo(Vector3 posA, Vector3 posB)
-    {
-        return HexGridInstance.AreTilesAdjacent(posA, posB);
-    }
-
     public static List<HexTile> GetAdjacentDestructableTiles(HexTile currentTile)
     {
         List<HexTile> retval = HexGridInstance.GetAdjacentTiles(currentTile);
 
-        retval.RemoveAll(q => !ContainsTileTag(q.tileProperties,TileTags.Destructable) ||
+        retval.RemoveAll(q => !ContainsTileTag(q.tileProperties, TileTags.Destructable) ||
         !HexGridInstance.AreTilesAdjacent(currentTile.transform.position, q.transform.position));
-  
+
         return retval;
+    }
+
+    public static bool IsTileNextTo(Vector3 posA, Vector3 posB)
+    {
+        return HexGridInstance.AreTilesAdjacent(posA, posB);
     }
 
     public static bool ContainsTileTag(TileTags objecTag, TileTags tagToCheck)
