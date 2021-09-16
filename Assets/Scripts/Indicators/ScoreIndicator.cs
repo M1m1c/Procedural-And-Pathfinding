@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreIndicator : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private static ScoreIndicator ScoreIndicatorInstance;
+    private Text scoreText;
+    private int score = 0;
+    private void Awake()
     {
-        
+        ScoreIndicatorInstance = this;
+        scoreText = GetComponentInChildren<Text>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public static void AddToScore(int scoreToadd)
     {
-        
+        ScoreIndicatorInstance.score += scoreToadd;
     }
 }
