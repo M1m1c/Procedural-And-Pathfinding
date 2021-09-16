@@ -97,6 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08905d282b37e144386708b72ec7b850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TreasureSprite_1: {fileID: 21300000, guid: 97cda1d6a916c5145ac3d2c9afbbfe9e, type: 3}
+  TreasureSprite_2: {fileID: 21300000, guid: 15f35db189f9dd8478fe048f144f68ab, type: 3}
 --- !u!50 &6607209134785597410
 Rigidbody2D:
   serializedVersion: 4
