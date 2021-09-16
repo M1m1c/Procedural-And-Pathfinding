@@ -26,6 +26,7 @@ public class HexTile : MonoBehaviour, IHeapItem<HexTile>
     private SpriteRenderer spriteRenderer;
 
     private Color defaultColor;
+    private Color walkableColor = new Color(0.764151f, 0.7598256f, 0.7598256f, 1f);
     
 
     private int maxHealth = 3;
@@ -109,6 +110,6 @@ public class HexTile : MonoBehaviour, IHeapItem<HexTile>
         health = Mathf.Clamp(health - 1, 0, maxHealth);
         if (health != 0) { return; }
         tileProperties = 0;
-        ChangeTileColor(Color.white,true);
+        ChangeTileColor(walkableColor,true);
     }
 }
