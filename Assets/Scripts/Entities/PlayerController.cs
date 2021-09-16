@@ -142,9 +142,17 @@ public class PlayerController : MovableEntity
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<EnemyController>())
+        var enemy = collision.GetComponent<EnemyController>();
+        var pickUp = collision.GetComponent<PickupEntity>();
+
+        if (enemy)
         {
             myHealthIndicator.TakeDamage(myRenderer);
+        }
+        else if (pickUp)
+        {
+            ScoreIndicator.AddToScore(pickUp.CashValue);
+            Destroy(pickUp.gameObject);
         }
     }
 
