@@ -8,5 +8,6 @@ public enum TileTags
 {
     None,
     Impassable,
-    Destructable
+    Destructable,
+    PlayerSpawn = 1 << 3
 }
