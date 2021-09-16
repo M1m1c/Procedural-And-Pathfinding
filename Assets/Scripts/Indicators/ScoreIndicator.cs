@@ -17,5 +17,6 @@ public class ScoreIndicator : MonoBehaviour
     public static void AddToScore(int scoreToadd)
     {
         ScoreIndicatorInstance.score += scoreToadd;
+        ScoreIndicatorInstance.scoreText.text = $"{ScoreIndicatorInstance.score}";
     }
 }
