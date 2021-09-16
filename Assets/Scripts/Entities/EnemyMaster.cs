@@ -34,7 +34,6 @@ public class EnemyMaster : MonoBehaviour
 
     public void SpawnEnemies(ref PlayerController playerInstance, int enemyCount)
     {
-        playerInstance.OtherEntetiesCount = enemyCount;
         while (enemyCount > 0)
         {
             var tile = HexGrid.GetRandomEnemySpawn();
