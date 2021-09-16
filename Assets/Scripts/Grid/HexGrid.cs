@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using System;
 using System.Linq;
+using Random = UnityEngine.Random;
 
 public class HexGrid : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class HexGrid : MonoBehaviour
     public HexTile DarkTilePrefab;
 
     public PlayerController PlayerPrefab;
+
+    public PickupEntity TreassuePrefab;
 
     public Text TileLabel;
 
@@ -186,10 +189,11 @@ public class HexGrid : MonoBehaviour
         SpawnPlayer();
 
         enemyMasterComp.SpawnEnemies(ref playerInstance, 2);
+
+        SpawnMultipleTreassures();
     }
 
    
-
     private float CalucluateAdjacentDistance()
     {
         Vector2Int tile0 = Vector2Int.zero;
@@ -268,6 +272,34 @@ public class HexGrid : MonoBehaviour
             break;
         }
     }
+
+    private void SpawnMultipleTreassures()
+    {
+        if (!TreassuePrefab) { return; }
+        var rand = Random.Range(3, 9);
+
+        for (int i = 0; i < rand; i++)
+        {
+            SpawnTreassure();
+        }
+    }
+
+    private void SpawnTreassure()
+    {
+        while (true)
+        {
+            var tile = GetRandomViableSpawnTile();
+            if (!tile) { continue; }
+
+            if (tile == playerSpawnPoint) { continue; }
+            var treassure = Instantiate(TreassuePrefab);
+
+            treassure.transform.position = tile.transform.position;
+
+            break;
+        }
+    }
+
 
     private void ClearGrid()
     {
