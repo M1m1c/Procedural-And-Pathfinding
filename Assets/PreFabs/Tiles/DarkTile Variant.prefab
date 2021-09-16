@@ -85,7 +85,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
       propertyPath: tileProperties
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
       propertyPath: highlightColor.a

@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileProperties: 0
+  highlightColor: {r: 0, g: 0, b: 0, a: 0}
   gCost: 0
   hCost: 0
   parent: {fileID: 0}
