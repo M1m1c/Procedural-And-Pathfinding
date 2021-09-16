@@ -50,7 +50,7 @@ MonoBehaviour:
   LightTilePrefab: {fileID: 6067505687705576522, guid: 7e41aa96d79388348b9f18d82a6458c7, type: 3}
   DarkTilePrefab: {fileID: 5371815236759532749, guid: b512343acc66c2e4ebb3116a59925339, type: 3}
   PlayerPrefab: {fileID: 1766397991792909541, guid: e82256982d107ce4c9fbdf08bb5e0f0f, type: 3}
-  EnemyPrefab: {fileID: 4118093877534979985, guid: 991f8ee3a7cb3d641b6859487a340882, type: 3}
+  TreassuePrefab: {fileID: 5445787915157633967, guid: 4c32d6996db4258439a257ff6636bdcb, type: 3}
   TileLabel: {fileID: 6655874574666960675, guid: f7b1e1d7f2974394990dd921370bb6db, type: 3}
   height: 8
   width: 16

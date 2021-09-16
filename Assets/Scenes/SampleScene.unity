@@ -259,6 +259,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3866058513438427312, guid: d0f86c840a822d1438d1b3fde966dd70, type: 3}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3866058514821475685, guid: d0f86c840a822d1438d1b3fde966dd70, type: 3}
       propertyPath: m_Name
       value: ScoreIndicator
@@ -469,6 +473,10 @@ PrefabInstance:
       propertyPath: height
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 6879161611793022071, guid: 7636d0cf44638ad4cb30c0f0e6f3e1dc, type: 3}
+      propertyPath: TreassuePrefab
+      value: 
+      objectReference: {fileID: 5445787915157633967, guid: 4c32d6996db4258439a257ff6636bdcb, type: 3}
     - target: {fileID: 6879161611816473754, guid: 7636d0cf44638ad4cb30c0f0e6f3e1dc, type: 3}
       propertyPath: m_Camera
       value: 
