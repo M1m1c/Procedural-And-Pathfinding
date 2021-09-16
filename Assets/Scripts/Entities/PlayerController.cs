@@ -85,7 +85,7 @@ public class PlayerController : MovableEntity
         var mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         var mousePos2D = new Vector2(mousePosition.x, mousePosition.y);
 
-        RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero, 0f);
+        RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero, 0f,1<<0);
         if (!hit) { return; }
 
         var hitTile = hit.transform.gameObject.GetComponent<HexTile>();
