@@ -58,4 +58,13 @@ struct shakeRequest
     public float trauma; //= 0.0f;
     public float degerdationRateTrauma; //= 4.0f;
     public float maxOffset;//= 0.4f;
+
+    public shakeRequest(GameObject obj, Vector3 defPos, float inDegredation, float inMaxOffset)
+    {
+        objectToshake = obj;
+        defaultObjectPos = defPos;
+        trauma = 0f;
+        degerdationRateTrauma = inDegredation;
+        maxOffset = inMaxOffset;
+    }
 }
