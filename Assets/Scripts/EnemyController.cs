@@ -224,6 +224,7 @@ public class EnemyController : MovableEntity
     private void StartFollowingPlayer(GameObject occupant)
     {
         StopCoroutine(MoveAlongPath());
+        ShakeComponent.SetupShake(this.gameObject, 1f);
         myState = EnemyState.FollowingPlayer;
         followTarget = occupant.GetComponent<MovableEntity>();
         fTargetLastCoord = followTarget.MyGridPos;
