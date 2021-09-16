@@ -156,7 +156,6 @@ public class EnemyController : MovableEntity
         }
         else if (myState == EnemyState.FollowingPlayer)
         {
-            //if (!followTarget) { return; }
             PathRequestManager.RequestPath(MyGridPos, fTargetLastCoord, false, OnPathFound, false);
         }
 
@@ -240,9 +239,6 @@ public class EnemyController : MovableEntity
         oldPath.Clear();
         pathGizmo.SetupPath(oldPath, this.transform.position);
         OnPlayerSelectionAction();
-
-        //TODO add alerted visuals
-        Debug.Log("Alerted!");
     }
 
     private void ContinueFollowingPlayer(GameObject occupant)
