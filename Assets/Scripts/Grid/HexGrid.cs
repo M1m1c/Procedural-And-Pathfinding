@@ -86,7 +86,7 @@ public class HexGrid : MonoBehaviour
             var adjacentPos = adjacent[i].transform.position;
             var pathTilePos = pathTile.transform.position;
 
-            var isImpassable = ((int)adjacent[i].tileProperties & 1 << (int)TileTags.Impassable) != 0;
+            var isImpassable = ContainsTileTag(adjacent[i].tileProperties, TileTags.Impassable);
             var isNotCloseToRequester = Vector3.Distance(requesterPos, adjacent[i].transform.position) > adjacentDist + 1f;
             var isNotCloseToPathTile =  Vector3.Distance(pathTilePos, adjacentPos) > adjacentDist + 1f;
 
@@ -115,7 +115,7 @@ public class HexGrid : MonoBehaviour
         return retval;
     }
 
-    private static bool ContainsTileTag(TileTags objecTag, TileTags tagToCheck)
+    public static bool ContainsTileTag(TileTags objecTag, TileTags tagToCheck)
     {
         return ((int)objecTag & 1 << (int)tagToCheck) != 0;
     }
@@ -233,8 +233,7 @@ public class HexGrid : MonoBehaviour
 
         if (tile)
         {
-            int properties = (int)tile.tileProperties;
-            if ((properties & 1 << (int)TileTags.Impassable) == 0)
+            if (!ContainsTileTag(tile.tileProperties, TileTags.Impassable)) 
             {
                 retval = tile;
             }

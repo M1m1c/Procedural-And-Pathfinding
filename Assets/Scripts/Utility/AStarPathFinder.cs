@@ -34,7 +34,7 @@ public class AStarPathFinder : MonoBehaviour
         var startTile = hexGridComp.GetTileFromGridCoord(startPos);
         var goalTile = hexGridComp.GetTileFromGridCoord(goalPos);
 
-        var isGoalReachable = ((int)goalTile.tileProperties & 1 << (int)TileTags.Impassable) == 0;
+        var isGoalReachable = !HexGrid.ContainsTileTag(goalTile.tileProperties,TileTags.Impassable);
         if (isGoalReachable || ignoreImpassable)
         {
             var closedTiles = new HashSet<HexTile>();
@@ -56,7 +56,7 @@ public class AStarPathFinder : MonoBehaviour
                 {
                     if (!ignoreImpassable)
                     {
-                        var isImpassable = ((int)adjacent.tileProperties & 1 << (int)TileTags.Impassable) != 0;
+                        var isImpassable = HexGrid.ContainsTileTag(adjacent.tileProperties, TileTags.Impassable);
                         if (isImpassable) { continue; }
                     }                  
 

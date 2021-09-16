@@ -98,7 +98,7 @@ public class PlayerController : MovableEntity
         if (isAttackingTile) { return; }
         SelectionAction.Invoke();
 
-        var isTileDestructable = ((int)hitTile.tileProperties & 1 << (int)TileTags.Destructable) != 0;
+        var isTileDestructable = HexGrid.ContainsTileTag(hitTile.tileProperties,TileTags.Destructable);
         var isTileNextToMe = HexGrid.IsTileNextTo(this.transform.position, hitTile.transform.position);
         if (isTileDestructable && isTileNextToMe && !isMoving && !isExtendPathButtonHeld) 
         {
