@@ -22,6 +22,7 @@ public class NextLevelMenu : MonoBehaviour
 
     public void ClickButton()
     {
+        Debug.Log("Click");
         if (!isButtonActive) { return; }
         var scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
