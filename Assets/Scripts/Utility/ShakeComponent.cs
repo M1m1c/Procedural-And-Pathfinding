@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ShakeComponent : MonoBehaviour
@@ -43,9 +44,14 @@ public class ShakeComponent : MonoBehaviour
         float offY = sR.maxOffset * shake * Random.Range(-1.0f, 1.0f);
 
 
-       Vector3 offsetPos = new Vector3(offX, offY, 0);
+        Vector3 offsetPos = new Vector3(offX, offY, 0);
 
         sR.objectToshake.transform.position = sR.defaultObjectPos + offsetPos;
+
+        if (Mathf.Approximately(sR.trauma, 0f))
+        {
+            shakeRequests.RemoveAll(q => q.objectToshake == sR.objectToshake);
+        }
     }
 }
 
