@@ -9,28 +9,31 @@ public class ShakeComponent : MonoBehaviour
     bool shouldShake = false;
     bool isCurrentlyShaking = false;
 
+    private static ShakeComponent shakeComponentInstance;
+
     List<shakeRequest> shakeRequests = new List<shakeRequest>();
 
-    // Start is called before the first frame update
-    void Start()
+    public static void SetupShake(GameObject objectToShake)
     {
-        
+        //TODO pass in an object to be shaken and its properties for rates.
+        //add object to shake requests list
+        var shakeRequest = new shakeRequest(objectToShake, objectToShake.transform.position, 4f, 0.4f);
+
+        shakeComponentInstance.shakeRequests.Add(shakeRequest);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
+    {
+        shakeComponentInstance = this;
+    }
+
+    private void Update()
     {
         if (shakeRequests.Count == 0) { return; }
         foreach (var item in shakeRequests)
         {
             ShakeObject(item);
         }
-    }
-
-    public void SetupShake()
-    {
-        //TODO pass in an object to be shaken and its properties for rates.
-        //add object top shake requests list
     }
 
     private void ShakeObject(shakeRequest sR)
