@@ -118,11 +118,7 @@ public class PlayerController : MovableEntity
         StartWalking.Invoke();
         ShakeComponent.SetupShake(hitTile.gameObject, 1f);
         hitTile.ReduceHealth();
-        //float elapsedTime = 0f;
-        //while (elapsedTime < moveTime)
-        //{
-        //    elapsedTime += Time.deltaTime;
-        //}
+      
         yield return new WaitForSeconds(moveTime+0.1f);
         
         StoppingMovement.Invoke();
