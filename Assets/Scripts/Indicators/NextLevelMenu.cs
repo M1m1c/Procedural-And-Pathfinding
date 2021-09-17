@@ -17,7 +17,6 @@ public class NextLevelMenu : MonoBehaviour
     {
         NextLevelMenuInstance = this;
         nextLevelButton = GetComponentInChildren<Button>();
-        //DisplayButton();
     }
 
     public void ClickButton()
