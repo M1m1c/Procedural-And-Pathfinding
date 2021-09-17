@@ -16,6 +16,7 @@ public class PathIndicatorGizmo : MonoBehaviour
         lineRenderer.endWidth = 1.3f;
     }
 
+    //Saves the path tiles world locations in a list and then calls DrawPath
     public void SetupPath(List<HexTile> tiles, Vector3 startPos)
     {
         positions.Clear();
@@ -37,6 +38,7 @@ public class PathIndicatorGizmo : MonoBehaviour
         DrawPath(positions);
     }
 
+    //Sets the linerender points to be the tiles world positions
     private void DrawPath(List<Vector3> path)
     {
 
