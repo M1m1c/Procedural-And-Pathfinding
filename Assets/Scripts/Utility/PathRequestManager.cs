@@ -19,6 +19,7 @@ public class PathRequestManager : MonoBehaviour
         PathFinder = GetComponent<AStarPathFinder>();
     }
 
+    //Creates a request based on paramters and stores it in a queue, starts processing next request
     public static void RequestPath(Vector2Int pathStart, Vector2Int pathEnd,bool ignoreImpassable,Action<List<HexTile>,bool> callBack, bool isAlreadyMoving)
     {
         if (isAlreadyMoving) { return; }
@@ -27,6 +28,7 @@ public class PathRequestManager : MonoBehaviour
         PathRequesterInstance.TryProcessNextRequest();
     }
 
+    //Starts the process of genererating a path based on the first request in the queue using the AStarPathFInder class
     private void TryProcessNextRequest()
     {
         if (!isProceesingPath && PathRequestQueue.Count > 0)
@@ -38,6 +40,8 @@ public class PathRequestManager : MonoBehaviour
         }
     }
 
+    //Is called when AStarPathFInder has finished finding a path.
+    //Calls the callback method, then resumes processing of next request in queue
     public void FinishedProcessingPath(List<HexTile> path, bool wasSucessfull)
     {
         currentRequest.callBack(path, wasSucessfull);
