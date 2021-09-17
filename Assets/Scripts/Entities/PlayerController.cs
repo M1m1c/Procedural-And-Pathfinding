@@ -36,6 +36,7 @@ public class PlayerController : MovableEntity
         HighlightDestructableTiles();
     }
 
+    //Modified to account for path extending
     public override void OnPathFound(List<HexTile> path, bool succeded)
     {
         if (!succeded) { return; }
@@ -48,6 +49,7 @@ public class PlayerController : MovableEntity
         pathGizmo.SetupPath(oldPath, transform.position);
     }
 
+    //Called by Input System
     public void InputActivateExtendSelection(InputAction.CallbackContext context)
     {
         if (!activated) { return; }
@@ -56,6 +58,7 @@ public class PlayerController : MovableEntity
         isExtendPathButtonHeld = true;
     }
 
+    //Called by Input System
     public void InputDeactivateExtendSelection(InputAction.CallbackContext context)
     {
         if (!activated) { return; }
@@ -64,6 +67,8 @@ public class PlayerController : MovableEntity
         isExtendPathButtonHeld = false;
     }
 
+    //Called by Input System
+    //Make player character start moving along its selected path
     public void InputStartMoving(InputAction.CallbackContext context)
     {
         if (!activated) { return; }
@@ -75,7 +80,8 @@ public class PlayerController : MovableEntity
         StartWalking.Invoke();
     }
 
-    //when a player clicks the screen, see if they select a tile
+    //Called by Input System
+    //When a player clicks the screen, see if they select a tile
     public void InputTileSelection(InputAction.CallbackContext context)
     {
         if (!activated) { return; }
@@ -93,6 +99,7 @@ public class PlayerController : MovableEntity
         ClickTile(hitTile);
     }
 
+    //When a tile is clicked check what type of tile it is, to determine what action to take
     private void ClickTile(HexTile hitTile)
     {
         if (isAttackingTile) { return; }
@@ -100,6 +107,7 @@ public class PlayerController : MovableEntity
 
         var isTileDestructable = HexGrid.ContainsTileTag(hitTile.tileProperties, TileTags.Destructable);
         var isTileNextToMe = HexGrid.IsTileNextTo(this.transform.position, hitTile.transform.position);
+
         if (isTileDestructable && isTileNextToMe && !isMoving && !isExtendPathButtonHeld)
         {
             isAttackingTile = true;
@@ -113,6 +121,7 @@ public class PlayerController : MovableEntity
         }
     }
 
+    //Damages a tile on a cooldown
     private IEnumerator AttackTile(HexTile hitTile)
     {
         StartWalking.Invoke();
@@ -126,6 +135,7 @@ public class PlayerController : MovableEntity
         isAttackingTile = false;
     }
 
+    //Request a path based on selected tile and player location
     private void RequestPathToTile(HexTile hitTile)
     {
         Vector2Int currentGridPos;
@@ -168,6 +178,7 @@ public class PlayerController : MovableEntity
         NextLevelMenu.DisplayButton();
     }
 
+    //Highlights the destructable tiles that are adjacent, to show that they can be clicked
     private void HighlightDestructableTiles()
     {
         if (!MyCurrentTile) { return; }
@@ -176,12 +187,14 @@ public class PlayerController : MovableEntity
         ChangeLightOfDestructableTiles(true);
     }
 
+    //Stops highlighting destructable tiles that were adjacent
     private void DeLightDestrucatableTiles()
     {
         ChangeLightOfDestructableTiles(false);
         AdjacentDestructables.Clear();
     }
 
+    //Intermediate function used to determien if tile should lighten or darken tiles in AdjacentDestructables
     private void ChangeLightOfDestructableTiles(bool lightOrDark)
     {
         if (AdjacentDestructables.Count == 0) { return; }
@@ -191,10 +204,10 @@ public class PlayerController : MovableEntity
         }
     }
 
+    //Starts timer for sliding into display the next level button
     private void ShowNextLevelButton()
     {
         StartCoroutine(NextLevelButtonTimer());
-
     }
 
     private IEnumerator NextLevelButtonTimer()

@@ -72,6 +72,8 @@ public class EnemyController : MovableEntity
         StartCoroutine(MoveAlongPath());
     }
 
+    //Modified to account for enemy movement limitations and
+    //so that if enemy does not find a path it will try again, otherwise enemies would get stuck.
     public override void OnPathFound(List<HexTile> path, bool succeded)
     {
         isRequestingPath = false;
