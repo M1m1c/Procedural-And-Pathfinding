@@ -35,17 +35,22 @@ public class EnemyController : MovableEntity
         if (AlertedSymbol) { AlertedSymbol.enabled = false; }
     }
 
+    //called via player event
     public void OnPlayerStartWalking()
     {
         isPlayerMoving = true;
         OnPlayerStillMoving();
     }
+
+    //called via player event
     public void OnPlayerStopping()
     {
         isPlayerMoving = false;  
         OnPlayerSelectionAction();
     }
 
+
+    //called via player event
     public void OnPlayerSelectionAction()
     {
 
@@ -53,6 +58,8 @@ public class EnemyController : MovableEntity
         CreateNewPath();
     }
 
+
+    //called via player event
     public void OnPlayerStillMoving()
     {
         if (!isPlayerMoving) { return; }
@@ -94,6 +101,8 @@ public class EnemyController : MovableEntity
         OnPlayerStartWalking();
     }
 
+    //Enemy's MoveAlongPath() requires multiple null checks for path,
+    //since if they spot player their path might be cleared before they exit the loop.
     protected override IEnumerator MoveAlongPath()
     {
         if (oldPath.Count == 0) { yield return null; }
@@ -132,12 +141,11 @@ public class EnemyController : MovableEntity
             currentFollowSteps = Mathf.Clamp(currentFollowSteps - 1, 0, maxFollowSteps);
         }
 
-        //CheckActionStepsLeft();
-
         isMoving = false;
         yield return null;
     }
-
+    
+    //Requests a path from PathRequestManager
     private void CreateNewPath()
     {
         HexTile goalTile = null;
@@ -162,7 +170,7 @@ public class EnemyController : MovableEntity
 
     }
 
-    //Adds FOV tiles to list and Re-draws FOV by chaning color fo tiles
+    //Adds FOV tiles to list and Re-draws FOV by changing color of tiles
     private void UpdateFieldOfView()
     {
         var lookTile = facingTile;
@@ -197,6 +205,7 @@ public class EnemyController : MovableEntity
         CheckFieldOfViewForPlayer();
     }
 
+    //Intermediate fucntions that calls different funcitons depending on what state the enemy is in
     private void CheckFieldOfViewForPlayer()
     {
         if (fieldOfView.Count == 0) { return; }
@@ -210,6 +219,7 @@ public class EnemyController : MovableEntity
         }      
     }
 
+    //Checks the current FOV tiles to see if the playe is inside them, calls action if player is found
     private void GoThroughFOVTiles(Action<GameObject> actionToPerfomrIfplayerFound)
     {
         foreach (var tile in fieldOfView)
