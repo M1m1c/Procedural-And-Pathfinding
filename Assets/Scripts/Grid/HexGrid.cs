@@ -45,6 +45,31 @@ public class HexGrid : MonoBehaviour
 
     private bool isDebugging = false;
 
+    private void Awake()
+    {
+        HexGridInstance = this;
+        gridCanvas = GetComponentInChildren<Canvas>();
+        enemyMasterComp = GetComponent<EnemyMaster>();
+
+        tileSet.Add(0, LightTilePrefab);
+        tileSet.Add(1, DarkTilePrefab);
+
+        tiles = new HexTile[width, height];
+
+        adjacentDist = CalucluateAdjacentDistance();
+
+        GenerateGrid();
+
+        RemoveUnreachableTiles();
+
+        SpawnPlayer();
+
+        enemyMasterComp.SpawnEnemies(ref playerInstance, 3);
+
+        SpawnMultipleTreassures();
+    }
+
+    //Used to get a tile that is walkable and within the tile count
     public static HexTile GetRandomWalkableTileWithin(Vector3 requsterPos, int tileCount)
     {
         HexTile retval = null;
@@ -64,6 +89,7 @@ public class HexGrid : MonoBehaviour
         return retval;
     }
 
+    //Gets a tile that is walkable and not the player spawn or too close to it
     public static HexTile GetRandomEnemySpawn()
     {
         var tile = HexGridInstance.GetRandomViableSpawnTile();
@@ -78,6 +104,7 @@ public class HexGrid : MonoBehaviour
         return tile;
     }
 
+    //Gets the tiles to the sides of the next pathTile and the tile currently standing on.
     public static List<HexTile> GetFieldOfViewTiles(HexTile pathTile, Vector3 requesterPos)
     {
         List<HexTile> retval = new List<HexTile>();
@@ -130,6 +157,8 @@ public class HexGrid : MonoBehaviour
         return tiles[coord.x, coord.y];
     }
 
+    //Checks a nine tile section based on current tile,
+    //and removes tiles whose distance is greater than the adjacent distance.
     public List<HexTile> GetAdjacentTiles(HexTile currentTile)
     {
         var retval = new List<HexTile>();
@@ -165,37 +194,8 @@ public class HexGrid : MonoBehaviour
         }
         return retval;
     }
-
-    private bool AreTilesAdjacent(Vector3 posA, Vector3 posB)
-    {
-        return Mathf.Approximately(Vector3.Distance(posA, posB), adjacentDist);
-    }
-
-    void Awake()
-    {
-        HexGridInstance = this;
-        gridCanvas = GetComponentInChildren<Canvas>();
-        enemyMasterComp = GetComponent<EnemyMaster>();
-
-        tileSet.Add(0, LightTilePrefab);
-        tileSet.Add(1, DarkTilePrefab);
-
-        tiles = new HexTile[width, height];
-
-        adjacentDist = CalucluateAdjacentDistance();
-
-        GenerateGrid();
-
-        RemoveUnreachableTiles();
-
-        SpawnPlayer();
-
-        enemyMasterComp.SpawnEnemies(ref playerInstance, 3);
-
-        SpawnMultipleTreassures();
-    }
-
    
+    //Calculates the distance between two abstract tiles that are known to be adjacent and returs that value.
     private float CalucluateAdjacentDistance()
     {
         Vector2Int tile0 = Vector2Int.zero;
@@ -209,6 +209,12 @@ public class HexGrid : MonoBehaviour
         return Vector3.Distance(pos1, pos2);
     }
 
+    private bool AreTilesAdjacent(Vector3 posA, Vector3 posB)
+    {
+        return Mathf.Approximately(Vector3.Distance(posA, posB), adjacentDist);
+    }
+
+    //Used to check if two tiles are within a tile distance span, either fewer than tile count or more than.
     private bool IsTileWithinDistanceSpan(Vector3 posA, Vector3 posB, int tileCount, bool lessOrMoreThanCount)
     {
         var retval = false;
@@ -227,11 +233,16 @@ public class HexGrid : MonoBehaviour
         return retval;
     }
 
+    //Returns the worldspace position that the tile should be placed at to line up correctly within the columns and rows.
+    //Needed because the tile is hexagonal,
+    //and therefore the tiles cannot be placed lined up next to eachother like if they were squares.
+    //see for more info regarding the math:https://www.omnicalculator.com/math/hexagon
     private Vector3 GetPlacementPositionFromIndex(Vector2Int index)
     {
         return new Vector3(index.x * (HexSettings.circumRadius * 1.5f), (index.y + index.x * 0.5f - index.x / 2) * (HexSettings.inRadius * 2.0f), 0.0f);
     }
 
+    // returns a random tile that is walkable
     private HexTile GetRandomViableSpawnTile()
     {
         HexTile retval = null;
@@ -256,6 +267,7 @@ public class HexGrid : MonoBehaviour
         return tiles[x, y];
     }
 
+    //Spawns and sets up player and playerspawn/exit tile
     private void SpawnPlayer()
     {
         if (!PlayerPrefab) { return; }
@@ -327,6 +339,7 @@ public class HexGrid : MonoBehaviour
         }      
     }
 
+    //Removes tiles that have no adjacent tiles
     private void RemoveUnreachableTiles()
     {
         foreach (var tile in tiles)
@@ -340,6 +353,8 @@ public class HexGrid : MonoBehaviour
         }
     }
 
+    //Creates a grid of tiles based on width and height.
+    //Uses perlin noise to determine what type of tile to spawn at the grid coordinate.
     private void GenerateGrid()
     {
         offsetX= UnityEngine.Random.Range(0.0f, 99999.0f);
@@ -386,11 +401,10 @@ public class HexGrid : MonoBehaviour
             label.rectTransform.anchoredPosition = new Vector2(position.x, position.y);
             label.text = $"{tile.Coordinates.x.ToString()}\n{tile.Coordinates.y.ToString()}";
         }
-       
-
         return tile;
     }
 
+    //Returns the world position of tile based on grid coordinates and if it exists
     private Vector3 GetTileWorldPos(Vector2Int tileCoordinate, ref bool didFindTile)
     {
         Vector3 retval = Vector3.zero;
