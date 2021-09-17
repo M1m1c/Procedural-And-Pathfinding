@@ -55,6 +55,15 @@ public class HealthIndicator : MonoBehaviour
             renderer.enabled = visibility;
         }
     }
+    public void ResetHealth()
+    {
+        var i = 0;
+        while (i< HealthSpriteSlots.Length+1)
+        {
+            i++;
+            ChangeHealth(true, false);
+        }
+    }
 
     public void TakeDamage(SpriteRenderer entitysRenderer)
     {

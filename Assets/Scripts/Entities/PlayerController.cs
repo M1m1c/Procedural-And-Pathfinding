@@ -163,6 +163,7 @@ public class PlayerController : MovableEntity
         StopAllCoroutines();
         oldPath.Clear();
         pathGizmo.SetupPath(oldPath, this.transform.position);
+        myHealthIndicator.ResetHealth();
         PersistentScript.PlayerIsDead();
         NextLevelMenu.DisplayButton();
     }
