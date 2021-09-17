@@ -164,7 +164,7 @@ public class PlayerController : MovableEntity
         oldPath.Clear();
         pathGizmo.SetupPath(oldPath, this.transform.position);
         myHealthIndicator.ResetHealth();
-        PersistentScript.PlayerIsDead();
+        ScoreIndicator.ResetScore();
         NextLevelMenu.DisplayButton();
     }
 

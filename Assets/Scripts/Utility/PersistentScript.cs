@@ -6,7 +6,6 @@ public class PersistentScript : MonoBehaviour
 {
     public static int TotalScore { get; set; }
 
-
     public static int CurrentHealth
     {
         get { return currentHealth; }
@@ -18,29 +17,14 @@ public class PersistentScript : MonoBehaviour
 
     private static bool isPlayingMusic = false;
 
-    private static bool isPlayerDead = false;
-
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
-        if (isPlayerDead)
-        {
-            isPlayerDead = false;
-            TotalScore = 0;
-        }
-
         if (!isPlayingMusic)
         {
             isPlayingMusic = true;
             myAudioSource = GetComponent<AudioSource>();
             myAudioSource.Play();
-        }
-
-       
-    }
-
-    public static void PlayerIsDead()
-    {
-        isPlayerDead = true;
+        }   
     }
 }

@@ -21,6 +21,10 @@ public class ScoreIndicator : MonoBehaviour
         ScoreIndicatorInstance.score += scoreToadd;
         ScoreIndicatorInstance.scoreText.text = $"{ScoreIndicatorInstance.score}";
     }
+    public static void ResetScore()
+    {
+        ScoreIndicatorInstance.score = 0;
+    }
 
     private void OnDestroy()
     {
