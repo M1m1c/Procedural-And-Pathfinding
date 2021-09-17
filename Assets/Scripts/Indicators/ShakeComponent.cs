@@ -21,6 +21,8 @@ public class ShakeComponent : MonoBehaviour
         shakeComponentInstance = this;
     }
 
+    //Shakes an object in the x axis based on trauma, whihc is reduced overtime by degredation rate.
+    //Returns object to its normal position once trauma is 0.
     private IEnumerator ShakeObject(shakeRequest sR)
     {
 
@@ -32,7 +34,6 @@ public class ShakeComponent : MonoBehaviour
             var shake = Mathf.Pow(sR.trauma, 2f);
 
             float offX = sR.maxOffset * shake * Random.Range(-1.0f, 1.0f);
-            // float offY = sR.maxOffset * shake * Random.Range(-1.0f, 1.0f);
 
             Vector3 offsetPos = new Vector3(offX, 0f, 0f);
 
