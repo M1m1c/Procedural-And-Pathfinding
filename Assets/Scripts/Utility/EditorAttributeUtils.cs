@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -9,10 +8,12 @@ public class EditorAttributeUtils : MonoBehaviour
    
 }
 
+//Generates a bit mask that can have its individual bits set in editor
 public sealed class EnumFlagsAttribute : PropertyAttribute
 {
     public EnumFlagsAttribute() { }
 
+    //Gets the indexes of the dropdown selections where T is the enum class
     public static List<int> GetSelectedIndexes<T>(T val) where T : IConvertible
     {
         List<int> selectedIndexes = new List<int>();
@@ -26,6 +27,8 @@ public sealed class EnumFlagsAttribute : PropertyAttribute
         }
         return selectedIndexes;
     }
+
+    //Gets the names of the dropdown selections where T is the enum class
     public static List<string> GetSelectedStrings<T>(T val) where T : IConvertible
     {
         List<string> selectedStrings = new List<string>();
@@ -40,6 +43,8 @@ public sealed class EnumFlagsAttribute : PropertyAttribute
         return selectedStrings;
     }
 }
+
+//Shows the EnumFlagsAttribute in the editor as a dropdown list of enum values.
 #if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(EnumFlagsAttribute))]
 public class EnumFlagsAttributeDrawer : PropertyDrawer
