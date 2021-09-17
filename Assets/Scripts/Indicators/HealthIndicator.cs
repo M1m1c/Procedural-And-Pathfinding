@@ -30,6 +30,7 @@ public class HealthIndicator : MonoBehaviour
 
         SetHealthIndicatorVisivbility(false);
 
+        //updates health to reflect the persistant health
         var persistentHealth = PersistentScript.CurrentHealth;
         if (persistentHealth < currentHealth)
         {
@@ -39,6 +40,7 @@ public class HealthIndicator : MonoBehaviour
             }
         }
     }
+
     private void OnDestroy()
     {
         PersistentScript.CurrentHealth = currentHealth;
@@ -55,6 +57,7 @@ public class HealthIndicator : MonoBehaviour
             renderer.enabled = visibility;
         }
     }
+
     public void ResetHealth()
     {
         var i = 0;
@@ -65,6 +68,7 @@ public class HealthIndicator : MonoBehaviour
         }
     }
 
+    //Initiates showing of health bar, reduciton of health and invunurability timer
     public void TakeDamage(SpriteRenderer entitysRenderer)
     {
         if (invunruable == true) { return; }
@@ -79,6 +83,7 @@ public class HealthIndicator : MonoBehaviour
         }
     }
 
+    //Changes the health and updates the health bar sprite to reflec tthe change, can initiate blinking of healthbar
     private void ChangeHealth(bool positiveOrNegative, bool shouldBlink)
     {
         var changeValue = positiveOrNegative ? 1 : -1;
@@ -97,6 +102,7 @@ public class HealthIndicator : MonoBehaviour
         if (!shouldBlink) { return; }
         StartCoroutine(BlinkTimer(renderer, renderer.color, true));
     }
+
     private IEnumerator DisplayHealth()
     {
         SetHealthIndicatorVisivbility(true);
@@ -109,6 +115,8 @@ public class HealthIndicator : MonoBehaviour
         yield return StartCoroutine(BlinkTimer(entitysRenderer, entitysRenderer.color, true));
         invunruable = false;
     }
+
+    //Used to blink a sprite in a spriterenrerer for a number of times
     private IEnumerator BlinkTimer(SpriteRenderer entitysRenderer, Color originalColor, bool isRenderBlink)
     {
         var localBlink = maxBlinks;
@@ -126,6 +134,7 @@ public class HealthIndicator : MonoBehaviour
         yield return null;
     }
 
+    //Blinks a sprite render, can either blink by changing colors or by enable/disable
     private IEnumerator BlinkRenderer(SpriteRenderer entitysRenderer, Color colorBlink, bool isRenderBlink)
     {
         if (isRenderBlink) { entitysRenderer.enabled = !entitysRenderer.enabled; }
