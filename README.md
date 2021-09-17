@@ -1,6 +1,6 @@
 # Procedural-And-Pathfinding
 
-This is a game project that uses perlin noise to generate grid based levels and A* path finding to let the player and enemies traverse those levels.
+This is a game project that uses perlin noise to generate grid based levels and A* pathfinding to let the player and enemies traverse those levels.
 The game is a infinite Semi-turnbased stealth game.
 In the game you play as a thief who has broken into a museum and is trying to steal artefacts.
 The player has to plan their moves to avoid being spotted and chased by the guards and then return to exit to move onto the next level.
