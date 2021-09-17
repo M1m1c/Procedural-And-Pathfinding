@@ -26,7 +26,6 @@ public class PersistentScript : MonoBehaviour
         if (isPlayerDead)
         {
             isPlayerDead = false;
-            currentHealth = 3;
             TotalScore = 0;
         }
 
