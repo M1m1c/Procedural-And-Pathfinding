@@ -10,12 +10,12 @@ public class PickupEntity : MonoBehaviour
 
     private void Awake()
     {
+        //Randomises CashValue
         var num = Random.Range(1, 11);
-
         CashValue = num * 10;
 
+        //Randomises sprite
         var renderer = this.GetComponent<SpriteRenderer>();
-
         var rand = Random.Range(0, 2);
 
         if (rand == 0) { renderer.sprite = TreasureSprite_1; }
