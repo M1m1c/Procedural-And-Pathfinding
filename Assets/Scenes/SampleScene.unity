@@ -392,6 +392,14 @@ PrefabInstance:
       propertyPath: m_Text
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3866058513438427312, guid: d0f86c840a822d1438d1b3fde966dd70, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3866058514821475684, guid: d0f86c840a822d1438d1b3fde966dd70, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3866058514821475685, guid: d0f86c840a822d1438d1b3fde966dd70, type: 3}
       propertyPath: m_Name
       value: ScoreIndicator
@@ -546,6 +554,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5341609185437063727, guid: d2496edba3fc2ee42843ae4e79887ccf, type: 3}
+      propertyPath: m_Volume
+      value: 0.101
+      objectReference: {fileID: 0}
     - target: {fileID: 5401689472462522922, guid: d2496edba3fc2ee42843ae4e79887ccf, type: 3}
       propertyPath: m_RootOrder
       value: 5
