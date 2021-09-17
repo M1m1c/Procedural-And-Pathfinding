@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +9,7 @@ public class EnemyMaster : MonoBehaviour
 
     private List<EnemyController> enemiesList = new List<EnemyController>();
 
+    //Meant to stop enemies from picking the smae end point of their move, this is ignored when following player
     public static bool IsMoveGoalShared(HexTile myGoal,EnemyController requester)
     {
         var retval = false;
@@ -32,6 +32,7 @@ public class EnemyMaster : MonoBehaviour
         return retval;
     }
 
+    //Spawns enemies and adds them as listeners to the players events
     public void SpawnEnemies(ref PlayerController playerInstance, int enemyCount)
     {
         while (enemyCount > 0)
